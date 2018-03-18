@@ -10,8 +10,6 @@ $(document).ready(function () {
     };
     firebase.initializeApp(config);
 
-
-
     // authentication logic
     var provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().onAuthStateChanged(function(user) {
