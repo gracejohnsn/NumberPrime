@@ -1,5 +1,42 @@
-<p>This is the partial for view 2.</p>
-<p>
-  Showing of 'interpolate' filter:
-  {{ 'Current version is v%VERSION%.' | interpolate }}
-</p>
+<div>
+  <h2>Register an Account</h2>
+  <form>
+    <div class="form-group">
+      <label>First Name</label>
+      <input type="text"></input>
+      <p></p>
+    </div>
+    <div class="form-group">
+      <label>Last Name</label>
+      <input type="text"></input>
+      <p></p>
+    </div>
+    <div class="form-group">
+      <label>Select Role:</label>
+      <p></p>
+      <input type="radio" name="role" value="student" checked> Student<br>
+      <input type="radio" name="role" value="teacher"> Teacher<br>
+      <p></p>
+    </div>
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text"></input>
+      <p></p>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password"></input>
+      <p></p>
+    </div>
+    <div class="form-group">
+      <label>Confirm Password</label>
+      <input type="password"></input>
+      <p></p>
+    </div>
+    <div class="form-actions">
+      <button type="submit">Create Account</button>
+    </div>
+  </form>
+
+  <p><a href="#!/login">Return to main page</a></p>
+</div>
