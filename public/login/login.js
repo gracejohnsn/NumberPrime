@@ -1,14 +1,13 @@
 'use strict';
 
-angular.module('myApp.login', ['ngRoute'])
-
-.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/login', {
+angular.module('login', ['ngRoute']);
+angular.
+  module('login').
+  component('login', {
     templateUrl: 'login/login.html',
-    controller: 'LoginController'
+    controller: ['LoginController',
+      function LoginController() {
+      
+	}
+    ]
   });
-}])
-
-.controller('LoginController', [function() {
-
-}]);
