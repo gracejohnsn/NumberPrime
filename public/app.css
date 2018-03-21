@@ -1,5 +1,9 @@
 /* app css stylesheet */
 
+body {
+  background-color:#3366cc;
+}
+
 .menu {
   list-style: none;
   border-bottom: 0.1em solid black;
@@ -7,19 +11,23 @@
   padding: 0 0 0.5em;
 }
 
-.menu:before {
-  content: "[";
+form {
+  border: 3px solid #f1f1f1;
 }
 
-.menu:after {
-  content: "]";
+input[type=text], input[type=password] {
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid yellowgreen;
+  box-sizing: border-box;
 }
 
-.menu > li {
-  display: inline;
-}
-
-.menu > li + li:before {
-  content: "|";
-  padding-right: 0.3em;
+button {
+  background-color: #4caf50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
 }
