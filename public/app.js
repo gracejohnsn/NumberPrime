@@ -1,14 +1,33 @@
 'use strict';
-
-// Declare app level module which depends on views, and components
 angular.module('myApp', [
   'ngRoute',
-  'myApp.login',
-  'myApp.view2',
-  'myApp.version'
-]).
+  'studentdash',
+  'teacherdash',
+
+  'login',
+  'view2',
+]);
+
+angular.
+  module('myApp').
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
   $locationProvider.hashPrefix('!');
+      $routeProvider.
+        when('/Dashboard', {
+          template: '<studentdash></studentdash>'
+        }).
+	   when('/DashboardTeach', {
+          template: '<teacherdash></teacherdash>'
+        }).
 
-  $routeProvider.otherwise({redirectTo: '/login'});
-}]);
+	   when('/Login', {
+          template: '<login></login>'
+        }).
+ 	   when('/view2', {
+          template: '<view2></view2>'
+        }).
+
+     otherwise('/Login');
+    }
+  ]);
+
