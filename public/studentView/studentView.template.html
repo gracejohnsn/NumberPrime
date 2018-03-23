@@ -1,10 +1,10 @@
+<div class="background1">
       <!--Sidebar content-->
 <div class = "mascot">
 <img src="img/mascot.png" alt="mascot" width="100%" height="100%"/>
 </div>
   <div id="topBorder" class="topBorder"><p>Welcome, Name!
 	</p></div>
-  <div id="bg" class="bg"></div>
 <div id="mySidenav" class="sidenav">
   <a href="/Dashboard">
 <img src="img/profileIcon.png" alt="Dashboard Icon" />
@@ -14,10 +14,10 @@
   <img src="img/plus.png" alt="Math Icon"/>
     <p>Math Menu</p>
   </a>
-  <a href="#">
+  <a href="/gt/index.html">
 <img src="img/settings.png" alt="Settings Icon"/>
 	<p>Settings</p></a>
-  <a href="#">
+  <a href="#!/Login">
 <img src="img/logout.png" alt="Logout Icon"/>
 <p>Logout</p>
 </a>
@@ -37,6 +37,7 @@
     <p>Measurement</p>
   </a>
 </div>
+  <div id="bg" class="bg">
 <div class = "dashTable"> 
 <p>Progress Report</p> 	
 <button>Best Categories</button>
@@ -65,7 +66,9 @@
 	<a>ProblemSet</a>
 	<a>ProblemSet</a>
 	<a>ProblemSet</a>	<a>ProblemSet</a>	<a>ProblemSet</a>	<a>ProblemSet</a>	<a>ProblemSet</a>	<a>ProblemSet</a>	<a>ProblemSet</a>	<a>ProblemSet</a>	<a>ProblemSet</a>
+</div>
 	</div>
+</div>
 
     <div class="col-md-10">
       <!--Body content-->
@@ -103,14 +106,36 @@
           </div>
 -->
 <script>
+
+var waitForTransition = function(tG,type) {
+	if (type == 1) {
+		tG.style.opacity = "100";
+	}
+	else {
+		tG.style.width = "80%";
+		tG.style.left = "15%";
+	}
+}
+
+
   
 function toggleMenu() {
   var width;
+  clearTimeout(waitForTransition);
+  var bG = document.getElementById("bg");
   var sN = document.getElementById("mathSB");
+  var sT;
+  var cT;
   if (sN.style.opacity == "0") {
-    sN.style.opacity = "100";
+    sT = Date.now();
+    bG.style.left = "30%"; 
+    bG.style.width = "65%";
+    setTimeout(waitForTransition    
+    ,500,sN,1);
   } else {
     sN.style.opacity = "0";
+setTimeout(waitForTransition    
+,500,bG,0);
   }
 }
 

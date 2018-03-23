@@ -1,5 +1,15 @@
 /* app css stylesheet */
 
+.background1 {
+ position : fixed;
+ height : 100%;
+ width  : 100%;
+ background-color :  rgba(32, 43, 88,1.0);
+ background: linear-gradient(to bottom, 
+rgba(219, 127, 142,1.0) ,rgba(219,127,142,0.0)
+);
+}
+
 body {
   background-color:#3366cc;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -42,19 +52,19 @@ button {
     width  : 85%;
     position: fixed;
     z-index: 1;
-    background: red; /* For browsers that do not support gradients */
-    background: linear-gradient(to left, rgba(51, 102, 204,1.0), rgba(255, 102, 102,1.0));
+//    background: red; /* For browsers that do not support gradients */
+//    background: linear-gradient(to left, rgba(51, 102, 204,1.0), rgba(255, 102, 102,1.0));
     overflow-y: hidden;
     transition: 0.5s;
   }  
  
   .dashTable {
-  position : fixed;
+  position : absolute;
   text-align : center;
-  left : 17.5%;
-  top  : 25%;
-  height : 60%;
-  width  : 50%;
+  left : 2.5%;
+  top  : 5%;
+  height : 90%;
+  width  : 60%;
   background-color : #ebf5d6;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -100,15 +110,14 @@ border : 1px solid black;
   .dashList {
   overflow-y : scroll;
   align : center;
-  position : fixed;
+  position : relative;
   text-align : center;
-  left : 70%;
-  top  : 25%;
-  height : 60%;
-  width  : 22.5%;
+  left : 65%;
+  top  : 5%;
+  height : 90%;
+  width  : 30%;
    background-color : #ffffe6;
  }
-
  .dashList p {
  margin : 0px 0px 0px 0px;
  top : 0px;
@@ -119,16 +128,22 @@ border : 1px solid black;
  
  .dashList a {
  width : 80%;
- border-bottom : 1px solid black;
+  -moz-box-shadow:    inset 0 0 20px #000000;
+  -webkit-box-shadow: inset 0 0 20px #000000;
+  box-shadow:         inset 0 0 20px #000000;
  width : 100%;
  height : 20%;
  font-size : 24px;
  line-height : 80px;
  display : block;
- background-color : rgba(255.0,255.0,255.0,1.0);
+ transition : 0.5s;
+ background-color : rgba(204, 255, 204,1.0);
  }
  .dashList a:hover {
- background-color : rgba(0.0,0.0,0.0,0.5);
+ background-color : rgba(0, 102, 0,0.5);
+ -moz-box-shadow:    inset 0 0 20px #000000;
+  -webkit-box-shadow: inset 0 0 20px #000000;
+  box-shadow:         inset 0 0 20px #000000;
  transition : 0.5s;
  } 
 
@@ -141,13 +156,17 @@ border : 1px solid black;
  }
 
   .mascot {
-  top: 0px;
-  left: 0px;
-  width: 15%;
-  height: 20%;
+  border : 1px solid black;
+  border-radius : 50%;
+  top: 1%;
+  left: 1%;
+  width: 13%;
+  height: 18%;
   position: fixed;
   }
-
+  .mascot img {
+  border-radius : 50%;
+  }
 .sidenav {
     align : center;
     height: 80%;
@@ -155,9 +174,8 @@ border : 1px solid black;
     position: fixed;
     z-index: 1;
     top: 20%;
-  background: linear-gradient(to top, rgba(51, 102, 204,1.0), rgba(255, 102, 102,1.0));
     overflow-x: hidden;
-    transition: 1.0s;
+    transition: 0.5s;
 }
 
 .sidenav a {
@@ -170,7 +188,7 @@ border : 1px solid black;
     text-overflow: ellipsis;
     color: #FFFFFF;
     display: block;
-    transition: 0.1s;
+    transition: 0.5s;
 }
 
 .sidenav img {
@@ -186,6 +204,7 @@ border : 1px solid black;
 }
 .sidenav a:hover {
     color: #000000;
+    background-color : rgba(255,255,255,0.5);
 }
 
   .bg {
@@ -199,6 +218,7 @@ border : 1px solid black;
   background-color : #cce699;
   position : fixed;
   z-index : -1;
+  transition : 0.5s;
   }
 
 .reveal-if-active {

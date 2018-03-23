@@ -3,7 +3,6 @@ angular.module('myApp', [
   'ngRoute',
   'studentdash',
   'teacherdash',
-
   'login',
   'view2',
 ]);
