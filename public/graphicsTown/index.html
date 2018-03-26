@@ -15,6 +15,9 @@
 <script src="grobject.js"></script>
 <script src="graphicstown.js"></script>
 <script src="Objects/problemSet.js"></script>
+<button onclick = "setupCanvas()">ClickMe</button>
+<div id = "bg">
+</div>
 </body>
 
 <!-- all of the shaders get stuck here in the HTML because
@@ -32,14 +35,18 @@
 	varying vec2 vTexCoord2;
  	varying vec2 vTexCoord3;
 	varying vec3 vColor;
+	varying vec3 vPos;
+	varying vec2 vBg;
 	uniform mat4 view;
 	uniform mat4 proj;
 	uniform mat4 model;
 	uniform vec3 offset;
 	uniform vec3 color;
+	uniform vec2 bgOff;
 	void main(void) {
 	vColor = color;
-	vTexCoord = aTexCoord;
+	vPos = aPosition;
+	vTexCoord = aTexCoord+bgOff;
 	vTexCoord3 = aTexCoord3;
 	vTexCoord2.x = aTexCoord2.x + offset.x;
 	vTexCoord2.y = aTexCoord2.y + offset.y;
@@ -52,11 +59,15 @@
 	varying vec2 vTexCoord2;
 	varying vec2 vTexCoord3;
 	varying vec3 vColor;
+	varying vec3 vPos;
 	uniform sampler2D uTexture;
 	void main(void) {
 	vec4 clr = texture2D(uTexture,vTexCoord);
 	vec4 clr2 = texture2D(uTexture,vTexCoord2);
-	gl_FragColor = (.5*clr + .5*clr2);
+	gl_FragColor = vec4(vColor,1.0)*(.5*clr + .5*clr2);
+	if (sin(clr.x) < 0.1 && sin(clr.y) < 0.1 && sin(clr.z) < 0.1) {
+	discard;
+	}
 	}
 </script>
 </html>

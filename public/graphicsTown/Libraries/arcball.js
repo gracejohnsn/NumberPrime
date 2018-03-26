@@ -92,6 +92,7 @@ ABQuat.prototype.zero = function() {
 //////////////////////////////////////////////////////////////////////////////////////
 function ArcBall(canvas, callback) {
     "use strict";
+    var rect = canvas.getBoundingClientRect();
     this.start = new ABQuat();
     this.now = new ABQuat();
     this.downX = 0;
@@ -110,6 +111,7 @@ function ArcBall(canvas, callback) {
     var myVar,myVar3;
 
     canvas.addEventListener("mousedown",function(e) {
+rect = canvas.getBoundingClientRect();
 	  if (that.mouseDown == 0) {
 	  that.rC = 1;
 	  }
@@ -122,21 +124,20 @@ function ArcBall(canvas, callback) {
         var nx = (e.pageX - sx) / sx;
         var ny = -(e.pageY - sy) / sy;
         that.click(nx,ny) 
-	   that.lastX = e.pageX/(canvas.width*1.0);
-	   that.lastY = e.pageY/(canvas.height*1.0);
+	   that.lastX = (e.pageX-rect.left)/(canvas.width*1.0);
+	   that.lastY = (e.pageY-rect.top)/(canvas.height*1.0);
 	   myVar = setTimeout(function() {}, 100);
     });
 	var myVar2;
     canvas.addEventListener("mousemove",function(e) {
-	  if (that.mouseDown == 1) {
+rect = canvas.getBoundingClientRect();
 	  that.rC = 0;
-	  }
         var sx = canvas.width / 2;
         var sy = canvas.height / 2;
         var nx = (e.pageX - sx) / sx;
         var ny = -(e.pageY - sy) / sy;
-	   that.lastX = e.pageX/(canvas.width*1.0);
-	   that.lastY = e.pageY/(canvas.height*1.0);
+	   that.lastX = (e.pageX-rect.left)/(canvas.width*1.0);
+	   that.lastY = (e.pageY-rect.top)/(canvas.height*1.0);
 	   
         if (that.mode) {
             that.computeNow(nx, ny);

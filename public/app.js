@@ -2,6 +2,7 @@
 angular.module('myApp', [
   'ngRoute',
   'studentdash',
+  'math',
   'teacherdash',
   'login',
   'view2',
@@ -18,6 +19,9 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 	   when('/DashboardTeach', {
           template: '<teacherdash></teacherdash>'
         }).
+	   when('/MathFacts', {
+          template: '<math></math>'
+        }).
 
 	   when('/Login', {
           template: '<login></login>'
@@ -25,7 +29,6 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
  	   when('/view2', {
           template: '<view2></view2>'
         }).
-
      otherwise('/Login');
     }
   ]);
