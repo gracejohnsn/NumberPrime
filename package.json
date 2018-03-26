@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "test": "jasmine"
+  },
+  "devDependencies": {
+    "firebase-nightlight": "^3.0.1"
+  }
+}
