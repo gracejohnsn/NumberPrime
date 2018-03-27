@@ -3,7 +3,7 @@
  */
 
 var canvas;
-
+var lClick = 0;
 
 /*
 this is the "main" file - it gets loaded last - after all the objects are loaded
@@ -36,15 +36,18 @@ it sets up the main function to be called on window.onload
 
     return true;
  }
-window.onload = function() {
+var setupCanvas = function() {
     "use strict";
 
     // set up the canvas and context
     canvas = document.createElement("canvas");
-    canvas.setAttribute("width",600);
-    canvas.setAttribute("height",600);
-    document.body.appendChild(canvas);
-
+    canvas.setAttribute("width",800);
+    canvas.setAttribute("height",400);
+    canvas.setAttribute("z-index",99);
+    var bg = document.getElementById("bg");
+	if (bg) {
+    bg.appendChild(canvas);
+	}
     // make a place to put the drawing controls - a div
     var controls = document.createElement("DIV");
     controls.id = "controls";
@@ -63,7 +66,6 @@ window.onload = function() {
     resetButton.onclick = function() {
         // note - this knows about arcball (defined later) since arcball is lifted
         arcball.reset();
-
         drivePos = [0,.2,5];
         driveTheta = 0;
         driveXTheta = 0;
@@ -150,7 +152,11 @@ window.onload = function() {
         // implement the camera UI
         if (uiMode.value == "ArcBall") {
             viewM = arcball.getMatrix();
+		if (lClick == arcball.rC) {
+		arcball.rC = 0;
+		}
 		 lastXY = [arcball.lastX,arcball.lastY,arcball.mouseDown,arcball.rC];
+		lClick = arcball.rC;
             twgl.m4.setTranslation(viewM, [0, 0, -10], viewM);
         } else if (uiMode.value == "Drive") {
             if (keysdown[65]) { driveTheta += .02; }
