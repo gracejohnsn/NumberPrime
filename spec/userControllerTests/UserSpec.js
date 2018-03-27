@@ -3,19 +3,28 @@ import { Mock } from "firebase-nightlight";*/
 const firebaseNightlight = require("firebase-nightlight");
 const mock = new firebaseNightlight.Mock();
 const User = require("../../Classes.js"); 
-var mockApp;
+let mockApp;
 
 describe("User", function() {
-	it("should be able to create a new user",
+
+	it("should be able to create a new user, but not able to create another w/ same user id",
 		function(done) {
-			User.createUser(
-				mockApp, "12345", "Michael", "Scarn", "blah@gmail.com", "teacher").then(
-					function (result) {
-					expect(result).toBe(true);
-					done();
-			});
+			User.createUser(mockApp, "12345", "Michael", "Scarn", "blah@gmail.com", "teacher").then(
+				function (result) {
+				expect(result).toBe(true);
+			}).then(
+				function(result) {
+				User.createUser(
+					mockApp, "12345", "Michael", "Scott", "mscott6@wisc.edu", "student").then(
+						function(result) {
+							expect(result).toBe(false);
+							done();
+						});
+				}
+			);
 		}
 	);
+
 	it("should not be able to add a user w/ same uid as another user to the database", 
 		function(done) {
 			User.createUser(
@@ -32,10 +41,17 @@ describe("User", function() {
 			User.readUserData(mockApp, "afisk").then(
 				function(result) {
 					expect(result.email).toBe("the_real_fisk@wisc.edu");
+					expect(result.firstName).toBe("Austin");
+					expect(result.surName).toBe("Fisk");
+					expect(result.type).toBe("student");
+					expect(result.student.classId).toBe("12345");
+					expect(result.student.gradeLevel).toBe(4);
 					done();
 				});
 		}
 	);
+
+	
 
 	beforeEach(function() {	
 		testDB = {
@@ -45,25 +61,41 @@ describe("User", function() {
 					"email" : "mscott6@wisc.edu",
 					"firstName" : "Michael",
 					"surName" : "Scott",
-					"type" : "student"
+					"type" : "student",
+					"student" : {
+						"classId" : undefined,
+						"gradeLevel" : 3
+					}
 				},
 					"afisk" : {
 					"email" : "the_real_fisk@wisc.edu",
 					"firstName" : "Austin",
 					"surName" : "Fisk",
-					"type" : "student"
+					"type" : "student",
+					"student" : {
+						"classId" : "12345",
+						"gradeLevel" : 4
+					}
 				},
 					"mscott" : {
 					"email" : "mscott4@wisc.edu",
 					"firstName" : "Michael",
 					"surName" : "Scott",
-					"type" : "student"
+					"type" : "student",
+					"student" : {
+						"classId" : "34412",
+						"gradeLevel" : 5
+					}
 				},
 					"mscott1" : {
 					"email" : "mscott5@wisc.edu",
 					"firstName" : "Michael",
 					"surName" : "Scott",
-					"type" : "student"
+					"type" : "student",
+					"student" : {
+						"classId" : "12312",
+						"gradeLevel" : 2
+					}
 				}
 			}
 		}
