@@ -1,3 +1,6 @@
+const crypto = require("crypto");
+const HASH_CHARS_KEPT = 10;
+
 class User {
 	constructor(_userId, _firstName, _surName, _email, _timeStamp, _type) {
         if (new.target === User) {
@@ -66,7 +69,6 @@ class User {
                 }
             });
     }
-
     // creates a user if no duplicates in database
     static createUser(_app, _userId, _firstName, _surName, _email, _timeStamp, _type,
         _typeSpecificData) {
@@ -92,6 +94,25 @@ class Student extends User {
             gradeLevel: _gradeLevel
         }
     }
+
+    static generateHash(_app, _userId, _dateTime) {
+        var hash = crypto.createHash('sha1').update(
+            _userId + _dateTime.toUTCString()).digest('base64');
+        //console.log("\n" + hash.toString().substr(0,HASH_CHARS_KEPT) + "\n");
+        var addPromise = _app.database().ref("studentHashes/" + 
+            hash.toString().substr(0,HASH_CHARS_KEPT)).set({
+                "studentId": _userId,
+                "timeStamp": _dateTime.toUTCString()
+            });
+        
+        var getHashPromise = new Promise(function(resolve, reject) {
+            resolve(hash.toString().substr(0,HASH_CHARS_KEPT));
+        });
+
+        return Promise.all([addPromise, getHashPromise]).then(function (results) {
+            return results[1];
+        });
+    }
 }
 
 class Teacher extends User {
@@ -106,13 +127,51 @@ class Teacher extends User {
 }
 
 class Class {
-    constructor() {
-        
+    constructor(_classId, _teacherId, _studentList, _classDesc) {
+        this.classId = _classId;
+        this.teacherId = _teacherId;
+        this.studentList = _studentList;
+        this.classDesc = _classDesc;
+    }
+
+    // given a classId, run the given function with the returned
+    // data snapshot (arg of function should be snapshot, reference data 
+    // w/ "snap.val()")
+    static readClassData(_app, _classId) {
+        return _app.database().ref("classes/" + _classId).once('value').then(
+            function (snapshot) {
+                if (snapshot.val()) {
+                    var val = snapshot.val();
+                    return new Class(_classId, val.teacherId, val.studentList,
+                        val.classDesc);
+                } else {
+                    return undefined;
+                }
+            });
+    }
+
+    static addStudentWithHash(_app, _hash, _classId) {
+        var getHash = _app.database().ref("studentHashes/" + _hash).once('value');
+        var getClass = Class.readClassData(_app, _classId);
+
+        return Promise.all([getHash, getClass]).then(function (results) {
+            var hashObj = results[0].val();
+            var classObj = results[1];
+            var hashDate = new Date(hashObj.timeStamp);
+            var now = new Date();
+            if (hashDate.getTime() + 5 * 60 * 1000 < now.getTime()) {
+                return undefined;
+            } else {
+                return _app.database().ref("classes/" + classObj.classId + 
+                    "/studentList/" + hashObj.studentId).set(true);
+            }
+        });
     }
 }
 
 module.exports = {
     User : User,
     Student : Student,
-    Teacher : Teacher
+    Teacher : Teacher,
+    Class : Class
 };
