@@ -40,6 +40,9 @@ describe("Student-Class integration--", function() {
 			});
 	});
 
+	it(`should have authorization built-in, disallowing teachers from adding
+		students to classes that don't belong to them`);
+
 	beforeEach(function() {	
 		testDB = {
 		content: testData

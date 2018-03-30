@@ -98,23 +98,34 @@ class Student extends User {
     // generates an SHA1 hash derived from a userId and a dateTime, then
     // adds it to the hash table and timstamps it (only valid for X minutes)
     static generateHash(_app, _userId, _dateTime) {
-        var hash = crypto.createHash('sha1').update(
-            _userId + _dateTime.toUTCString()).digest('base64');
-        //console.log("\n" + hash.toString().substr(0,HASH_CHARS_KEPT) + "\n");
-        var addPromise = _app.database().ref("studentHashes/" + 
-            hash.toString().substr(0,HASH_CHARS_KEPT)).set({
-                studentId: _userId,
-                timeStamp: _dateTime.toUTCString()
-            });
-        
-        var getHashPromise = new Promise(function(resolve, reject) {
-            resolve(hash.toString().substr(0,HASH_CHARS_KEPT));
-        });
-
-        return Promise.all([addPromise, getHashPromise]).then(
-            function (results) {
-                return results[1]; // returns the hash itself
-        });
+        return User.readUserData(_app, _userId).then(
+            function(result) { // got a result back, check whether student
+                if (result.type == 'student') {
+                    var hash = crypto.createHash('sha1').update(
+                        _userId + _dateTime.toUTCString()).digest('base64');
+                    //console.log("\n" + hash.toString().substr(0,HASH_CHARS_KEPT) + "\n");
+                    var addPromise = _app.database().ref("studentHashes/" + 
+                        hash.toString().substr(0,HASH_CHARS_KEPT)).set({
+                            studentId: _userId,
+                            timeStamp: _dateTime.toUTCString()
+                        });
+                    
+                    var getHashPromise = new Promise(function(resolve, reject) {
+                        resolve(hash.toString().substr(0,HASH_CHARS_KEPT));
+                    });
+            
+                    return Promise.all([addPromise, getHashPromise]).then(
+                        function (results) {
+                            return results[1]; // returns the hash itself
+                    });
+                } else {
+                    throw "user not a student, cannot make a hash"
+                }
+            },
+            function(result) { // occurs when user doesn't exist
+                throw "cannot make a hash for a non-existent student";
+            }
+        ); 
     }
 }
 
@@ -175,9 +186,16 @@ class Class {
     }
 }
 
+class ProblemInstance {
+    constructor() {
+
+    }
+}
+
 module.exports = {
     User : User,
     Student : Student,
     Teacher : Teacher,
-    Class : Class
+    Class : Class,
+    ProblemInstance : ProblemInstance
 };

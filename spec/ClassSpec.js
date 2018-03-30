@@ -20,9 +20,19 @@ describe("Class", function() {
 		}
     );
 
-    it("should not be able to get data from a bad classId");
-    
-    it("should be able to add a new student to a class");
+    it("should not be able to get data from a bad classId",
+        function(done) {
+            Classes.Class.readClassData(mockApp, "asdfasdf").then(
+                function(result) {
+                    expect(true).toBe(false);
+                    done();
+                },
+                function(err) {
+                    expect(err).toBe("classId not found");
+                    done();
+                }
+            );
+        });
 
     it("should be able to remove a student from a class");
 	
