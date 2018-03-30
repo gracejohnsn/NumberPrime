@@ -13,18 +13,50 @@ describe("Class", function() {
                 function(result) {
                     expect(result.teacherId).toEqual("mscott2");
                     expect(result.studentList).toEqual(
-                        {"E6NwApIZTdMx63GYxU3XTHI6OUU2": true});
+                        {"E6NwApIZTdMx63GYxU3XTHI6OUU2": true,
+                        "mscott1" : true});
                     done();
                 }
             );
 		}
     );
 
-    it("should not be able to get data from a bad classId");
-    
-    it("should be able to add a new student to a class");
+    it("should not be able to get data from a bad classId",
+        function(done) {
+            Classes.Class.readClassData(mockApp, "asdfasdf").then(
+                function(result) {
+                    expect(true).toBe(false);
+                    done();
+                },
+                function(err) {
+                    expect(err).toBe("classId not found");
+                    done();
+                }
+            );
+        });
 
-    it("should be able to remove a student from a class");
+    it("should be able to remove a student from a class",
+        function(done) {
+            Classes.Class.removeStudentFromClass(mockApp, 
+                "E6NwApIZTdMx63GYxU3XTHI6OUU2", "1234").then(
+                function(result) {
+                    return Classes.Class.readClassData(mockApp, "1234").then(
+                        function (result) {
+                            expect(result.studentList).toEqual({"mscott1" : true});
+                            done();
+                        },
+                        function (err) { // this should not be executed
+                            expect(true).toBe(false);
+                            done();
+                        }
+                    );
+                },
+                function(err) { // should not execute either
+                    expect(true).toBe(false);
+                    done();
+                }
+            );
+        });
 	
 
 	beforeEach(function() {	

@@ -62,7 +62,21 @@ describe("User", function() {
 		}
 	);
 
-	it("should return undefined if queried for a non-existent userId");
+	it("should throw an error if queried for a non-existent userId",
+		function(done) {
+			Classes.User.readUserData(mockApp, "asdfasdf").then(
+				function(result) { // shouldn't run this
+					expect(true).toBe(false);
+					done();
+				},
+				function(err) { // should error out
+					expect(err).toBe("user does not exist");
+					done();
+				}
+			);
+		});
+
+	it("should not be able to writeUserData without proper credentials");
 
 	beforeEach(function() {	
 		testDB = {
@@ -91,14 +105,33 @@ describe("Student", function() {
 			});
 	});
 
-	it("should return undefined if asked to make a hash for a non-existent student", 
+	it("should throw an error if asked to make a hash for a non-existent student", 
 		function(done) {
 			Classes.Student.generateHash(mockApp, "saddfasdfad", new Date()).then(
-				function(result) {
-					expect(result).toBeDefined();
+				function(result) { // shouldn't reach here
+					expect(true).toBe(false);
 					done();
-			});
+				},
+				function(err) {
+					expect(err).toBe("cannot make a hash for a non-existent student");
+					done();
+				}
+			);
 	});
+
+	it("should throw an error if asked to make a hash for a non-student user",
+		function(done) {
+			Classes.Student.generateHash(mockApp, "mscott2", new Date()).then(
+				function(result) { // shouldn't reach here
+					expect(true).toBe(false);
+					done();
+				},
+				function(err) {
+					expect(err).toBe("user not a student, cannot make a hash");
+					done();
+				}
+			);
+		});
 
 	beforeEach(function() {	
 		testDB = {

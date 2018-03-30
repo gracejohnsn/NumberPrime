@@ -27,9 +27,9 @@ class User {
                 timeStamp: _timeStampString,
                 type: _type,
                 student: _typeSpecificData
-              }).then(function () {
+              }).then(function () { // return if no problem adding student
                   return;
-              }, function() {
+              }, function() { // runs with error
                   throw "unable to add student";
               });
         } else {
@@ -98,23 +98,38 @@ class Student extends User {
     // generates an SHA1 hash derived from a userId and a dateTime, then
     // adds it to the hash table and timstamps it (only valid for X minutes)
     static generateHash(_app, _userId, _dateTime) {
-        var hash = crypto.createHash('sha1').update(
-            _userId + _dateTime.toUTCString()).digest('base64');
-        //console.log("\n" + hash.toString().substr(0,HASH_CHARS_KEPT) + "\n");
-        var addPromise = _app.database().ref("studentHashes/" + 
-            hash.toString().substr(0,HASH_CHARS_KEPT)).set({
-                studentId: _userId,
-                timeStamp: _dateTime.toUTCString()
-            });
-        
-        var getHashPromise = new Promise(function(resolve, reject) {
-            resolve(hash.toString().substr(0,HASH_CHARS_KEPT));
-        });
-
-        return Promise.all([addPromise, getHashPromise]).then(
-            function (results) {
-                return results[1]; // returns the hash itself
-        });
+        return User.readUserData(_app, _userId).then(
+            function(result) { // got a result back, check whether student
+                if (result.type == 'student') {
+                    var hash = crypto.createHash('sha1').update(
+                        _userId + _dateTime.toUTCString()).digest('base64');
+                    //console.log("\n" + hash.toString().substr(0,HASH_CHARS_KEPT) + "\n");
+                    var addPromise = _app.database().ref("studentHashes/" + 
+                        hash.toString().substr(0,HASH_CHARS_KEPT)).set({
+                            studentId: _userId,
+                            timeStamp: _dateTime.toUTCString()
+                        });
+                    
+                    var getHashPromise = new Promise(function(resolve, reject) {
+                        resolve(hash.toString().substr(0,HASH_CHARS_KEPT));
+                    });
+            
+                    return Promise.all([addPromise, getHashPromise]).then(
+                        function (results) {
+                            return results[1]; // returns the hash itself
+                        },
+                        function (err) {
+                            throw "hash not created: " + err;
+                        }
+                    );
+                } else {
+                    throw "user not a student, cannot make a hash"
+                }
+            },
+            function(result) { // occurs when user doesn't exist
+                throw "cannot make a hash for a non-existent student";
+            }
+        ); 
     }
 }
 
@@ -165,7 +180,6 @@ class Class {
             var hashDate = new Date(hashObj.timeStamp);
             var now = new Date();
             if (hashDate.getTime() + 5 * 60 * 1000 < now.getTime()) {
-                //return undefined;
                 throw "hash has expired";
             } else {
                 return _app.database().ref("classes/" + classObj.classId + 
@@ -173,11 +187,44 @@ class Class {
             }
         });
     }
+
+    // given a classId and studentId, remove said student from class
+    static removeStudentFromClass(_app, _studentId, _classId) {
+        var getClass = Class.readClassData(_app, _classId);
+        var dataPromise = new Promise(
+            function(resolve, reject) {
+                resolve({"studentId" : _studentId, "classId" : _classId});
+            }
+        );
+
+        return Promise.all([getClass, dataPromise]).then(
+            function(results) {
+                var classInstance = results[0];
+                var studentId = results[1]["studentId"];
+                var classId = results[1]["classId"];
+                if(!Object.keys(classInstance.studentList).includes(studentId)) {
+                    throw "student not in class";
+                }
+                return _app.database().ref("classes/" + classId + 
+                    "/studentList/" + studentId).remove();
+            },
+            function(err) {
+                throw "couldn't add student to class: " + err;
+            }
+        );
+    }
+}
+
+class ProblemInstance {
+    constructor() {
+
+    }
 }
 
 module.exports = {
     User : User,
     Student : Student,
     Teacher : Teacher,
-    Class : Class
+    Class : Class,
+    ProblemInstance : ProblemInstance
 };
