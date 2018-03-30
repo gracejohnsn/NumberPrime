@@ -4,76 +4,32 @@
 <!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
 <html lang="en">
-  <head>
+  	<head>
 		<meta charset="utf-8"/>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>NumberPrime</title>
 		<meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
-  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
-  <link rel="stylesheet" href="app.css">
-  <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
-  <script src="node_modules/firebaseui/dist/firebaseui.js"></script>
-  <link type="text/css" rel="stylesheet" href="node_modules/firebaseui/dist/firebaseui.css" />
-  <script type="text/javascript">
-	// FirebaseUI config.
-	var uiConfig = {
-		
-	  signInSuccessUrl: '<url-to-redirect-to-on-success>',
-	  signInOptions: [
-		// Leave the lines as is for the providers you want to offer your users.
-		firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-		//firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-		//firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-		//firebase.auth.GithubAuthProvider.PROVIDER_ID,
-		firebase.auth.EmailAuthProvider.PROVIDER_ID,
-		//firebase.auth.PhoneAuthProvider.PROVIDER_ID
-	  ],
-	  // Terms of service url.
-	  tosUrl: '<your-tos-url>'
-	};
-
-	// Initialize the FirebaseUI Widget using Firebase.
-	var ui = new firebaseui.auth.AuthUI(firebase.auth());
-	// The start method will wait until the DOM is loaded.
-	ui.start('#firebaseui-auth-container', uiConfig);
-  </script>
-
-</head>
-  
+  		<meta name="viewport" content="width=device-width, initial-scale=1">
+  		<link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+  		<link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+ 		<link rel="stylesheet" href="app.css">
+  		<script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+  	</head>
 	<body>
 
-		<!--<ul class="menu">
-			<li><a href="#!/login">Log In</a></li>
-			<li><a href="#!/view2">view2</a></li>
-		</ul>-->
-	
-		<!--[if lt IE 7]>
-				<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-		<![endif]-->
-	
-		
+		<h1 style="text-align:center">Hello, <span id="clientName"></span></h1>
 		<div ng-view></div>
-
-		<div id="firebaseui-auth-container"></div>
 	
-		<div></div>
-	
-	<script src="graphicsTown/Libraries/twgl-full.js"></script>
-	<script src="graphicsTown/Libraries/panel.js"></script>
-	<script src="graphicsTown/Libraries/arcball.js"></script>
-	<script src="graphicsTown/grobject.js"></script>
-	<script src="graphicsTown/Objects/problemSet.js"></script>
-	<script src="graphicsTown/graphicstown.js"></script>	
-	
-
-
+		<script src="graphicsTown/Libraries/twgl-full.js"></script>
+		<script src="graphicsTown/Libraries/panel.js"></script>
+		<script src="graphicsTown/Libraries/arcball.js"></script>
+		<script src="graphicsTown/grobject.js"></script>
+		<script src="graphicsTown/Objects/problemSet.js"></script>
+		<script src="graphicsTown/graphicstown.js"></script>	
 		<!-- In production use:
 		<script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
 		-->
 		<script src="bower_components/jquery/dist/jquery.js"></script>
-
 		<script src="bower_components/angular/angular.js"></script>
 		<script src="bower_components/angular-route/angular-route.js"></script>
 		<script src="app.js"></script>
@@ -85,28 +41,60 @@
 		<script src="components/version/version.js"></script>
 		<script src="components/version/version-directive.js"></script>
 		<script src="components/version/interpolate-filter.js"></script>
-
-
 	</body>
-	<script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+		<script>
+		// Initialize Firebase
+		var config = {
+		  apiKey: "AIzaSyD9YOF7QtGca_WDqjhcZmsz2q2nxp4UXXM",
+		  authDomain: "numberprime-b359d.firebaseapp.com",
+		  databaseURL: "https://numberprime-b359d.firebaseio.com",
+		  projectId: "numberprime-b359d",
+		  storageBucket: "numberprime-b359d.appspot.com",
+		  messagingSenderId: "820335136282"
+		};
+		firebase.initializeApp(config);
+		
+		function login() {
+			function newLoginHappened(user) {
+				if (user) {
+					// User is signed in
+					app(user);
+				} else {
+					var provider = new firebase.auth.GoogleAuthProvider();
+					firebase.auth().signInWithPopup(provider);
+				}
+			}
+			firebase.auth().onAuthStateChanged(newLoginHappened);
+		}
+
+		function app(user) {
+			// user.displayName
+			// user.email
+			// user.photoURL
+			// user.uid
+			document.getElementById("clientName").innerHTML = user.displayName;
+
+		}
+
+		window.onload = login;
+	  </script>
 	<script src="https://www.gstatic.com/firebasejs/4.11.0/firebase-app.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/4.11.0/firebase-auth.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/4.11.0/firebase-database.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/4.11.0/firebase-firestore.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase-messaging.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  	<script src="https://www.gstatic.com/firebasejs/4.11.0/firebase-messaging.js"></script>
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-  <!-- IMPORT FIREBASE SDK AND AUTO-CONFIGURE -->
-  <script src="/__/firebase/4.10.1/firebase-app.js"></script>
-  <script src="/__/firebase/4.10.1/firebase-auth.js"></script>
-  <script src="/__/firebase/4.10.1/firebase-database.js"></script>
-  <script src="/__/firebase/init.js"></script>
+ 	<!-- IMPORT FIREBASE SDK AND AUTO-CONFIGURE -->
+  	<script src="/__/firebase/4.10.1/firebase-app.js"></script>
+  	<script src="/__/firebase/4.10.1/firebase-auth.js"></script>
+  	<script src="/__/firebase/4.10.1/firebase-database.js"></script>
+  	<script src="/__/firebase/init.js"></script>
+  	<script src="./auth.js"></script>
+  	<script src="./userModel.js"></script>
 
-  <script src="./auth.js"></script>
-  <script src="./userModel.js"></script>
-
-
-<script id="tex-vs" type="notjs">
+	<script id="tex-vs" type="notjs">
 	precision highp float;
 	attribute vec3 aPosition;
 	attribute vec2 aTexCoord;
@@ -133,8 +121,8 @@
 	vTexCoord2.y = aTexCoord2.y + offset.y;
 	gl_Position = proj * view * model * vec4(aPosition, 1.0);
 	}
-</script>
-<script id="tex-fs" type="notjs">
+	</script>
+	<script id="tex-fs" type="notjs">
 	precision highp float;
 	varying vec2 vTexCoord;
 	varying vec2 vTexCoord2;
@@ -147,6 +135,5 @@
 	vec4 clr2 = texture2D(uTexture,vTexCoord2);
 	gl_FragColor = vec4(vColor,1.0)*(.5*clr + .5*clr2);
 	}
-</script>
-
+	</script>
 </html>

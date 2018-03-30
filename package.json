@@ -4,5 +4,8 @@
   },
   "devDependencies": {
     "firebase-nightlight": "^3.0.1"
+  },
+  "dependencies": {
+    "firebaseui": "^2.7.0"
   }
 }

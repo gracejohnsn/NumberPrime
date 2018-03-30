@@ -29,7 +29,7 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
  	   when('/view2', {
           template: '<view2></view2>'
         }).
-     otherwise('/Login');
+     otherwise('/Dashboard');
     }
   ]);
 
