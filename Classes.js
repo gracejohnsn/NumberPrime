@@ -27,9 +27,9 @@ class User {
                 timeStamp: _timeStampString,
                 type: _type,
                 student: _typeSpecificData
-              }).then(function () {
+              }).then(function () { // return if no problem adding student
                   return;
-              }, function() {
+              }, function() { // runs with error
                   throw "unable to add student";
               });
         } else {
@@ -117,7 +117,11 @@ class Student extends User {
                     return Promise.all([addPromise, getHashPromise]).then(
                         function (results) {
                             return results[1]; // returns the hash itself
-                    });
+                        },
+                        function (err) {
+                            throw "hash not created: " + err;
+                        }
+                    );
                 } else {
                     throw "user not a student, cannot make a hash"
                 }
@@ -176,13 +180,38 @@ class Class {
             var hashDate = new Date(hashObj.timeStamp);
             var now = new Date();
             if (hashDate.getTime() + 5 * 60 * 1000 < now.getTime()) {
-                //return undefined;
                 throw "hash has expired";
             } else {
                 return _app.database().ref("classes/" + classObj.classId + 
                     "/studentList/" + hashObj.studentId).set(true);
             }
         });
+    }
+
+    // given a classId and studentId, remove said student from class
+    static removeStudentFromClass(_app, _studentId, _classId) {
+        var getClass = Class.readClassData(_app, _classId);
+        var dataPromise = new Promise(
+            function(resolve, reject) {
+                resolve({"studentId" : _studentId, "classId" : _classId});
+            }
+        );
+
+        return Promise.all([getClass, dataPromise]).then(
+            function(results) {
+                var classInstance = results[0];
+                var studentId = results[1]["studentId"];
+                var classId = results[1]["classId"];
+                if(!Object.keys(classInstance.studentList).includes(studentId)) {
+                    throw "student not in class";
+                }
+                return _app.database().ref("classes/" + classId + 
+                    "/studentList/" + studentId).remove();
+            },
+            function(err) {
+                throw "couldn't add student to class: " + err;
+            }
+        );
     }
 }
 

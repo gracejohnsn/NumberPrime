@@ -13,7 +13,8 @@ describe("Class", function() {
                 function(result) {
                     expect(result.teacherId).toEqual("mscott2");
                     expect(result.studentList).toEqual(
-                        {"E6NwApIZTdMx63GYxU3XTHI6OUU2": true});
+                        {"E6NwApIZTdMx63GYxU3XTHI6OUU2": true,
+                        "mscott1" : true});
                     done();
                 }
             );
@@ -34,7 +35,28 @@ describe("Class", function() {
             );
         });
 
-    it("should be able to remove a student from a class");
+    it("should be able to remove a student from a class",
+        function(done) {
+            Classes.Class.removeStudentFromClass(mockApp, 
+                "E6NwApIZTdMx63GYxU3XTHI6OUU2", "1234").then(
+                function(result) {
+                    return Classes.Class.readClassData(mockApp, "1234").then(
+                        function (result) {
+                            expect(result.studentList).toEqual({"mscott1" : true});
+                            done();
+                        },
+                        function (err) { // this should not be executed
+                            expect(true).toBe(false);
+                            done();
+                        }
+                    );
+                },
+                function(err) { // should not execute either
+                    expect(true).toBe(false);
+                    done();
+                }
+            );
+        });
 	
 
 	beforeEach(function() {	
