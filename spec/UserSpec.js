@@ -11,15 +11,19 @@ describe("User", function() {
 		function(done) {
 			Classes.User.createUser(mockApp, "12345", "Michael", "Scarn", "blah@gmail.com", new Date(),
 			"teacher", {"classList": [], "teacherDesc": undefined}).then(
-				function (result) {
-				expect(result).toBe(true);
+				function () { // just need this function to be executed
+					expect(true).toBe(true);
 			}).then(
 				function(result) {
 				Classes.User.createUser(
 					mockApp, "12345", "Michael", "Scott", "mscott6@wisc.edu", new Date(),
 					"student", {"classId": undefined, "gradeLevel": 2}).then(
-						function(result) {
-							expect(result).toBe(false);
+						function(result) { // this function should not execute
+							expect(true).toBe(false);
+							done();
+						},
+						function(err) { // couldn't add existing user
+							expect(err).toBe("user already exists");
 							done();
 						});
 				}
@@ -32,8 +36,12 @@ describe("User", function() {
 			Classes.User.createUser(
 				mockApp, "afisk", "Michael", "Scott", "mscott6@wisc.edu", "student",
 					{"classId": undefined, "gradeLevel": 3}).then(
-					function(result) {
-						expect(result).toBe(false);
+					function(result) { // this should not execute
+						expect(true).toBe(false);
+						done();
+					},
+					function(err) {
+						expect(err).toBe("user already exists");
 						done();
 					});
 		}

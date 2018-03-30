@@ -28,9 +28,9 @@ class User {
                 type: _type,
                 student: _typeSpecificData
               }).then(function () {
-                  return true;
+                  return;
               }, function() {
-                  return false;
+                  throw "unable to add student";
               });
         } else {
             retPromise = _app.database().ref("users/" + _userId).set({
@@ -41,9 +41,9 @@ class User {
                 type: _type,
                 teacher: _typeSpecificData
               }).then(function () {
-                  return true;
+                  return;
               }, function() {
-                  return false;
+                  throw "unable to add teacher";
               });
         }
         return retPromise;
@@ -65,7 +65,7 @@ class User {
                             val.email, new Date(val.timeStamp), val.teacher.classList, val.teacher.teacherDesc);
                     }
                 } else {
-                    return undefined;
+                    throw "user does not exist";
                 }
             });
     }
@@ -74,14 +74,14 @@ class User {
         _typeSpecificData) {
         return User.readUserData(_app, _userId).then(
             function (result) {
-                //console.log(result);
-                if (result === undefined) {
+                throw "user already exists";
+            },
+            function(err) {
+                if (err == "user does not exist") {
                     var _timeStampString = _timeStamp.toUTCString();
                     return User.writeUserData(_app, _userId, _firstName, _surName, 
                         _email, _timeStampString, _type, _typeSpecificData);
-                } else {
-                    return false;
-                }
+                    }
             });
     }
 }
@@ -95,22 +95,25 @@ class Student extends User {
         }
     }
 
+    // generates an SHA1 hash derived from a userId and a dateTime, then
+    // adds it to the hash table and timstamps it (only valid for X minutes)
     static generateHash(_app, _userId, _dateTime) {
         var hash = crypto.createHash('sha1').update(
             _userId + _dateTime.toUTCString()).digest('base64');
         //console.log("\n" + hash.toString().substr(0,HASH_CHARS_KEPT) + "\n");
         var addPromise = _app.database().ref("studentHashes/" + 
             hash.toString().substr(0,HASH_CHARS_KEPT)).set({
-                "studentId": _userId,
-                "timeStamp": _dateTime.toUTCString()
+                studentId: _userId,
+                timeStamp: _dateTime.toUTCString()
             });
         
         var getHashPromise = new Promise(function(resolve, reject) {
             resolve(hash.toString().substr(0,HASH_CHARS_KEPT));
         });
 
-        return Promise.all([addPromise, getHashPromise]).then(function (results) {
-            return results[1];
+        return Promise.all([addPromise, getHashPromise]).then(
+            function (results) {
+                return results[1]; // returns the hash itself
         });
     }
 }
@@ -145,11 +148,13 @@ class Class {
                     return new Class(_classId, val.teacherId, val.studentList,
                         val.classDesc);
                 } else {
-                    return undefined;
+                    throw "classId not found";
                 }
             });
     }
 
+    // given a hash and classId, add student given by hash to the class
+    // if the hash is valid
     static addStudentWithHash(_app, _hash, _classId) {
         var getHash = _app.database().ref("studentHashes/" + _hash).once('value');
         var getClass = Class.readClassData(_app, _classId);
@@ -160,7 +165,8 @@ class Class {
             var hashDate = new Date(hashObj.timeStamp);
             var now = new Date();
             if (hashDate.getTime() + 5 * 60 * 1000 < now.getTime()) {
-                return undefined;
+                //return undefined;
+                throw "hash has expired";
             } else {
                 return _app.database().ref("classes/" + classObj.classId + 
                     "/studentList/" + hashObj.studentId).set(true);

@@ -19,6 +19,8 @@ describe("Class", function() {
             );
 		}
     );
+
+    it("should not be able to get data from a bad classId");
     
     it("should be able to add a new student to a class");
 

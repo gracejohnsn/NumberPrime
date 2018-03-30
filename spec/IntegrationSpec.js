@@ -30,8 +30,12 @@ describe("Student-Class integration--", function() {
 			function(result) {
 				return Classes.Class.addStudentWithHash(mockApp, result, "1234");
 			}).then(
-			function(result) {
-				expect(result).not.toBeDefined();
+			function(result) { // promise success (student added) (shouldn't happen)
+				expect(false).toBe(true);
+				done();
+			},
+			function(err) { // promise failure (student not added)
+				expect(err).toEqual("hash has expired");
 				done();
 			});
 	});
