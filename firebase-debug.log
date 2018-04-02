@@ -1,41 +1,41 @@
-[debug] [2018-03-30T15:29:57.274Z] ----------------------------------------------------------------------
-[debug] [2018-03-30T15:29:57.276Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\gejoh\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
-[debug] [2018-03-30T15:29:57.276Z] CLI Version:   3.17.6
-[debug] [2018-03-30T15:29:57.276Z] Platform:      win32
-[debug] [2018-03-30T15:29:57.276Z] Node Version:  v8.10.0
-[debug] [2018-03-30T15:29:57.277Z] Time:          Fri Mar 30 2018 10:29:57 GMT-0500 (Central Daylight Time)
-[debug] [2018-03-30T15:29:57.277Z] ----------------------------------------------------------------------
+[debug] [2018-04-02T20:37:03.991Z] ----------------------------------------------------------------------
+[debug] [2018-04-02T20:37:03.995Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\gejoh\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
+[debug] [2018-04-02T20:37:03.995Z] CLI Version:   3.17.6
+[debug] [2018-04-02T20:37:03.995Z] Platform:      win32
+[debug] [2018-04-02T20:37:03.995Z] Node Version:  v8.10.0
+[debug] [2018-04-02T20:37:03.996Z] Time:          Mon Apr 02 2018 15:37:03 GMT-0500 (Central Daylight Time)
+[debug] [2018-04-02T20:37:03.996Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2018-03-30T15:29:57.294Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2018-03-30T15:29:57.297Z] > authorizing via signed-in user
-[debug] [2018-03-30T15:29:57.299Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
-[debug] [2018-03-30T15:29:57.299Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+[debug] [2018-04-02T20:37:04.022Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-04-02T20:37:04.023Z] > authorizing via signed-in user
+[debug] [2018-04-02T20:37:04.025Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-04-02T20:37:04.026Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
  { refresh_token: '1/hPEILaJmaqehm14YFtVmoBlnpAqnyK6JSsKZ9APf5xw',
   client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
   client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
   grant_type: 'refresh_token',
   scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
- Fri Mar 30 2018 10:29:57 GMT-0500 (Central Daylight Time)
-[debug] [2018-03-30T15:29:57.473Z] <<< HTTP RESPONSE 200
-[debug] [2018-03-30T15:29:57.490Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/numberprime-b359d  
+ Mon Apr 02 2018 15:37:04 GMT-0500 (Central Daylight Time)
+[debug] [2018-04-02T20:37:04.225Z] <<< HTTP RESPONSE 200
+[debug] [2018-04-02T20:37:04.233Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/numberprime-b359d  
   
- Fri Mar 30 2018 10:29:57 GMT-0500 (Central Daylight Time)
-[debug] [2018-03-30T15:29:57.843Z] <<< HTTP RESPONSE 200
-[debug] [2018-03-30T15:29:57.844Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/numberprime-b359d/tokens  
+ Mon Apr 02 2018 15:37:04 GMT-0500 (Central Daylight Time)
+[debug] [2018-04-02T20:37:04.505Z] <<< HTTP RESPONSE 200
+[debug] [2018-04-02T20:37:04.506Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/numberprime-b359d/tokens  
   
- Fri Mar 30 2018 10:29:57 GMT-0500 (Central Daylight Time)
-[debug] [2018-03-30T15:29:58.353Z] <<< HTTP RESPONSE 200
-[debug] [2018-03-30T15:29:58.356Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/numberprime-b359d  
+ Mon Apr 02 2018 15:37:04 GMT-0500 (Central Daylight Time)
+[debug] [2018-04-02T20:37:04.884Z] <<< HTTP RESPONSE 200
+[debug] [2018-04-02T20:37:04.886Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/numberprime-b359d  
   
- Fri Mar 30 2018 10:29:58 GMT-0500 (Central Daylight Time)
-[debug] [2018-03-30T15:29:58.659Z] <<< HTTP RESPONSE 200
+ Mon Apr 02 2018 15:37:04 GMT-0500 (Central Daylight Time)
+[debug] [2018-04-02T20:37:05.090Z] <<< HTTP RESPONSE 200
 [info] 
 [info] === Serving from 'C:\users\gejoh\NumberPrime'...
 [info] 
-[debug] [2018-03-30T15:29:58.668Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/820335136282/clients/_:getWebAppConfig  
+[debug] [2018-04-02T20:37:05.093Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/820335136282/clients/_:getWebAppConfig  
   
- Fri Mar 30 2018 10:29:58 GMT-0500 (Central Daylight Time)
-[debug] [2018-03-30T15:29:59.169Z] <<< HTTP RESPONSE 200
+ Mon Apr 02 2018 15:37:05 GMT-0500 (Central Daylight Time)
+[debug] [2018-04-02T20:37:05.498Z] <<< HTTP RESPONSE 200
 [info] i  hosting: Serving hosting files from: public
 [info] +  hosting: Local server: http://localhost:5000
 

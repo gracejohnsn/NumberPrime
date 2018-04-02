@@ -3,8 +3,8 @@
 <div class = "mascot">
 <img onclick = "setupCanvas()"src="img/mascot.png" alt="mascot" width="100%" height="100%"/>
 </div>
-  <!-- <div id="topBorder" class="topBorder"><p>Welcome, Name!
-	</p></div> -->
+  <div id="topBorder" class="topBorder"><p>Welcome, <span id="clientName"></span>
+	</p></div>
 <div id="mySidenav" class="sidenav">
   <a href="/Dashboard">
 <img src="img/profileIcon.png" alt="Dashboard Icon" />
@@ -140,4 +140,14 @@ setTimeout(waitForTransition
 }
 
 </script>
-     
+   
+<script>
+  	function app(user) {
+			// user.displayName
+			// user.email
+			// user.photoURL
+			// user.uid
+			document.getElementById("clientName").innerHTML = user.displayName;
+
+		}
+</script>
