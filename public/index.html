@@ -13,7 +13,8 @@
   		<link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
   		<link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
  		<link rel="stylesheet" href="app.css">
-  		<script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+		  <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+		  <script src="Classes.js" rel="import" type="text/javascript"></script>
   	</head>
 	<body>
 
@@ -60,6 +61,14 @@
 			function newLoginHappened(user) {
 				if (user) {
 					// User is signed in
+					var names = user.displayName.split(" ");
+					User.createUser(firebase, user.uid, names[0], names[1], user.email, new Date(), "student", {"classId": 1234, "gradeLevel" : 4}).then(
+						function() {
+						},
+						function(err) {
+							
+						}
+					);
 					app(user);
 				} else {
 					var provider = new firebase.auth.GoogleAuthProvider();
@@ -78,7 +87,8 @@
 
 		}
 
-		window.onload = login;
+		//window.onload = login;
+		$(document).ready(login);
 	  </script>
 	<script src="https://www.gstatic.com/firebasejs/4.11.0/firebase-app.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/4.11.0/firebase-auth.js"></script>
@@ -93,7 +103,7 @@
   	<script src="/__/firebase/4.10.1/firebase-database.js"></script>
   	<script src="/__/firebase/init.js"></script>
   	<script src="./auth.js"></script>
-  	<script src="./userModel.js"></script>
+  	<!-- <script src="./userModel.js"></script> -->
 
 	<script id="tex-vs" type="notjs">
 	precision highp float;

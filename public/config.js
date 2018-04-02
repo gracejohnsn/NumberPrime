@@ -1,10 +1,8 @@
 //COnfiguration for the Oauth client additions
 
 
-OD<script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
 <script>
-  // Initialize Firebase
-  // TODO: Replace with your project's customized code snippet
   var config = {
 	apiKey: "AIzaSyD9YOF7QtGca_WDqjhcZmsz2q2nxp4UXXM",
 	authDomain: "numberprime-b359d.firebaseapp.com",

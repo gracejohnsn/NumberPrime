@@ -1,4 +1,4 @@
-const crypto = require("crypto");
+//const crypto = require("crypto");
 const HASH_CHARS_KEPT = 10;
 
 class User {
