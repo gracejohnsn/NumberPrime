@@ -2,18 +2,28 @@
   <h2 style="text-align:center">Register an Account</h2>
   <div style="background-color:lightgray">
   <form style="text-align:center">
-      <div class="form-group">
+      <!-- <div class="form-group">
           <button>Sign in with Google</button>
           <p></p>
-      </div>
+      </div> -->
     <div class="form-group">
       <label>Select Role:</label>
+
       <p></p>
-      <input type="radio" name="role" value="student"> 
+      <input type="radio" onclick="javascript:yesOrNoCheck()" name="role" value="teacher" id="teacherCheck"> 
+      <label for="teacher"> Teacher</label>
+
+      <div id="ifYesTeacher" style="display:none;margin-top:3%;">
+              <label>Preferred Email Address</label>
+              <input type="text" placeholder="Enter email" required></input>
+              <p></p>       
+      </div>
+      <p></p>
+      <p></p>
+      <input type="radio" onclick="javascript:yesOrNoCheck()" name="role" value="student" id="studentCheck"> 
       <label for="student"> Student</label>
 
-      <div class="reveal-if-active">
-          <div class="form-group">
+      <div id="ifYesStudent" style="display:none;margin-top:3%;">       
               <label>Select Grade:</label>
               <p></p>
               <input type="radio" name="grade" value="first" checked> 1st<br>
@@ -22,20 +32,8 @@
               <input type="radio" name="grade" value="fourth"> 4th<br>
               <input type="radio" name="grade" value="fifth"> 5th<br>
               <p></p>
-            </div>
+            
       </div>
-      <p></p>
-      <input type="radio" name="role" value="teacher"> 
-      <label for="teacher"> Teacher</label>
-
-      <div class="reveal-if-active">
-          <div class="form-group">
-              <label>Preferred Email Address</label>
-              <input type="text" placeholder="Enter email" required></input>
-              <p></p>
-            </div>        
-      </div>
-      <p></p>
     </div>
     
 
@@ -47,3 +45,34 @@
 
   <p><a href="#!/login">Return to main page</a></p>
 </div>
+
+<script>
+
+  window.onload = function() {
+        document.getElementById('ifYesTeacher').style.display = 'none';
+        document.getElementById('ifYesStudent').style.display = 'none';
+    }
+
+  function yesOrNoCheck() {
+    yesOrNoCheckTeacher();
+    yesOrNoCheckStudent();
+  }
+
+  function yesOrNoCheckTeacher() {
+    if (document.getElementById('teacherCheck').checked) {
+      document.getElementById('ifYesTeacher').style.display = 'block';
+    } 
+    else {
+    document.getElementById('ifYesTeacher').style.display = 'none';
+    }
+  }
+
+  function yesOrNoCheckStudent() {
+    if (document.getElementById('studentCheck').checked) {
+      document.getElementById('ifYesStudent').style.display = 'block';
+    } 
+    else {
+    document.getElementById('ifYesStudent').style.display = 'none';
+    }
+  }
+</script>
