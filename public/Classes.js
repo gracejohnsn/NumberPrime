@@ -1,6 +1,22 @@
 //const crypto = require("crypto");
 const HASH_CHARS_KEPT = 10;
 
+// simple hash implementation found at https://stackoverflow.com/questions/6122571/simple-non-secure-hash-function-for-javascript
+String.prototype.hashCode = function() {
+    var hash = 0;
+    if (this.length == 0) {
+        return hash;
+    }
+    for (var i = 0; i < this.length; i++) {
+        var char = this.charCodeAt(i);
+        hash = ((hash<<5)-hash)+char;
+        hash = hash & hash; // Convert to 32bit integer
+    }
+    var retHash = hash.toString();
+    retHash = retHash.length < 10 ? "0".repeat(HASH_CHARS_KEPT - retHash.length) + retHash : retHash;
+    return Math.abs(hash);
+}
+
 class User {
 	constructor(_userId, _firstName, _surName, _email, _timeStamp, _type) {
         if (new.target === User) {
@@ -101,11 +117,10 @@ class Student extends User {
         return User.readUserData(_app, _userId).then(
             function(result) { // got a result back, check whether student
                 if (result.type == 'student') {
-                    var hash = crypto.createHash('sha1').update(
-                        _userId + _dateTime.toUTCString()).digest('base64');
+                    var hash = (_userId + _dateTime.toUTCString()).hashCode();
                     //console.log("\n" + hash.toString().substr(0,HASH_CHARS_KEPT) + "\n");
                     var addPromise = _app.database().ref("studentHashes/" + 
-                        hash.toString().substr(0,HASH_CHARS_KEPT)).set({
+                        hash).set({
                             studentId: _userId,
                             timeStamp: _dateTime.toUTCString()
                         });
@@ -221,10 +236,10 @@ class ProblemInstance {
     }
 }
 
-module.exports = {
+/*module.exports = {
     User : User,
     Student : Student,
     Teacher : Teacher,
     Class : Class,
     ProblemInstance : ProblemInstance
-};
+};*/

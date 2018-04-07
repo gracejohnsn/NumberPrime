@@ -1,15 +1,15 @@
 /*import * as firebase from "firebase/app";
 import { Mock } from "firebase-nightlight";*/
-const firebaseNightlight = require("firebase-nightlight");
-const mock = new firebaseNightlight.Mock();
-const Classes = require("../Classes.js");
-const testData = require("./testData.js");
-let mockApp;
+//var firebaseNightlight = require("firebase-nightlight");
+var mock = new firebaseNightlight.Mock();
+//var Classes = require("../public/Classes.js");
+//var testData = require("./testData.js");
+var mockApp;
 
 describe("Class", function() {
 	it("should be able to get list of students in class",
 		function(done) {
-            Classes.Class.readClassData(mockApp, "1234").then(
+            Class.readClassData(mockApp, "1234").then(
                 function(result) {
                     expect(result.teacherId).toEqual("mscott2");
                     expect(result.studentList).toEqual(
@@ -23,7 +23,7 @@ describe("Class", function() {
 
     it("should not be able to get data from a bad classId",
         function(done) {
-            Classes.Class.readClassData(mockApp, "asdfasdf").then(
+            Class.readClassData(mockApp, "asdfasdf").then(
                 function(result) {
                     expect(true).toBe(false);
                     done();
@@ -37,10 +37,10 @@ describe("Class", function() {
 
     it("should be able to remove a student from a class",
         function(done) {
-            Classes.Class.removeStudentFromClass(mockApp, 
+            Class.removeStudentFromClass(mockApp, 
                 "E6NwApIZTdMx63GYxU3XTHI6OUU2", "1234").then(
                 function(result) {
-                    return Classes.Class.readClassData(mockApp, "1234").then(
+                    return Class.readClassData(mockApp, "1234").then(
                         function (result) {
                             expect(result.studentList).toEqual({"mscott1" : true});
                             done();

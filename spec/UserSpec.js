@@ -1,21 +1,21 @@
 /*import * as firebase from "firebase/app";
 import { Mock } from "firebase-nightlight";*/
-const firebaseNightlight = require("firebase-nightlight");
-const mock = new firebaseNightlight.Mock();
-const Classes = require("../Classes.js"); 
-const testData = require("./testData.js");
-let mockApp;
+//var firebaseNightlight = require("firebase-nightlight");
+var mock = new firebaseNightlight.Mock();
+//var Classes = require("../public/Classes.js"); 
+//var testData = require("./testData.js");
+var mockApp;
 
 describe("User", function() {
 	it("should be able to create a new user, but not able to create another w/ same user id",
 		function(done) {
-			Classes.User.createUser(mockApp, "12345", "Michael", "Scarn", "blah@gmail.com", new Date(),
+			User.createUser(mockApp, "12345", "Michael", "Scarn", "blah@gmail.com", new Date(),
 			"teacher", {"classList": [], "teacherDesc": undefined}).then(
 				function () { // just need this function to be executed
 					expect(true).toBe(true);
 			}).then(
 				function(result) {
-				Classes.User.createUser(
+				User.createUser(
 					mockApp, "12345", "Michael", "Scott", "mscott6@wisc.edu", new Date(),
 					"student", {"classId": undefined, "gradeLevel": 2}).then(
 						function(result) { // this function should not execute
@@ -33,7 +33,7 @@ describe("User", function() {
 
 	it("should not be able to add a user w/ same uid as another user to the database", 
 		function(done) {
-			Classes.User.createUser(
+			User.createUser(
 				mockApp, "afisk", "Michael", "Scott", "mscott6@wisc.edu", "student",
 					{"classId": undefined, "gradeLevel": 3}).then(
 					function(result) { // this should not execute
@@ -49,7 +49,7 @@ describe("User", function() {
 
 	it("should be able to read an existing user from the database",
 		function(done) {
-			Classes.User.readUserData(mockApp, "afisk").then(
+			User.readUserData(mockApp, "afisk").then(
 				function(result) {
 					expect(result.email).toBe("the_real_fisk@wisc.edu");
 					expect(result.firstName).toBe("Austin");
@@ -64,7 +64,7 @@ describe("User", function() {
 
 	it("should throw an error if queried for a non-existent userId",
 		function(done) {
-			Classes.User.readUserData(mockApp, "asdfasdf").then(
+			User.readUserData(mockApp, "asdfasdf").then(
 				function(result) { // shouldn't run this
 					expect(true).toBe(false);
 					done();
@@ -98,7 +98,7 @@ describe("User", function() {
 describe("Student", function() {
 	it("should be able to generate a time-sensitive, unique hash", 
 		function(done) {
-			Classes.Student.generateHash(mockApp, "afisk", new Date()).then(
+			Student.generateHash(mockApp, "afisk", new Date()).then(
 				function(result) {
 					expect(result).toBeDefined();
 					done();
@@ -107,7 +107,7 @@ describe("Student", function() {
 
 	it("should throw an error if asked to make a hash for a non-existent student", 
 		function(done) {
-			Classes.Student.generateHash(mockApp, "saddfasdfad", new Date()).then(
+			Student.generateHash(mockApp, "saddfasdfad", new Date()).then(
 				function(result) { // shouldn't reach here
 					expect(true).toBe(false);
 					done();
@@ -121,7 +121,7 @@ describe("Student", function() {
 
 	it("should throw an error if asked to make a hash for a non-student user",
 		function(done) {
-			Classes.Student.generateHash(mockApp, "mscott2", new Date()).then(
+			Student.generateHash(mockApp, "mscott2", new Date()).then(
 				function(result) { // shouldn't reach here
 					expect(true).toBe(false);
 					done();

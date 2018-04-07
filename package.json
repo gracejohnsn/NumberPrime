@@ -1,11 +1,37 @@
 {
   "scripts": {
-    "test": "jasmine"
+	"test": "node_modules/.bin/karma start my.conf.js"
   },
   "devDependencies": {
-    "firebase-nightlight": "^3.0.1"
+    "firebase-nightlight": "^3.0.1",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-jasmine": "^1.1.1",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "karma-requirejs": "^1.1.0"
   },
   "dependencies": {
-    "firebaseui": "^2.7.0"
-  }
+    "firebaseui": "^2.7.0",
+    "karma": "^2.0.0",
+    "karma-coverage": "^1.1.1",
+    "requirejs": "^2.3.5"
+  },
+  "name": "NumberPrime",
+  "description": "## Iteration 1 update For our infant-stage testing, follow the following link: https://numberprime-b359d.firebaseapp.com/test.html For the user login UI, just follow the link to the main page: https://numberprime-b359d.firebaseapp.com If you want, you can also clone this repo and, if you have npm and the Firebase CLI, run \"firebase deploy\" to run a local version on port 5000.",
+  "version": "1.0.0",
+  "main": "Classes.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gracejohnsn/NumberPrime.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gracejohnsn/NumberPrime/issues"
+  },
+  "homepage": "https://github.com/gracejohnsn/NumberPrime#readme"
 }
