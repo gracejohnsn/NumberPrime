@@ -71,6 +71,20 @@ var testData = {
     },
     "studentHashes": {
 
+    },
+    "problemInstances" : {
+        "afisk" : {
+            "5678" : {
+                "problemType" : "MathFact",
+                "correct" : true,
+                "timeStamp" : "Tue, 27 Mar 2018 15:16:00 GMT",
+                "MathFact" : {
+                    "num1" : 2,
+                    "num2" : 3,
+                    "operation" : "addition"
+                }
+            }
+        }
     }
 }
 
