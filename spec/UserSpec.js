@@ -13,11 +13,13 @@ describe("User", function() {
 			"teacher", {"classList": [], "teacherDesc": undefined}).then(
 				function () { // just need this function to be executed
 					expect(true).toBe(true);
-			}).then(
+				}
+			).then(
 				function(result) {
-				User.createUser(
-					mockApp, "12345", "Michael", "Scott", "mscott6@wisc.edu", new Date(),
-					"student", {"classId": undefined, "gradeLevel": 2}).then(
+					User.createUser(
+						mockApp, "12345", "Michael", "Scott", "mscott6@wisc.edu", new Date(),
+						"student", undefined, 2
+					).then(
 						function(result) { // this function should not execute
 							expect(true).toBe(false);
 							done();
@@ -34,8 +36,8 @@ describe("User", function() {
 	it("should not be able to add a user w/ same uid as another user to the database", 
 		function(done) {
 			User.createUser(
-				mockApp, "afisk", "Michael", "Scott", "mscott6@wisc.edu", "student",
-					{"classId": undefined, "gradeLevel": 3}).then(
+				mockApp, "afisk", "Michael", "Scott", "mscott6@wisc.edu", new Date(), "student",
+					undefined, 3).then(
 					function(result) { // this should not execute
 						expect(true).toBe(false);
 						done();
@@ -55,8 +57,8 @@ describe("User", function() {
 					expect(result.firstName).toBe("Austin");
 					expect(result.surName).toBe("Fisk");
 					expect(result.type).toBe("student");
-					expect(result.student.classId).toBe("12345");
-					expect(result.student.gradeLevel).toBe(4);
+					expect(result.classId).toBe("12345");
+					expect(result.gradeLevel).toBe(4);
 					done();
 				});
 		}

@@ -57,7 +57,21 @@ describe("Class", function() {
                 }
             );
         });
-	
+    
+    it("should throw an error if attempting to remove a student not in the class",
+        function(done) {
+            Class.removeStudentFromClass(mockApp, 
+                "asdf", "1234").then(
+                function(result) { // should not execute
+                    expect(true).toBe(false);
+                    done();
+                },
+                function(err) {
+                    expect(err).toBe("student not in class");
+                    done();
+                }
+            );
+        });
 
 	beforeEach(function() {	
 		testDB = {

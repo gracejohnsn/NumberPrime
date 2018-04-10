@@ -30,7 +30,7 @@ class User {
         this.type = _type;
     }
 
-    // DO NOT USE AS API, USE "createUser" OR "editUser" INSTEAD 
+    // DO NOT USE AS API FOR "creating", USE "createUser" INSTEAD 
     // (THEY HAVE CHECKS) creates/overwrites existing data with given info
     static writeUserData(_app, _userId, _firstName, _surName, 
         _email, _timeStampString, _type, _typeSpecificData) {
@@ -105,24 +105,22 @@ class User {
 class Student extends User {
     constructor(_userId, _firstName, _surName, _email, _timeStamp, _classId, _gradeLevel) {
         super(_userId, _firstName, _surName, _email, _timeStamp, "student");
-        this.student = {
-            classId: _classId,
-            gradeLevel: _gradeLevel
-        }
+        this.classId = _classId;
+        this.gradeLevel = _gradeLevel;
     }
 
-    // generates an SHA1 hash derived from a userId and a dateTime, then
+    // generates a hash derived from a userId and a timeStamp, then
     // adds it to the hash table and timstamps it (only valid for X minutes)
-    static generateHash(_app, _userId, _dateTime) {
+    static generateHash(_app, _userId, _timeStamp) {
         return User.readUserData(_app, _userId).then(
             function(result) { // got a result back, check whether student
                 if (result.type == 'student') {
-                    var hash = (_userId + _dateTime.toUTCString()).hashCode();
+                    var hash = (_userId + _timeStamp.toUTCString()).hashCode();
                     //console.log("\n" + hash.toString().substr(0,HASH_CHARS_KEPT) + "\n");
                     var addPromise = _app.database().ref("studentHashes/" + 
                         hash).set({
                             studentId: _userId,
-                            timeStamp: _dateTime.toUTCString()
+                            timeStamp: _timeStamp.toUTCString()
                         });
                     
                     var getHashPromise = new Promise(function(resolve, reject) {
@@ -151,11 +149,8 @@ class Student extends User {
 class Teacher extends User {
     constructor(_userId, _firstName, _surName, _email, _timeStamp, _classList, _teacherDesc) {
         super(_userId, _firstName, _surName, _email, _timeStamp, "teacher");
-        this.teacher = {
-            classList: _classList,
-            teacherDesc: "",
-
-        }
+        this.classList = _classList;
+        this.teacherDesc = _teacherDesc;
     }
 }
 
@@ -231,15 +226,117 @@ class Class {
 }
 
 class ProblemInstance {
-    constructor() {
+    constructor(_pid, _studentId, _problemType, _correct, _timeStamp) {
+        this.pid = _pid;
+        this.studentId = _studentId;
+        this.problemType = _problemType;
+        this.correct = _correct;
+        this.timeStamp = _timeStamp;
+    }
 
+    // given a problemInstance id, will read the specified problem instance and studentId (probably won't be used much)
+    static readProblemInstance(_app, _studentId, _pid) {
+        return _app.database().ref("problemInstances").child(_studentId).child(_pid).once('value').then(
+            function(snapshot) {
+                if(snapshot.val()) {
+                    var val = snapshot.val();
+                    switch (val.problemType) {
+                        case "MultiDigit":
+                            return new MultiDigitProblemInstance(_pid, val.studentId, val.problemType,
+                                val.correct, val.timeStamp, val.MultiDigit.num1,
+                                val.MultiDigit.num2, val.MultiDigit.operation);
+                            break;
+                        case "MathFact":
+                            return new MathFactProblemInstance(_pid, val.studentId, val.problemType,
+                                val.correct, val.timeStamp, val.MathFact.num1,
+                                val.MathFact.num2, val.MathFact.operation);
+                            break;
+                        case "Measurement":
+                            throw "not implemented";
+                            //return new MeasurementProblemInstance(); // TODO this needs to be updated to reflect
+                            // the various different types in the front-end document
+                            break;
+                        default:
+                            throw "unknown type";
+                            break;
+                    }
+                } else {
+                    throw "problem instance not found";
+                }
+            }
+        );
+    }
+
+    // creates a problem instance with the given attributes (typeSpecific is a javascript object with 
+    // corresponding attributes, see the corresponding class for specifics)
+    static createProblemInstance(_app, _studentId, _problemType, _correct, _timeStamp, _typeSpecific) {
+        switch(_problemType) {
+            case "MathFact":
+                return _app.database().ref("problemInstances").child(_studentId).push({
+                    "problemType" : _problemType,
+                    "correct" : _correct,
+                    "timeStamp" : _timeStamp,
+                    "MathFact" : _typeSpecific
+                }).then(
+                    function(result) {
+                        return result.key;
+                    }
+                );
+                break;
+            case "MultiDigit":
+                return _app.database().ref("problemInstances").child(_studentId).push({
+                    "problemType" : _problemType,
+                    "correct" : _correct,
+                    "timeStamp" : _timeStamp,
+                    "MultiDigit" : _typeSpecific
+                }).then(
+                    function(result) {
+                        return result.key;
+                    }
+                );;
+                break;
+            default:
+                throw "problem type unknown";
+                break;
+        }
     }
 }
 
-/*module.exports = {
-    User : User,
-    Student : Student,
-    Teacher : Teacher,
-    Class : Class,
-    ProblemInstance : ProblemInstance
-};*/
+class MultiDigitProblemInstance extends ProblemInstance {
+    constructor(_pid, _studentId, _problemType, _correct, 
+        _timeStamp, _num1, _num2, _operation) {
+        super(_pid, _studentId, _problemType, _correct, _timeStamp);
+        this.num1 = _num1;
+        this.num2 = _num2;
+        this.operation = _operation;
+    }
+}
+
+class MathFactProblemInstance extends ProblemInstance {
+    constructor(_pid, _studentId, _problemType, _correct, 
+        _timeStamp, _num1, _num2, _operation) {
+        super(_pid, _studentId, _problemType, _correct, _timeStamp);
+        this.num1 = _num1;
+        this.num2 = _num2;
+        this.operation = _operation;
+    }
+}
+
+class VolumeProblemInstance extends ProblemInstance {
+    constructor(_pid, _studentId, _problemType, _correct,
+        _timeStamp, _base, _width, _height) {
+        super(_pid, _studentId, _problemType, _correct, _timeStamp);
+        this.base = _base;
+        this.width = _width;
+        this.height = _height;
+    }
+}
+
+class ConversionProblemInstance extends ProblemInstance {
+    constructor(_pid, _studentId, _problemType, _correct, 
+        _timeStamp, _dimension, _unit) {
+        super(_pid, _studentId, _problemType, _correct, _timeStamp);
+        this.dimension = _dimension;
+        this.unit = _unit;
+    }
+}
