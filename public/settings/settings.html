@@ -1,0 +1,163 @@
+
+<!--
+  <style>
+
+  body {
+    background-color:#E6E6FA;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+
+  button {
+    background-color: #4caf50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    align-items: center;
+  }
+-->
+<head>
+  <style>
+  fieldset {
+    width: 500px;
+    text-align: center;
+    margin: auto;
+    border: 1px solid black;
+    padding: 20px;
+  }
+  </style>
+</head>
+  <!--
+
+  .mascot {
+    top: 0px;
+    left: 0px;
+    width: 16%;
+    height: 20%;
+    position: fixed;
+  }
+
+  .sidenav {
+    height: 80%;
+    width: 15%;
+    position: fixed;
+    z-index: 1;
+    top: 20%;
+    left: 0%;
+    padding-left : 2vh;
+    background-color: #009999;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 00px;
+  }
+
+  .sidenav a {
+    margin-top : 2px;
+    text-align: center;
+    overflow : hidden;
+    text-decoration: none;
+    white-space: nowrap;
+    height : 24.25%;
+    width : 90%;
+    background-color: #b3cccc;
+    border: 2px solid #000000;
+    border-radius: 25%;
+    text-overflow: ellipsis;
+    font-size: 20px;
+    color: #FFFFFF;
+    display: block;
+    transition: 0.1s;
+  }
+
+  .sidenav img {
+    padding: 5px;
+    height : 55%;
+    width : 55%;
+    margin-top : 2.5%;
+
+  }
+  .sidenav a:hover {
+    color: #000000;
+  }
+
+  </style>
+-->
+<body>
+<!--<body style="background-color:#E6E6FA">-->
+  <div class = "mascot">
+    <img src="img/mascot.png" alt="mascot" width="100%" height="100%"/>
+  </div>
+  <div id="mySidenav" class="sidenav">
+    <a href="#">
+      <img src="img/profileIcon.png" alt="Dashboard Icon" />
+       <p>Dashboard</p>
+     </a>
+     <a onclick="toggleMenu()">
+       <img src="img/plus.png" alt="Math Icon"/>
+       <p>Math</p>
+     </a>
+     <a href="#">
+       <img src="img/settings.png" alt="Settings Icon"/>
+        <p>Settings</p>
+    </a>
+    <a href="#">
+      <img src="img/logout.png" alt="Logout Icon"/>
+      <p>Logout</p>
+    </a>
+  </div>
+
+  <div>
+      <h2 style="text-align:center">Settings</h2>
+      <div style="background-color:lightgray; padding:20px;">
+        <fieldset ng-app="settings" ng-controller="settings">
+          <legend>Your Profile</legend>
+          <div ng-switch="var">
+            <div ng-switch-when="true">
+              <p>Enter new name: <input ng-model="name" placeholder="name" type="text"/></p>
+              <p>Enter new email: <input ng-model="email" placeholder="email" type="text"/></p>
+              <p style='display: inline'>Role: <p style='display: inline' ng-bind="role"></p></p>
+              <button ng-click="cancel()">Cancel</button>
+              <button ng-click="saveChanges(name, email)">Save Changes</button>
+            </div>
+            <div ng-switch-default>
+              <p style='display: inline'>Name: <p style='display: inline'>{{name}}</p></p>
+              <p style='display: inline'>Email: <p style='display: inline'>{{email}}</p></p>
+              <p style='display: inline'>Role: <p style='display: inline' ng-bind="role"></p></p>
+            </div>
+          </div>
+          <button>Reset password</button>
+          <button ng-click="editProfile()">Edit profile</button>
+        </fieldset>
+      </div>
+  </div>
+</body>]
+
+<!--</body>-->
+<!--
+<script>
+var app = angular.module('Settings', [])
+app.controller('myCtrl', function($scope) {
+  $scope.name = "John Doe";
+  $scope.email = "johndoe@gmail.com";
+  $scope.role= "Teacher";
+  $scope.var = "false";
+  $scope.editProfile = function() {
+    $scope.var = true;
+  }
+  $scope.saveChanges = function(name, email) {
+    $scope.var = false;
+    $scope.name = name;
+    $scope.email = email;
+
+  }
+
+  $scope.cancel = function() {
+    $scope.var = false;
+  }
+
+
+});
+
+</script>
+-->

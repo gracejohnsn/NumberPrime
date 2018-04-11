@@ -20,13 +20,13 @@
 
 		<!-- <h1 style="text-align:center">Hello, <span id="clientName"></span></h1> -->
 		<div ng-view></div>
-	
+
 		<script src="graphicsTown/Libraries/twgl-full.js"></script>
 		<script src="graphicsTown/Libraries/panel.js"></script>
 		<script src="graphicsTown/Libraries/arcball.js"></script>
 		<script src="graphicsTown/grobject.js"></script>
 		<script src="graphicsTown/Objects/problemSet.js"></script>
-		<script src="graphicsTown/graphicstown.js"></script>	
+		<script src="graphicsTown/graphicstown.js"></script>
 		<!-- In production use:
 		<script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
 		-->
@@ -40,6 +40,7 @@
 		<script src="studentView/studentView.js"></script>
 		<script src="teacherView/teacherView.js"></script>
 		<script src="mathView/mathView.js"></script>
+    <script src="settings/settings.js"></script>
 		<script src="components/version/version.js"></script>
 		<script src="components/version/version-directive.js"></script>
 		<script src="components/version/interpolate-filter.js"></script>
@@ -56,7 +57,7 @@
 		  messagingSenderId: "820335136282"
 		};
 		firebase.initializeApp(config);
-		
+
 		function login() {
 			function newLoginHappened(user) {
 				if (user) {
@@ -66,7 +67,7 @@
 						function() {
 						},
 						function(err) {
-							
+
 						}
 					);
 					app(user);
