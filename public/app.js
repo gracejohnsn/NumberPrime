@@ -6,6 +6,7 @@ angular.module('myApp', [
   'teacherdash',
   'login',
   'settings',
+  'measurement',
   'view2',
 
 ]);
@@ -27,7 +28,10 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 
     when('/Settings', {
         template: '<settings></settings>'
-      }).    
+      }).
+    when('/Measurement', {
+      template: '<measurement></measurement>'
+    }).
 
 	   when('/Login', {
           template: '<login></login>'

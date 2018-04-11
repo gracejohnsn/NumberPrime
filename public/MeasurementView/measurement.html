@@ -1,0 +1,114 @@
+<head>
+  <style>
+    fieldset {
+      border: 1px solid black;
+      text-align: center;
+      width: 500px;
+      margin: auto;
+      border-radius: 5px;
+      font-size: 20px;
+    }
+    ul {
+      list-style-type: none;
+    }
+
+    .buttonLink {
+      text-decoration: none;
+      color: white;
+    }
+    .buttonLink:visited {
+      color: white;
+    }
+    .buttonLink:hover {
+      color: lightgray;
+    }
+    .container {
+      width: 750px;
+      background-color:lightgray;
+      margin: auto;
+      padding: 100px;
+      border-radius: 8px;
+    }
+    button {
+      border-radius: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class = "mascot">
+    <img src="img/mascot.png" alt="mascot" width="100%" height="100%"/>
+  </div>
+  <div id="mySidenav" class="sidenav">
+    <a href="#">
+      <img src="img/profileIcon.png" alt="Dashboard Icon" />
+       <p>Dashboard</p>
+     </a>
+     <a onclick="toggleMenu()">
+       <img src="img/plus.png" alt="Math Icon"/>
+       <p>Math</p>
+     </a>
+     <a href="#!/Settings">
+       <img src="img/settings.png" alt="Settings Icon"/>
+        <p>Settings</p>
+    </a>
+    <a href="#">
+      <img src="img/logout.png" alt="Logout Icon"/>
+      <p>Logout</p>
+    </a>
+  </div>
+  <div id="mathSB" class="sidenav" style="left:15%;border-left:0px solid black;width:15%;opacity:0;">
+    <a>
+    <img src="img/plus.png" alt="Math Icon"/>
+      <p>Math Facts</p>
+    </a>
+    <a>
+    <img src="img/plus.png" alt="Math Icon"/>
+      <p>Multi-Digit</p>
+    </a>
+    <a href="#!/Measurement">
+    <img src="img/plus.png" alt="Math Icon"/>
+      <p>Measurement</p>
+    </a>
+  </div>
+  <h1 style="text-align:center">Measurement Problems</h2>
+  <div class="container">
+    <fieldset style="border: 1px solid black;">
+      <legend>Choose problem type</legend>
+      <ul>
+        <li><button><a href="#!/settings" class="buttonLink">Volume</a></button></li>
+        <li><button><a href="#!/Dashboard" class="buttonLink">Conversions</button></li>
+      </ul>
+    </fieldset>
+  </div>
+</body>
+
+<script>
+  var waitForTransition = function(tG,type) {
+    if (type == 1) {
+      tG.style.opacity = "100";
+    }
+    else {
+      tG.style.width = "80%";
+      tG.style.left = "15%";
+    }
+  }
+  function toggleMenu() {
+    var width;
+    clearTimeout(waitForTransition);
+
+    var sN = document.getElementById("mathSB");
+    var sT;
+    var cT;
+    if (sN.style.opacity == "0") {
+      sT = Date.now();
+
+      setTimeout(waitForTransition
+      ,500,sN,1);
+    } else {
+      sN.style.opacity = "0";
+  setTimeout(waitForTransition
+  ,500,bG,0);
+    }
+  }
+</script>

@@ -25,13 +25,27 @@
        <img src="img/plus.png" alt="Math Icon"/>
        <p>Math</p>
      </a>
-     <a href="#">
+     <a href="#!/Settings">
        <img src="img/settings.png" alt="Settings Icon"/>
         <p>Settings</p>
     </a>
     <a href="#">
       <img src="img/logout.png" alt="Logout Icon"/>
       <p>Logout</p>
+    </a>
+  </div>
+  <div id="mathSB" class="sidenav" style="left:15%;border-left:0px solid black;width:15%;opacity:0;">
+    <a>
+    <img src="img/plus.png" alt="Math Icon"/>
+      <p>Math Facts</p>
+    </a>
+    <a>
+    <img src="img/plus.png" alt="Math Icon"/>
+      <p>Multi-Digit</p>
+    </a>
+    <a href="#!/Measurement">
+    <img src="img/plus.png" alt="Math Icon"/>
+      <p>Measurement</p>
     </a>
   </div>
 
@@ -59,4 +73,34 @@
         </fieldset>
       </div>
   </div>
-</body>]
+</body>
+
+<script>
+var waitForTransition = function(tG,type) {
+  if (type == 1) {
+    tG.style.opacity = "100";
+  }
+  else {
+    tG.style.width = "80%";
+    tG.style.left = "15%";
+  }
+}
+function toggleMenu() {
+  var width;
+  clearTimeout(waitForTransition);
+
+  var sN = document.getElementById("mathSB");
+  var sT;
+  var cT;
+  if (sN.style.opacity == "0") {
+    sT = Date.now();
+
+    setTimeout(waitForTransition
+    ,500,sN,1);
+  } else {
+    sN.style.opacity = "0";
+setTimeout(waitForTransition
+,500,bG,0);
+  }
+}
+</script>
