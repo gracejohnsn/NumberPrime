@@ -1,0 +1,206 @@
+<!--Volume:
+1. volume of cubes, cuboid stuff
+2. elaines jewellery box
+3. count/calculate unit cubes
+
+Conversion:
+1. convert time
+2. which one is greater? (two different units)
+3. Drag and drop: smallest to largest
+
+Length:
+1. Convert distance to different units (us and metric)
+2. ruler graphic
+
+Weight:
+1. Convert weight to different units (us and metric)
+2. graphic??
+-->
+<head>
+  <style>
+    *{margin:0;padding:0;background:#3366cc;}
+    body{overflow:hidden;}
+    form {
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    background:#efefef;
+    padding:1em;
+    text-align:center;
+    }
+
+    h1 {
+      text-align: center;
+      color: lightgray;
+    }
+
+
+    canvas {
+      position:absolute;
+      top: 60px;
+
+    }
+
+    p {
+      text-align:center;
+      margin-top: 50px;
+    }
+
+    #myProgress {
+      width: 100%;
+      background-color: grey;
+    }
+    #myBar {
+      width: 1%;
+      height: 30px;
+      background-color: green;
+    }
+
+    #answer {
+      position: absolute;
+      top: 550px;
+      left: 580px;*/
+    }
+    button {
+      border-radius: 6px;
+      margin: 15px;
+    }
+
+    input[type="text"], textarea {
+      background-color : white;
+    }
+  </style>
+</head>
+<body>
+  <h1>Problem 1 of 5</h1>
+  <canvas id="myCanvas"></canvas>
+  <div id = "answer">
+    <input type="text" name="Your Answer" style="backgorund-color:white">
+    <button onclick="move()">Submit</button>
+  </div>
+  <form>
+    <input id="color" type="color" value="#ff8d4b">
+  </form>
+
+</body>
+
+<script>
+
+  function move() {
+    var elem = document.getElementById("myBar");
+    var width = 1;
+    var id = setInterval(frame, 10);
+    function frame() {
+      if (width >= 100) {
+        clearInterval(id);
+      } else {
+        width++;
+        elem.style.width = width + '%';
+      }
+    }
+  }
+  var canvas = document.getElementById("myCanvas");
+  canvas.width = 1500;
+  canvas.height = 450;
+  var ctx = canvas.getContext('2d');
+
+  // Pick out the form elements for easy access later
+  var x1 = "100";
+  var x2 = "100";
+  var y = "100";
+  var color = document.querySelector('#color');;
+
+  // Animation function
+  function draw(){
+  // clear the canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Wobble the cube using a sine wave
+  var wobble = (Math.sin(Date.now()/250)*window.innerHeight/50)/5;
+
+  // draw the cube
+  drawCube(
+    window.innerWidth/2,
+    window.innerHeight/2 + wobble + y/2 -20,
+    Number(x1),
+    Number(x2),
+    Number(y),
+    color.value
+  );
+
+  requestAnimationFrame(draw);
+  }
+  draw();
+
+  // Colour adjustment function
+  // Nicked from http://stackoverflow.com/questions/5560248
+  function shadeColor(color, percent) {
+  color = color.substr(1);
+  var num = parseInt(color, 16),
+    amt = Math.round(2.55 * percent),
+    R = (num >> 16) + amt,
+    G = (num >> 8 & 0x00FF) + amt,
+    B = (num & 0x0000FF) + amt;
+  return '#' + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 + (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 + (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
+  }
+
+  // Draw a cube to the specified specs
+  function drawCube(x, y, wx, wy, h, color) {
+
+
+    ctx.fillStyle = "#F8F8F8";
+    ctx.fillRect(window.innerWidth/4, 100, 700, 500);
+
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x - wx, y - wx * 0.5);
+    ctx.lineTo(x - wx, y - h - wx * 0.5);
+    ctx.lineTo(x, y - h * 1);
+    ctx.closePath();
+    ctx.fillStyle = shadeColor(color, -10);
+    ctx.strokeStyle = color;
+    ctx.stroke();
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x + wy, y - wy * 0.5);
+    ctx.lineTo(x + wy, y - h - wy * 0.5);
+    ctx.lineTo(x, y - h * 1);
+    ctx.closePath();
+    ctx.fillStyle = shadeColor(color, 10);
+    ctx.strokeStyle = shadeColor(color, 50);
+    ctx.stroke();
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(x, y - h);
+    ctx.lineTo(x - wx, y - h - wx * 0.5);
+    ctx.lineTo(x - wx + wy, y - h - (wx * 0.5 + wy * 0.5));
+    ctx.lineTo(x + wy, y - h - wy * 0.5);
+    ctx.closePath();
+    ctx.fillStyle = shadeColor(color, 20);
+    ctx.strokeStyle = shadeColor(color, 60);
+    ctx.stroke();
+    ctx.fill();
+
+    ctx.font = "17px Arial";
+    ctx.fillStyle = "#000";
+    ctx.fillText(wy + " cm",x-97,y-5);
+
+
+    ctx.font = "17px Arial";
+    ctx.fillStyle = "#000";
+    ctx.fillText(wx + " cm",x+45,y-5);
+
+    ctx.font = "17px Arial";
+    ctx.fillStyle = "#000";
+    ctx.fillText(h + " cm",x - 160,y - 95);
+
+    ctx.font = "30px Helvetica";
+    ctx.fillStyle = "#000";
+    ctx.fillText("What is the volume of this object?", window.innerWidth/3 +20, window.innerHeight/2-200);
+
+  }
+</script>

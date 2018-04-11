@@ -7,6 +7,7 @@ angular.module('myApp', [
   'login',
   'settings',
   'measurement',
+  'volume',
   'view2',
 
 ]);
@@ -31,6 +32,10 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
       }).
     when('/Measurement', {
       template: '<measurement></measurement>'
+    }).
+
+    when('/volume', {
+      template: '<volume></volume>'
     }).
 
 	   when('/Login', {
