@@ -5,7 +5,7 @@
  height : 100%;
  width  : 100%;
  background-color :  rgba(32, 43, 88,1.0);
- background: linear-gradient(to bottom, 
+ background: linear-gradient(to bottom,
 rgba(219, 127, 142,1.0) ,rgba(219,127,142,0.0)
 );
 }
@@ -56,8 +56,8 @@ button {
     background: linear-gradient(to left, rgba(51, 102, 204,1.0), rgba(255, 102, 102,1.0));
     overflow-y: hidden;
     transition: 0.5s;
-  }  
- 
+  }
+
   .dashTable {
   position : absolute;
   text-align : center;
@@ -125,7 +125,7 @@ border : 1px solid black;
  width : 100%;
  font-size : 30px;
  }
- 
+
  .dashList a {
  width : 80%;
   -moz-box-shadow:    inset 0 0 20px #000000;
@@ -145,7 +145,7 @@ border : 1px solid black;
   -webkit-box-shadow: inset 0 0 20px #000000;
   box-shadow:         inset 0 0 20px #000000;
  transition : 0.5s;
- } 
+ }
 
   .topBorder p {
   position : relative;
@@ -285,7 +285,7 @@ input[type="checkbox"]:checked ~ .reveal-if-active {
 @keyframes fadeIn {
   from {opacity: 0;}
   to {opacity:1 ;}
-} 
+}
 
  /* The Modal (background) */
  .modal {
@@ -314,7 +314,7 @@ input[type="checkbox"]:checked ~ .reveal-if-active {
   color: black;
   text-decoration: none;
   cursor: pointer;
-} 
+}
 
  /* Modal Header */
  .modal-header {
@@ -350,4 +350,4 @@ input[type="checkbox"]:checked ~ .reveal-if-active {
 @keyframes animatetop {
   from {top: -300px; opacity: 0}
   to {top: 0; opacity: 1}
-} 
+}

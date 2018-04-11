@@ -1,26 +1,26 @@
 <div class="background1">
       <!--Sidebar content-->
 <div class = "mascot">
-<img onclick = "setupCanvas()"src="img/mascot.png" alt="mascot" width="100%" height="100%"/>
+  <img onclick = "setupCanvas()"src="img/mascot.png" alt="mascot" width="100%" height="100%"/>
 </div>
-  <div id="topBorder" class="topBorder"><p>Welcome, <span id="clientName"></span>
+<div id="topBorder" class="topBorder"><p>Welcome, <span id="clientName"></span>
 	</p></div>
 <div id="mySidenav" class="sidenav">
   <a href="/Dashboard">
-<img src="img/profileIcon.png" alt="Dashboard Icon" />
-	<p>Dashboard</p>
+    <img src="img/profileIcon.png" alt="Dashboard Icon" />
+	   <p>Dashboard</p>
   </a>
   <a onclick="toggleMenu()">
-  <img src="img/plus.png" alt="Math Icon"/>
+    <img src="img/plus.png" alt="Math Icon"/>
     <p>Math Menu</p>
   </a>
-  <a href="/gt/index.html">
-<img src="img/settings.png" alt="Settings Icon"/>
-	<p>Settings</p></a>
+  <a href="#!/Settings">
+    <img src="img/settings.png" alt="Settings Icon"/>
+	   <p>Settings</p></a>
   <a href="#!/Login">
-<img src="img/logout.png" alt="Logout Icon"/>
-<p>Logout</p>
-</a>
+    <img src="img/logout.png" alt="Logout Icon"/>
+    <p>Logout</p>
+  </a>
 </div>
 
 <div id="mathSB" class="sidenav" style="left:15%;border-left:0px solid black;width:15%;opacity:0;">
@@ -32,14 +32,14 @@
   <img src="img/plus.png" alt="Math Icon"/>
     <p>Multi-Digit</p>
   </a>
-  <a>
+  <a href="#!/Measurement">
   <img src="img/plus.png" alt="Math Icon"/>
     <p>Measurement</p>
   </a>
 </div>
   <div id="bg" class="bg">
-<div class = "dashTable"> 
-<p>Progress Report</p> 	
+<div class = "dashTable">
+<p>Progress Report</p>
 <button>Best Categories</button>
 <button>Best To Practice</button>
 <button>Most Practiced</button>
@@ -77,8 +77,8 @@
 	<button>Best Categories</button>
 	<button>Improvable Categories</button>
 	<button>Most Practiced</button>
-	<table style="height:80%; overflow:hidden;"> 
-	<tr> 
+	<table style="height:80%; overflow:hidden;">
+	<tr>
 	<td>Date Attempted</td>
 	<td>Problem Set</td>
 	<td>Score</td>
@@ -96,7 +96,7 @@
       <div text-align = "center" class="stdList">
 	<p>Suggested Problem Sets</p>
 	<li><a>ProblemSet</a></li>
-	<li><a>ProblemSet</a></li>	
+	<li><a>ProblemSet</a></li>
 	<li><a>ProblemSet</a></li>
 	<li><a>ProblemSet</a></li>
 	<li><a>ProblemSet</a></li>
@@ -118,7 +118,7 @@ var waitForTransition = function(tG,type) {
 }
 
 
-  
+
 function toggleMenu() {
   var width;
   clearTimeout(waitForTransition);
@@ -128,19 +128,19 @@ function toggleMenu() {
   var cT;
   if (sN.style.opacity == "0") {
     sT = Date.now();
-    bG.style.left = "30%"; 
+    bG.style.left = "30%";
     bG.style.width = "65%";
-    setTimeout(waitForTransition    
+    setTimeout(waitForTransition
     ,500,sN,1);
   } else {
     sN.style.opacity = "0";
-setTimeout(waitForTransition    
+setTimeout(waitForTransition
 ,500,bG,0);
   }
 }
 
 </script>
-   
+
 <script>
   	function app(user) {
 			// user.displayName

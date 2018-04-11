@@ -5,7 +5,11 @@ angular.module('myApp', [
   'math',
   'teacherdash',
   'login',
+  'settings',
+  'measurement',
+  'volume',
   'view2',
+
 ]);
 
 angular.
@@ -23,6 +27,17 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
           template: '<math></math>'
         }).
 
+    when('/Settings', {
+        template: '<settings></settings>'
+      }).
+    when('/Measurement', {
+      template: '<measurement></measurement>'
+    }).
+
+    when('/volume', {
+      template: '<volume></volume>'
+    }).
+
 	   when('/Login', {
           template: '<login></login>'
         }).
@@ -32,4 +47,3 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
      otherwise('/Dashboard');
     }
   ]);
-
