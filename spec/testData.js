@@ -62,8 +62,8 @@ var testData = {
         "1234" : {
             "teacherId": "mscott2",
             "studentList" : {
-                "E6NwApIZTdMx63GYxU3XTHI6OUU2" : true,
-                "mscott1" : true
+                "E6NwApIZTdMx63GYxU3XTHI6OUU2": "E6NwApIZTdMx63GYxU3XTHI6OUU2",
+                "mscott1": "mscott1"
             },
             "timeStamp" : "Wed, 28 Mar 2018 15:16:00 GMT",
             "classDesc" : "Mr. Scott's 4th-grade class"
@@ -71,6 +71,15 @@ var testData = {
     },
     "studentHashes": {
 
+    },
+    "notifications":{
+        "afisk" : {
+            "5454" :{
+                "suggestion" : "5678",
+                "timeStamp" : "Tue, 27 Mar 2018 15:16:00 GMT"
+            }
+
+        }
     },
     "problemInstances" : {
         "afisk" : {

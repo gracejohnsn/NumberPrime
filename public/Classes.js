@@ -226,94 +226,78 @@ class Class {
 }
 
 class Notification {
-    constructor(_teacherId, _studentOrClassId, _audience, _type, _typeSpecificData, _timeStamp) {
+    /*constructor(_studentOrClassId, _pid, _audience, _timeStamp) {
         if (new.target === Notification) {
             throw new TypeError("Cannot construct Abstract instances directly");
         }
-        this.teacherId = _teacherId;
         this.studentOrClassId = _studentOrClassId;
+        this.problemURI = _problemURI;
+        this.audience = _audience;
         this.timeStamp = _timeStamp;
-        this.type = _type;
-    }
+    }*/
 
-    // DO NOT USE AS API, USE "createUser" OR "editUser" INSTEAD 
-    // (THEY HAVE CHECKS) creates/overwrites existing data with given info
-    static writeNotificationData(_app, _teacherId, _studentOrClassId, _audience, 
-        _type, _typeSpecificData, _timeStampString) {
-        var retPromise;
-        if (_audience == "student") {
-            //var postsRef = ref.child("posts");
-            return _app.database().ref("classes/" + _classId).once('value').then(
-                function (snapshot) {
-                    if (snapshot.val()) {
-                        var val = snapshot.val();
-                        return new Class(_classId, val.teacherId, val.studentList,
-                            val.classDesc);
-                    } else {
-                        throw "classId not found";
+    static createNotification(_app, _studentOrClassId, _problemURI, _audience, _timeStamp) {
+        var timeSt = _timeStamp.toUTCString();
+        if(_audience == "student") {
+            return _app.database().ref("notifications").child(_studentOrClassId).push({
+                "suggestion" : _problemURI,
+                "timeStamp" : timeSt,
+            }).then(
+                function(result) {
+                    //console.log("key: "+ result.key);
+                    return result.key;
+                }
+            );
+        }else{
+            var studList = [];
+            var getClass =  Class.readClassData(_app, _studentOrClassId);
+            var getNotification = _app.database().ref("notifications");
+            return Promise.all([getClass,getNotification]).then(
+                function(result){
+                    var notifPromises = [];
+                    for(var k in result[0].studentList)
+                    {
+                        studList.push(JSON.stringify(result[0].studentList[k]));//JSON.parse(result.studentList[k]))
+                        //students added here
+                        notifPromises.push( _app.database().ref("notifications").child (JSON.stringify(result[0].studentList[k]).split("\"")[1] ).push({
+                            "suggestion" : _problemURI,
+                            "timeStamp" : timeSt,
+                        }) );
                     }
-                });
-
-            retPromise = _app.database().ref("users/" + _studentOrClassId + "notifications/").set({
-                teacherId: _teacherId,
-                timeStamp: _timeStampString,
-                type: _type,
-                student: _typeSpecificData
-              }).then(function () { // return if no problem adding student
-                  return;
-              }, function() { // runs with error
-                  throw "unable to add notification";
-              });
-        } else { //Class
-            retPromise = _app.database().ref("users/" + _studentOrClassId).set({
-                firstName: _firstName,
-                surName: _surName,
-                email: _email,
-                timeStamp: _timeStampString,
-                type: _type,
-                teacher: _typeSpecificData
-              }).then(function () {
-                  return;
-              }, function() {
-                  throw "unable to add teacher";
-              });
+                    //can't find student here?
+                    return Promise.all(notifPromises).then(
+                        function(result){
+                            return result.key;
+                        }
+                    );
+                    
+                }
+            );
         }
-        return retPromise;
+    }
+
+    //Delete old notifications after a read (maybe 2 weeks or something)
+    static readNotifications(_app, _studentId) {
+        return _app.database().ref("notifications").child(_studentId).once('value').then(
+            function(snapshot) {
+                if(snapshot.val()) {
+                    //console.log("here");
+                    var val = snapshot.val();
+                    var notifications = [];
+                    for(var k in val) {
+                        notifications.push([val[k].suggestion, val[k].timeStamp])
+                    }
+                    //console.log(_studentId);
+                    //console.log(notifications);
+                    return notifications;
+                } else {
+                    throw "notifications not found";
+                }
+            }
+        );
     }
 
 
-}
-
-class Message extends Notification{
-    constructor(_teacherId, _studentOrClassId, _audience, _typeSpecificData, _timeStamp) {
-        super(_teacherId, _studentOrClassId, _audience, "message", _typeSpecificData, _timeStamp);
-    }
-}
-class DirectMessage extends Message{
-    constructor(_teacherId, _studentId, _messageContent, _timeStamp) {
-        super(_teacherId, _studentId, "student", _messageContent, _timeStamp);
-    }
-}
-class ClassMessage extends Message{
-    constructor(_teacherId, _classId, _messageContent, _timeStamp) {
-        super(_teacherId, _classId, "class", _messageContent, _timeStamp);
-    }
-}
-
-class Suggestion extends Notification{
-    constructor(_teacherId, _studentOrClassId, _audience, _typeSpecificData, _timeStamp) {
-        super(_teacherId, _studentOrClassId, _audience, "suggestion", _typeSpecificData, _timeStamp);
-    }
-}
-class DirectSuggestion extends Suggestion{
-    constructor(_teacherId, _studentId, _messageContent, _timeStamp) {
-        super(_teacherId, _studentId, "student", _messageContent, _timeStamp);
-    }
-}
-class ClassSuggestion extends Suggestion{
-    constructor(_teacherId, _classId, _messageContent, _timeStamp) {
-        super(_teacherId, _classId, "class", _messageContent, _timeStamp);
-    }
 }
 
 class ProblemInstance {
@@ -384,7 +368,7 @@ class ProblemInstance {
                     function(result) {
                         return result.key;
                     }
-                );;
+                );
                 break;
             default:
                 throw "problem type unknown";

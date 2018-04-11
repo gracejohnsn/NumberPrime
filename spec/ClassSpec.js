@@ -13,8 +13,8 @@ describe("Class", function() {
                 function(result) {
                     expect(result.teacherId).toEqual("mscott2");
                     expect(result.studentList).toEqual(
-                        {"E6NwApIZTdMx63GYxU3XTHI6OUU2": true,
-                        "mscott1" : true});
+                        {"E6NwApIZTdMx63GYxU3XTHI6OUU2": "E6NwApIZTdMx63GYxU3XTHI6OUU2",
+                        "mscott1": "mscott1"});
                     done();
                 }
             );
@@ -42,7 +42,7 @@ describe("Class", function() {
                 function(result) {
                     return Class.readClassData(mockApp, "1234").then(
                         function (result) {
-                            expect(result.studentList).toEqual({"mscott1" : true});
+                            expect(result.studentList).toEqual({"mscott1": "mscott1"});
                             done();
                         },
                         function (err) { // this should not be executed
