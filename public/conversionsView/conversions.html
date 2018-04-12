@@ -1,0 +1,154 @@
+<html>
+<head>
+  <style>
+    body {
+      background-color: lavender;
+      background-image: url("/img/mathBackground.jpg");
+      background-repeat: repeat-y;
+      background-position: center;
+
+  }
+
+.button1 {
+  background-color: white;
+  color: black;
+  font-size: 28px;
+  border: 2px solid black;
+  cursor: pointer;
+  } /* Blue */
+
+   .button1:hover {
+    background-color: black;
+    color: rgb(245, 237, 237);
+    }
+
+.button2 {
+  background-color: white;
+  font-size: 18px;
+  color: black;
+  border: 2px solid black;
+  cursor: pointer;
+  display:inline-block;
+
+  } /* Blue */
+
+   .button2:hover {
+    background-color: black;
+    color: rgb(245, 237, 237);
+    }
+   
+div {
+    background-color:lightcoral;
+    width: 400px;
+    border: 25px solid black;
+    padding: 25px;
+    margin: 25px;
+}
+
+div {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+</style>
+</head>
+
+  
+<body>
+
+  <div id="questionsDiv">
+    <button onclick="start()" id="onStart" class="button1">Click here when you are ready to start!</button>
+
+    <div id="main" style="display: none;">
+      <p id="question"><b></b></p> 
+      Answer: <input type="text" id="answer"><br>
+      <button onclick="submit()" class="button2">Submit</button> 
+      <p id="output"></p>
+      <button id="nextQuestionId" onclick="nextQuestion()" style="display: block;" class="button2">Next Question!</button> 
+    </div>
+  </div>
+
+  <div id="resultsDiv" style="display: none;">
+    <p id="resultContent"></p>
+  </div>
+ 
+<script>
+var questionsList = ["Convert 3600 seconds into hours.","Convert 20 inches to feet. ", 
+                    "Convert 45 pounds to ounces","Convert 50 cm to m.","Convert 50 minutes into seconds","Convert 50 yards to miles."
+                    ,"Convert 2 hours into seconds", "Convert 10 kilograms to grams.","Convert 50 feet to inches.","Convert 100 Tons to pounds. "];
+var answerList = [1, 1.6, 720,0.5,3000,0.0284,7200,10000,4.16,200000];
+var curQuestionId = -1;
+var correctCount = 0;
+
+function submit() 
+{
+    document.getElementById("output").style.display = "block";
+    var x = document.getElementById("answer").value;   
+    if(x == getAnswer()){
+        document.getElementById("output").innerHTML = "Your answer is correct!";
+        document.getElementById("nextQuestionId").style.display = "block";
+        correctCount = correctCount + 1
+    }
+    else {
+        document.getElementById("output").innerHTML = "Your answer is wrong!";
+    }
+    
+}
+
+function start()
+{
+    document.getElementById("onStart").style.display = "none";
+    document.getElementById("main").style.display = "block";
+    document.getElementById("question").innerHTML = getQuestion();
+}
+
+function nextQuestion()
+{
+
+    if(curQuestionId == (questionsList.length-1))
+    {
+        resultPage()
+    }
+    else
+    {
+        document.getElementById("output").style.display = "none";
+        document.getElementById("main").style.display = "block";
+        document.getElementById("question").innerHTML = getQuestion();
+        document.getElementById("answer").value = "";
+    }
+}
+
+function getQuestion()
+{
+    curQuestionId = curQuestionId + 1;
+    /*curQuestionId = Math.floor((Math.random() * questionsList.length) + 0);*/
+    var curQuestion = questionsList[curQuestionId];
+    return curQuestion;
+
+}
+
+function getAnswer()
+{
+    return answerList[curQuestionId];
+}
+
+function resultPage()
+{
+    document.getElementById("questionsDiv").style.display = "none";
+    document.getElementById("resultsDiv").style.display = "block";
+    document.getElementById("resultContent").innerHTML = "You have got " + correctCount + " out of " + questionsList.length + "."
+
+}
+
+
+
+</script>
+</body>
+</html>
+
+
+
