@@ -35,10 +35,20 @@ Weight:
       color: lightgray;
     }
 
+    h2 {
+      text-align: center;
+    }
+
 
     p {
       text-align:center;
       margin-top: 5px;
+    }
+
+    a {
+      color: white;
+      margin: auto;
+
     }
 
     #answer {
@@ -62,20 +72,22 @@ Weight:
   </style>
 </head>
 <body>
-  <h1>Problem <span id="num"></span> of 5</h1>
-  <canvas id="myCanvas"></canvas>
-  <div id = "answer">
-    <input id="ans" type="text" name="Your Answer" style="backgorund-color:white">
-    <button onclick="checkAnswer()">Submit</button>
-  </div>
-  <form>
-    <input id="color" type="color" value="#ff8d4b">
-  </form>
+      <h1>Problem <span id="num"></span> of 5</h1>
+      <canvas id="myCanvas"></canvas>
+      <div id = "answer">
+        <input id="ans" type="text" name="Your Answer" style="backgorund-color:white">
+        <button id="submission" onclick="checkAnswer()">Submit</button>
+      </div>
+      <form>
+        <input id="color" type="color" value="#ff8d4b">
+      </form>
+      <!--<h2>You got {{correct}} correct out of 5!</h2>
+      <a href="#!/studentView"></a>-->
 
 </body>
 
-<script>
 
+<script>
   var correct = 0;
   var incorrect = 0;
   var problemNumber = 1;
@@ -89,7 +101,6 @@ Weight:
   var color = document.querySelector('#color');
   document.getElementById("num").innerHTML = problemNumber;
 
-
   function checkAnswer() {
     if(document.getElementById('ans').value == x1*x2*y/1000) {
       correct++;
@@ -98,8 +109,29 @@ Weight:
       incorrect++;
     }
     problemNumber++;
-    if(problemNumber == 5)
+    if(problemNumber == 6)
     {
+      var elem = document.getElementById('myCanvas');
+      var elem2 = document.getElementById('ans');
+      var elem3 = document.getElementById('submission');
+      elem.parentNode.removeChild(elem);
+      elem2.parentNode.removeChild(elem2);
+      elem3.parentNode.removeChild(elem3);
+
+      //show report
+      var para = document.createElement("h2");
+      var t = document.createTextNode("You got " + correct + " correct out of 5!");
+      para.appendChild(t);
+      para.id = "report";
+
+
+      var a = document.createElement('a');
+      var linkText = document.createTextNode("Return to dashboard");
+      a.appendChild(linkText);
+      a.href = "#!/studentView";
+      a.id= "return";
+      document.body.appendChild(para);
+      document.body.appendChild(a);
 
     }
     else {
@@ -222,7 +254,8 @@ Weight:
   }
 
   function midpoint(x1, x2) {
-    var a = x1+x2;
-    return a/2;
+    var b = x1+x2;
+    return b/2;
   }
+
 </script>
