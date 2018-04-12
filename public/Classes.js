@@ -75,10 +75,14 @@ class User {
                     var val = snapshot.val();
                     if(val.type == "student") {
                         return new Student(_userId, val.firstName, val.surName,
-                            val.email, new Date(val.timeStamp), val.student.classId, val.student.gradeLevel);
+                            val.email, new Date(val.timeStamp), 
+                            val.student ? val.student.classId : null, 
+                            val.student ? val.student.gradeLevel : null);
                     } else {
                         return new Teacher(_userId, val.firstName, val.surName,
-                            val.email, new Date(val.timeStamp), val.teacher.classList, val.teacher.teacherDesc);
+                            val.email, new Date(val.timeStamp), 
+                            val.teacher ? val.teacher.classList : null, 
+                            val.teacher ? val.teacher.teacherDesc : null);
                     }
                 } else {
                     throw "user does not exist";

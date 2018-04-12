@@ -40,7 +40,10 @@ app.controller('settings', function($scope) {
         $scope.var = false;
       }
       $scope.$apply();
-    }
+    },
+    function(err) {
+      alert(err);
+    }  
   );
   
 });

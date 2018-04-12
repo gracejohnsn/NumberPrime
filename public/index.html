@@ -65,15 +65,7 @@
 				if (user) {
 					// User is signed in
 					var names = user.displayName.split(" ");
-					User.createUser(firebase, user.uid, names[0], names[1], user.email, new Date(), "student", {"classId": 1234, "gradeLevel" : 4}).then(
-						function() {
-							googleUser = user;
-							alert("User added successfully to the database");
-						},
-						function(err) {
-
-						}
-					);
+					User.createUser(firebase, user.uid, names[0], names[1], user.email, new Date(), "student", {"classId": 1234, "gradeLevel" : 4});
 					app(user);
 				} else {
 					var provider = new firebase.auth.GoogleAuthProvider();
