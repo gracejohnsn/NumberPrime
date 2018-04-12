@@ -8,19 +8,42 @@ var app = angular.module('settings', ['ngRoute']);
   });
 
 app.controller('settings', function($scope) {
-  $scope.name = "John Doe";
-  $scope.email = "johndoe@gmail.com";
-  $scope.role= "Teacher";
-  $scope.var = "false";
-  $scope.editProfile = function() {
-    $scope.var = true;
-  }
-  $scope.saveChanges = function(name, email) {
-    $scope.var = false;
-    $scope.name = name;
-    $scope.email = email;
-  }
-  $scope.cancel = function() {
-    $scope.var = false;
-  }
+  var uid = firebase.auth().currentUser.uid;
+  var userPromise = User.readUserData(firebase, uid);
+  var scopePromise = new Promise(
+    function(resolve, reject) {
+      resolve($scope);
+    }
+  );
+  Promise.all([userPromise, scopePromise]).then(
+    function(results) {
+      var user = results[0];
+      $scope = results[1];
+      $scope.name = user.firstName + " " + user.surName;
+      $scope.email = user.email;
+      $scope.role= user.type;
+      $scope.var = "false";
+      $scope.editProfile = function() {
+        $scope.var = true;
+      }
+      $scope.saveChanges = function(name, email) {
+        $scope.var = false;
+        name = name.trim();
+        $scope.name = name;
+        $scope.email = email;
+        var firstName = name.substr(0, name.indexOf(" "));
+        var lastName = name.substr(name.lastIndexOf(" ") + 1, );
+        User.writeUserData(firebase, firebase.auth().currentUser.uid, firstName, 
+          lastName, email, new Date().toUTCString(), $scope.role, null); // TODO this needs to be edited
+      }
+      $scope.cancel = function() {
+        $scope.var = false;
+      }
+      $scope.$apply();
+    },
+    function(err) {
+      alert(err);
+    }  
+  );
+  
 });

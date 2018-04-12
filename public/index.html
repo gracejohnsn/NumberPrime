@@ -42,7 +42,8 @@
 		<script src="mathView/mathView.js"></script>
     <script src="settings/settings.js"></script>
     <script src="MeasurementView/measurement.js"></script>
-    <script src="volumeView/volume.js"></script>
+	<script src="volumeView/volume.js"></script>
+	<script src="conversionsView/conversions.js"></script>
 		<script src="components/version/version.js"></script>
 		<script src="components/version/version-directive.js"></script>
 		<script src="components/version/interpolate-filter.js"></script>
@@ -59,19 +60,13 @@
 		  messagingSenderId: "820335136282"
 		};
 		firebase.initializeApp(config);
-
+		
 		function login() {
 			function newLoginHappened(user) {
 				if (user) {
 					// User is signed in
 					var names = user.displayName.split(" ");
-					User.createUser(firebase, user.uid, names[0], names[1], user.email, new Date(), "student", {"classId": 1234, "gradeLevel" : 4}).then(
-						function() {
-						},
-						function(err) {
-
-						}
-					);
+					User.createUser(firebase, user.uid, names[0], names[1], user.email, new Date(), "student", {"classId": 1234, "gradeLevel" : 4});
 					app(user);
 				} else {
 					var provider = new firebase.auth.GoogleAuthProvider();
