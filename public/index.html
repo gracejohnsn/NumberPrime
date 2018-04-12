@@ -59,7 +59,7 @@
 		  messagingSenderId: "820335136282"
 		};
 		firebase.initializeApp(config);
-
+		
 		function login() {
 			function newLoginHappened(user) {
 				if (user) {
@@ -67,6 +67,8 @@
 					var names = user.displayName.split(" ");
 					User.createUser(firebase, user.uid, names[0], names[1], user.email, new Date(), "student", {"classId": 1234, "gradeLevel" : 4}).then(
 						function() {
+							googleUser = user;
+							alert("User added successfully to the database");
 						},
 						function(err) {
 
