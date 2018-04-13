@@ -56,7 +56,7 @@ var w = window.screen.availWidth*.8;
     // make a place to put the drawing controls - a div
     var controls = document.createElement("DIV");
     controls.id = "controls";
-    document.body.appendChild(controls);
+   // document.body.appendChild(controls);
 
     // a switch between camera modes
     var uiMode = document.createElement("select");
@@ -64,7 +64,7 @@ var w = window.screen.availWidth*.8;
     uiMode.innerHTML += "<option>Drive</option>";
     uiMode.innerHTML += "<option>Fly</option>";
     uiMode.innerHTML += "</select>";
-    controls.appendChild(uiMode);
+  //  controls.appendChild(uiMode);
 
     var resetButton = document.createElement("button");
     resetButton.innerHTML = "Reset View";
@@ -76,17 +76,17 @@ var w = window.screen.availWidth*.8;
         driveXTheta = 0;
 
     }
-    controls.appendChild(resetButton);
+   // controls.appendChild(resetButton);
 
     // make some checkboxes - using my cheesy panels code
-    var checkboxes = makeCheckBoxes([ ["Run",1], ["Examine",0] ]); //
+//    var checkboxes = makeCheckBoxes([ ["Run",1], ["Examine",0] ]); //
 
     // a selector for which object should be examined
     var toExamine = document.createElement("select");
     grobjects.forEach(function(obj) {
            toExamine.innerHTML +=  "<option>" + obj.name + "</option>";
         });
-    controls.appendChild(toExamine);
+ //   controls.appendChild(toExamine);
 
     // make some sliders - using my cheesy panels code
     var sliders = makeSliders([["TimeOfDay",0,24,12]]);
@@ -139,7 +139,7 @@ var w = window.screen.availWidth*.8;
     function draw() {
         // advance the clock appropriately (unless its stopped)
         var curTime = Date.now();
-        if (checkboxes.Run.checked) {
+        if (1) {
             realtime += (curTime - lastTime);
         }
         lastTime = curTime;
@@ -243,7 +243,7 @@ var w = window.screen.availWidth*.8;
         });
 
         // now draw all of the objects - unless we're in examine mode
-        if (checkboxes.Examine.checked) {
+        if (0) {
             // get the examined object - too bad this is an array not an object
             var examined = undefined;
             grobjects.forEach(function(obj) { if (obj.name == toExamine.value) {examined=obj;}});
