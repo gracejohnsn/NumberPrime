@@ -35,33 +35,31 @@ Weight:
       color: lightgray;
     }
 
-
-    canvas {
-      position:absolute;
-      top: 60px;
-
+    h2 {
+      text-align: center;
     }
+
 
     p {
       text-align:center;
-      margin-top: 50px;
+      margin-top: 5px;
     }
 
-    #myProgress {
-      width: 100%;
-      background-color: grey;
-    }
-    #myBar {
-      width: 1%;
-      height: 30px;
-      background-color: green;
+    a {
+      color: white;
+      margin: auto;
+
     }
 
     #answer {
-      position: absolute;
-      top: 550px;
-      left: 580px;*/
+      margin: auto;
+      width: 50%;
+      text-align: center;
+      align-items: center;
+      padding-top: 15px;
     }
+
+
     button {
       border-radius: 6px;
       margin: 15px;
@@ -70,46 +68,91 @@ Weight:
     input[type="text"], textarea {
       background-color : white;
     }
+
   </style>
 </head>
 <body>
-  <h1>Problem 1 of 5</h1>
-  <canvas id="myCanvas"></canvas>
-  <div id = "answer">
-    <input type="text" name="Your Answer" style="backgorund-color:white">
-    <button onclick="move()">Submit</button>
-  </div>
-  <form>
-    <input id="color" type="color" value="#ff8d4b">
-  </form>
+      <h1>Problem <span id="num"></span> of 5</h1>
+      <canvas id="myCanvas"></canvas>
+      <div id = "answer">
+        <input id="ans" type="text" name="Your Answer" style="backgorund-color:white">
+        <button id="submission" onclick="checkAnswer()">Submit</button>
+      </div>
+      <form>
+        <input id="color" type="color" value="#ff8d4b">
+      </form>
+      <!--<h2>You got {{correct}} correct out of 5!</h2>
+      <a href="#!/studentView"></a>-->
 
 </body>
 
-<script>
 
-  function move() {
-    var elem = document.getElementById("myBar");
-    var width = 1;
-    var id = setInterval(frame, 10);
-    function frame() {
-      if (width >= 100) {
-        clearInterval(id);
-      } else {
-        width++;
-        elem.style.width = width + '%';
-      }
-    }
-  }
+<script>
+  var correct = 0;
+  var incorrect = 0;
+  var problemNumber = 1;
   var canvas = document.getElementById("myCanvas");
   canvas.width = 1500;
   canvas.height = 450;
   var ctx = canvas.getContext('2d');
+  var x1 = generateRandomNumber()*10;
+  var x2 = generateRandomNumber()*10;
+  var y = generateRandomNumber()*10;
+  var color = document.querySelector('#color');
+  document.getElementById("num").innerHTML = problemNumber;
 
-  // Pick out the form elements for easy access later
-  var x1 = "100";
-  var x2 = "100";
-  var y = "100";
-  var color = document.querySelector('#color');;
+  function checkAnswer() {
+    if(document.getElementById('ans').value == x1*x2*y/1000) {
+      correct++;
+    }
+    else {
+      incorrect++;
+    }
+    problemNumber++;
+    if(problemNumber == 6)
+    {
+      var elem = document.getElementById('myCanvas');
+      var elem2 = document.getElementById('ans');
+      var elem3 = document.getElementById('submission');
+      elem.parentNode.removeChild(elem);
+      elem2.parentNode.removeChild(elem2);
+      elem3.parentNode.removeChild(elem3);
+
+      //show report
+      var para = document.createElement("h2");
+      var t = document.createTextNode("You got " + correct + " correct out of 5!");
+      para.appendChild(t);
+      para.id = "report";
+
+
+      var a = document.createElement('a');
+      var linkText = document.createTextNode("Return to dashboard");
+      a.appendChild(linkText);
+      a.href = "#!/studentView";
+      a.id= "return";
+      document.body.appendChild(para);
+      document.body.appendChild(a);
+
+    }
+    else {
+      document.getElementById("num").innerHTML = problemNumber;
+      refresh();
+    }
+  }
+
+  function refresh() {
+    ctx = canvas.getContext('2d');
+    x1 = generateRandomNumber()*10;
+    x2 = generateRandomNumber()*10;
+    y = generateRandomNumber()*10;
+    color = document.querySelector('#color');
+    draw();
+  }
+
+  //generates random number from 1 to 10
+  function generateRandomNumber() {
+    return Math.floor(Math.random() * 10) + 5;
+  }
 
   // Animation function
   function draw(){
@@ -123,9 +166,9 @@ Weight:
   drawCube(
     window.innerWidth/2,
     window.innerHeight/2 + wobble + y/2 -20,
-    Number(x1),
-    Number(x2),
-    Number(y),
+    x1,
+    x2,
+    y,
     color.value
   );
 
@@ -152,33 +195,39 @@ Weight:
     ctx.fillStyle = "#F8F8F8";
     ctx.fillRect(window.innerWidth/4, 100, 700, 500);
 
+    //shadeColor(color, 10)
+    //right side of cube h x wy
     ctx.beginPath();
-    ctx.moveTo(x, y);
-    ctx.lineTo(x - wx, y - wx * 0.5);
-    ctx.lineTo(x - wx, y - h - wx * 0.5);
-    ctx.lineTo(x, y - h * 1);
-    ctx.closePath();
-    ctx.fillStyle = shadeColor(color, -10);
-    ctx.strokeStyle = color;
-    ctx.stroke();
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.moveTo(x, y);
-    ctx.lineTo(x + wy, y - wy * 0.5);
-    ctx.lineTo(x + wy, y - h - wy * 0.5);
-    ctx.lineTo(x, y - h * 1);
+    ctx.moveTo(x, y); //a
+    ctx.lineTo(x + wy, y - wy * 0.5); //f
+    ctx.lineTo(x + wy, y - h - wy * 0.5); //e
+    ctx.lineTo(x, y - h * 1); //d
     ctx.closePath();
     ctx.fillStyle = shadeColor(color, 10);
     ctx.strokeStyle = shadeColor(color, 50);
     ctx.stroke();
     ctx.fill();
 
+    //shadeColor(color, -10)
+    //left side of cube h x wx
     ctx.beginPath();
-    ctx.moveTo(x, y - h);
-    ctx.lineTo(x - wx, y - h - wx * 0.5);
-    ctx.lineTo(x - wx + wy, y - h - (wx * 0.5 + wy * 0.5));
-    ctx.lineTo(x + wy, y - h - wy * 0.5);
+    ctx.moveTo(x, y); //a
+    ctx.lineTo(x - wx, y - wx * 0.5); //b
+    ctx.lineTo(x - wx, y - h - wx * 0.5); //c
+    ctx.lineTo(x, y - h * 1); //d
+    ctx.closePath();
+    ctx.fillStyle = shadeColor(color, -10);
+    ctx.strokeStyle = color;
+    ctx.stroke();
+    ctx.fill();
+
+    //shadeColor(color, 20)
+    //top side of cube wx x wy
+    ctx.beginPath();
+    ctx.moveTo(x, y - h); //d
+    ctx.lineTo(x - wx, y - h - wx * 0.5);  //c
+    ctx.lineTo(x - wx + wy, y - h - (wx * 0.5 + wy * 0.5)); //g
+    ctx.lineTo(x + wy, y - h - wy * 0.5); //e
     ctx.closePath();
     ctx.fillStyle = shadeColor(color, 20);
     ctx.strokeStyle = shadeColor(color, 60);
@@ -187,20 +236,26 @@ Weight:
 
     ctx.font = "17px Arial";
     ctx.fillStyle = "#000";
-    ctx.fillText(wy + " cm",x-97,y-5);
+    ctx.fillText( wy/10 + " cm",((x+x+wy)*0.5),15+(y+y-wy*0.5)*0.5); //(a+f)/2
 
 
     ctx.font = "17px Arial";
     ctx.fillStyle = "#000";
-    ctx.fillText(wx + " cm",x+45,y-5);
+    ctx.fillText(wx/10 + " cm",((x+x-wx)*0.5)-20,19+((y+y-wx*0.5)*0.5)); //(a+b)/2
 
     ctx.font = "17px Arial";
     ctx.fillStyle = "#000";
-    ctx.fillText(h + " cm",x - 160,y - 95);
+    ctx.fillText(h/10 + " cm", ((x-wx+x-wx)*0.5) -50, midpoint(y - wx * 0.5, y - h - wx * 0.5));//(c+b)/2
 
     ctx.font = "30px Helvetica";
     ctx.fillStyle = "#000";
-    ctx.fillText("What is the volume of this object?", window.innerWidth/3 +20, window.innerHeight/2-200);
+    ctx.fillText("What is the volume of this object?", (canvas.width/2) -250 , 150);
 
   }
+
+  function midpoint(x1, x2) {
+    var b = x1+x2;
+    return b/2;
+  }
+
 </script>
