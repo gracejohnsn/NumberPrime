@@ -89,7 +89,7 @@ var w = window.screen.availWidth*.8;
  //   controls.appendChild(toExamine);
 
     // make some sliders - using my cheesy panels code
-    var sliders = makeSliders([["TimeOfDay",0,24,12]]);
+//    var sliders = makeSliders([["TimeOfDay",0,24,12]]);
 
     // this could be gl = canvas.getContext("webgl");
     // but twgl is more robust
@@ -216,7 +216,7 @@ var w = window.screen.availWidth*.8;
         }
 
         // get lighting information
-        var tod = Number(sliders.TimeOfDay.value);
+        var tod = Number(0);
         var sunAngle = Math.PI * (tod-6)/12;
         var sunDirection = [Math.cos(sunAngle),Math.sin(sunAngle),0];
 
