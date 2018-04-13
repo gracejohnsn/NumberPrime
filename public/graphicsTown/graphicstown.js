@@ -41,8 +41,13 @@ var setupCanvas = function() {
 
     // set up the canvas and context
     canvas = document.createElement("canvas");
-    canvas.setAttribute("width",800);
-    canvas.setAttribute("height",400);
+	canvas.onselectstart = function () { return false; }
+
+var h = window.screen.availHeight*.6;
+var w = window.screen.availWidth*.8;
+
+    canvas.setAttribute("width",w);
+    canvas.setAttribute("height",h);
     canvas.setAttribute("z-index",99);
     var bg = document.getElementById("bg");
 	if (bg) {

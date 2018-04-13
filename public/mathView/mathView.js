@@ -4,10 +4,10 @@ angular.module('math', ['ngRoute']);
 angular.
   module('math').
   component('math', {
-    templateUrl: 'mathView/studentView.template.html',
-    controller: ['student',
-      function studentController() {
-      
+    templateUrl: 'mathView/mathView.template.html',
+    controller: ["$scope", "$routeParams",
+      function MathController($scope, $routeParams) {
+      $scope.first = $routeParams.nDig;
 	}
     ]
   });

@@ -12,13 +12,9 @@ var prob = [0.0,0.0,0.0];
 var probState = 0;
 var answer = 0;
 var numDigits = 4;
-var scaleDigits = numDigits;
-if (numDigits < 4) {
- scaleDigits = 4;
-}
 
 for (var i = 0; i < 100; i++) {
-	posBalls.push([-0.08/scaleDigits,0.23,0.005]);
+	posBalls.push([-0.08/numDigits,1.0,0.005]);
 }
 
 var lastX;
@@ -26,7 +22,6 @@ var lastY;
 var click = 0;
     var image = new Image();
     image.src = "graphicstown/Textures/UI.png";
-//	image.src = "Textures/UI.png";
 (function() {
     "use strict";
     //creates a gl texture from an image object. Sometiems the image is upside down so flipY is passed to optionally flip the data.
@@ -162,8 +157,8 @@ this.position = [(.05+.075*((this.digit-1.0)%3)),0.35-.10*Math.floor((this.digit
 		break;
 	case 2 :  
 		this.color = [1.0,1.0,1.0];
-		this.scale[0] = 2.0/scaleDigits;
-		this.position = [0.33/numDigits+.15*this.scale[0]*answers.length,0.6,0.003];
+		this.scale[0] = 2.0/numDigits;
+		this.position = [0.125+.15*this.scale[0]*answers.length,0.6,0.003];
 		this.offset = [0.0,0.0,0.0];
 				break;
 	case 3 :
@@ -181,11 +176,11 @@ this.position = [(.05+.075*((this.digit-1.0)%3)),0.35-.10*Math.floor((this.digit
 	case 4 : 
 		this.position[2] = -.003;
 		this.bgOff = [0.75,0.0];
-		this.scale[0] = 2.0/scaleDigits;
+		this.scale[0] = 2.0/numDigits;
 		break;
 	case 5 : {
-	this.scale = [1.0/scaleDigits,9.0,0.0];
-	this.position = [.5625+(.4/scaleDigits)*poles.length, 0.05,0.003];
+	this.scale = [1.0/numDigits,10.0,0.0];
+	this.position = [.5625+(.4/numDigits)*poles.length, 0.1,0.003];
 	this.offset = [0.0,-0.5,0.0];
 	break;
 	}
@@ -301,14 +296,13 @@ digitBuffer = twgl.createBufferInfoFromArrays(drawingState.gl,digitbox);
 		for (var i = 0; i < numDigits; i++) {
 		cDig = Math.floor(prob[row]/place);
 	problems[numDigits*row+i].updateDigit(dBoxes[cDig].offset,dBoxes[cDig].digit);
-		problems[numDigits*row+i].position = [.33/numDigits+.15*problems[0].scale[0]*i,0.8-.1*row,0.003];
+		problems[numDigits*row+i].position = [0.125+.15*problems[0].scale[0]*i,0.85-.1*row,0.003];
 		prob[row] = prob[row]%place;
 		place = place/10;
 		}
 		place = Math.pow(10,numDigits-1);
 		}
-		var x = problems[0].position[0];
-		problems[numDigits*2+1].position = [x-.05,.7,0.003];
+		problems[numDigits*2+1].position = [0.075,.75,0.003];
 		problems[numDigits*2+1].offset = [0.0125+.125*type,-0.375,0.0];
 }
 
@@ -364,25 +358,14 @@ if (lastXY[3] == 1) {
 	var carry = 0;
 	for (var i = 0; i < numDigits; i++) {
 	cPole = poles[i];
-	if (cPole.checkHitbox(lastXY) == 1) {
-		var dig;
-		for (var it = i*9; it < (i+1)*9; it++) {
-		console.log(posBalls[it][1]);
-		if ((posBalls[it])[1] + 0.05 <= (1.0-lastXY[1])) {
-			dig = it-(i*9)+1;
-			console.log(dig);
-			}
-		}
-			if (cPole.digit == dig) {
-			cPole.digit--;
-			}
-			else if (dig > cPole.digit ) {
-			cPole.digit = dig;
-			}
-			else {
-			cPole.digit = dig - 1;
-			}  	
-		}
+	if (cPole.checkHitbox(lastXY) == 1 || carry) {
+	cPole.digit++;
+	}
+	carry = 0;
+	if (cPole.digit > 9) {
+	cPole.digit = 0;
+	carry = 1;
+	}
 	}
 }
 
@@ -439,31 +422,24 @@ var blockClrs = [1,0,0, 0,1,0,
 			1,1,0, 1,0,1,
 			0,1,1, 1,1,1];
 var blockClr = [0.0,0.0,0.0];
-for (ind = 0; ind < numDigits; ind++) {
+for (ind = 0; ind < poles.length; ind++) {
 	blockClr = [0.0,0.0,0.0];
 	cPole = poles[ind];
-	for (var j = 0; j < 9; j++) {
-	if (j+1 == cPole.digit) {
-	ballOff = dBoxes[j+1].offset;
-	}
-	else {
-	ballOff = [-0.5,0.5,0.0];
-	}
+	for (var j = 0; j < 10; j++) {
 	blockClr[0] += blockClrs[ind*3]*.1;
 	blockClr[1] += blockClrs[ind*3+1]*.1;
 	blockClr[2] += blockClrs[ind*3+2]*.1;
-	cBall = posBalls[9*ind+j];
+	cBall = posBalls[10*ind+j];
 	if (j < cPole.digit) {
 		if (cBall[1] >= 0.07*j) {
 		cBall[1] -= .01;
 		}
 	} else {
-		if (cBall[1] < 0.23+0.07*j) {
+		if (cBall[1] < 1.0) {
 		cBall[1] += .01;
-		
 	}
 	}
-		modelM = twgl.m4.scaling([2.0/scaleDigits,0.7,1.0]);
+		modelM = twgl.m4.scaling([2.0/numDigits,0.7,1.0]);
 	twgl.m4.setTranslation(modelM,[cPole.position[0]+cBall[0],cPole.position[1]+cBall[1],cBall[2]],modelM);
 		twgl.setUniforms(shaderProgram,{
             view:vM, proj:drawingState.proj,
