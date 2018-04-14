@@ -1,8 +1,8 @@
 /**
  * Created by gleicher on 10/9/2015.
  */
-
-var canvas;
+var arcball = undefined;
+var canvas = undefined;
 var lClick = 0;
 
 /*
@@ -41,7 +41,11 @@ var setupCanvas = function(num) {
 	console.log("value" + num);
 	console.log("setupCanvas");
     // set up the canvas and context
+
+if (!canvas) {
 canvas = document.createElement("canvas");
+arcball = new ArcBall(canvas);
+}
 canvas.onselectstart = function () { return false; }
 var h = window.screen.availHeight*.6;
 var w = window.screen.availWidth*.8;
@@ -112,9 +116,7 @@ var w = window.screen.availWidth*.8;
     // information for the cameras
     var lookAt = [0,0,0];
     var lookFrom = [0,5,-10];
-    var fov = 1.1;
-
-    var arcball = new ArcBall(canvas);
+    var fov = 1.0;
 
     // for timing
     var realtime = 0
