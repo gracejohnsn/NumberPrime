@@ -36,13 +36,13 @@ it sets up the main function to be called on window.onload
 
     return true;
  }
-var setupCanvas = function() {
+var setupCanvas = function(num) {
     "use strict";
-
+	console.log("value" + num);
+	console.log("setupCanvas");
     // set up the canvas and context
-    canvas = document.createElement("canvas");
-	canvas.onselectstart = function () { return false; }
-
+canvas = document.createElement("canvas");
+canvas.onselectstart = function () { return false; }
 var h = window.screen.availHeight*.6;
 var w = window.screen.availWidth*.8;
 
@@ -50,8 +50,12 @@ var w = window.screen.availWidth*.8;
     canvas.setAttribute("height",h);
     canvas.setAttribute("z-index",99);
     var bg = document.getElementById("bg");
+   	console.log("Value" + num);
+	console.log("background");
+	console.log(bg);
 	if (bg) {
     bg.appendChild(canvas);
+	console.log("append");
 	}
     // make a place to put the drawing controls - a div
     var controls = document.createElement("DIV");
@@ -254,7 +258,6 @@ var w = window.screen.availWidth*.8;
             if(examined.draw) examined.draw(drawingState);
             if(examined.drawAfter) examined.drawAfter(drawingState);
         } else {
-
             grobjects.forEach(function (obj) {
                 if(obj.draw) obj.draw(drawingState);
             });

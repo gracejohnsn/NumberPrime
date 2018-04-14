@@ -1,15 +1,14 @@
 'use strict';
 
-angular.module('math', ['ngRoute']);
-angular.
-  module('math').
+var math = angular.module('math', ['ngRoute']);
+math.
   component('math', {
     templateUrl: 'mathView/mathView.template.html',
-    controller: ["$scope", "$routeParams",
-      function MathController($scope, $routeParams) {
-      $scope.first = $routeParams.nDig;
-	}
-    ]
+    controller: 'mathCtrl'
   });
 
-
+math.controller('mathCtrl',["$scope", "$routeParams",
+      function($scope, $routeParams) {
+      $scope.first = $routeParams.nDigs;
+	console.log($routeParams);
+	}]);

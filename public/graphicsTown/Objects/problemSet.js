@@ -2,9 +2,9 @@ var grobjects = grobjects || [];
 var TexturedPlane = undefined;
 var DigitBox = undefined;
 var selectBox;
-var dBoxes = [];
-var answers = [];
-var problems = [];
+var dBoxes = undefined;
+var answers = undefined;
+var problems = undefined;
 var poles = [];
 var balls = [];
 var posBalls = [];
@@ -13,6 +13,7 @@ var probState = 0;
 var answer = 0;
 var numDigits = 4;
 var scaleDigits = numDigits;
+
 if (numDigits < 4) {
  scaleDigits = 4;
 }
@@ -269,6 +270,7 @@ digitBuffer = twgl.createBufferInfoFromArrays(drawingState.gl,digitbox);
 	
 	var evaluateProblem = function() {
 	var ansArray = [];
+	console.log(answer);
 	for (var i = 0; i < numDigits; i++) {
 	ansArray.push(answers[i].digit);
 	}
@@ -276,42 +278,6 @@ digitBuffer = twgl.createBufferInfoFromArrays(drawingState.gl,digitbox);
 	if (a == answer) return 1;
 	else return 0;
 	}
-
-	var createProblem = function(type) {
-			var curr;
-			probState = 1;
-			var place = Math.pow(10,numDigits-1);
-			prob[0] = Math.floor(Math.random()*(place-1)) + 1.0;
-			prob[1] = Math.floor(Math.random()*(place-1)) + 1.0;
-			prob[2] = type;
-			switch (type) {
-			case 0 : answer = prob[0] + prob[1];
-				break;
-			case 1 : answer = prob[0] - prob[1];
-				break;
-			case 2 : answer = prob[0] * prob[1];
-				break;
-			case 3 :  answer = prob[0] / prob[1];
-				break;
-			}
-			console.log(answer);
-
-		var cDig;
-	for (var row = 0; row < 2; row++) {
-		for (var i = 0; i < numDigits; i++) {
-		cDig = Math.floor(prob[row]/place);
-	problems[numDigits*row+i].updateDigit(dBoxes[cDig].offset,dBoxes[cDig].digit);
-		problems[numDigits*row+i].position = [.33/numDigits+.15*problems[0].scale[0]*i,0.8-.1*row,0.003];
-		prob[row] = prob[row]%place;
-		place = place/10;
-		}
-		place = Math.pow(10,numDigits-1);
-		}
-		var x = problems[0].position[0];
-		problems[numDigits*2+1].position = [x-.05,.7,0.003];
-		problems[numDigits*2+1].offset = [0.0125+.125*type,-0.375,0.0];
-}
-
 
 var curBox;
 var selected = 0;
@@ -335,7 +301,7 @@ var selected = 0;
 	poles[i].digit = 0;
 		}
 	}
-	if (answers[numDigits+1].checkHitbox(lastXY) == 1) {
+	if (answers[answers.length-1].checkHitbox(lastXY) == 1) {
 		if (evaluateProblem() == 1) { 
 				createProblem(0);
 		}
@@ -476,7 +442,55 @@ for (ind = 0; ind < numDigits; ind++) {
 }
 
 
+})();
 
+var createProblem = function(type) {
+			console.log("createProblem");
+			var curr;
+			probState = 1;
+			var place = Math.pow(10,numDigits-1);
+			prob[0] = Math.floor(Math.random()*(place-1)) + 1.0;
+			prob[1] = Math.floor(Math.random()*(place-1)) + 1.0;
+			prob[2] = type;
+			switch (type) {
+			case 0 : answer = prob[0] + prob[1];
+				break;
+			case 1 : answer = prob[0] - prob[1];
+				break;
+			case 2 : answer = prob[0] * prob[1];
+				break;
+			case 3 :  answer = prob[0] / prob[1];
+				break;
+			}
+
+		var cDig;
+	for (var row = 0; row < 2; row++) {
+		for (var i = 0; i < numDigits; i++) {
+		cDig = Math.floor(prob[row]/place);
+	problems[numDigits*row+i].updateDigit(dBoxes[cDig].offset,dBoxes[cDig].digit);
+		problems[numDigits*row+i].position = [.33/numDigits+.15*problems[0].scale[0]*i,0.8-.1*row,0.003];
+		prob[row] = prob[row]%place;
+		place = place/10;
+		}
+		place = Math.pow(10,numDigits-1);
+		}
+		var x = problems[0].position[0];
+		problems[numDigits*2+1].position = [x-.05,.7,0.003];
+		problems[numDigits*2+1].offset = [0.0125+.125*type,-0.375,0.0];
+}
+
+
+var setupPS = function(nD) {
+"use strict";
+numDigits = nD;
+console.log(numDigits);
+grobjects = [];
+dBoxes = [];
+answers = [];
+problems = [];
+poles = [];
+console.log("HI");
+grobjects = [];
 var test = new TexturedPlane();
 test.position[1] = 3;
 test.scale = [1.0, 1.0];
@@ -497,7 +511,7 @@ dBoxes.push(answers[i]);
 answers.push(new DigitBox(0,3));
 dBoxes.push(answers[numDigits]);
 answers.push(new DigitBox(1,3));
-dBoxes.push(answers[numDigits+1]);
+dBoxes.push(answers[answers.length-1]);
 for (i = 0; i <= numDigits*2+1; i++) {
 problems.push(new DigitBox(0,4));
 dBoxes.push(problems[i]);
@@ -508,8 +522,7 @@ for (i = 0; i < 8; i++) {
 poles.push(new DigitBox(0,5));
 //dBoxes.push(poles[i]);
 }
-
+console.log("Everything Pushed");
+console.log(dBoxes.length);
 createProblem(0);
-
-
-})();
+}
