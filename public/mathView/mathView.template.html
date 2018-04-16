@@ -3,7 +3,7 @@
   <input id="params" type="hidden" value={{params}}>
   <input id="psSet" value = 0 type="hidden">
   <div class ="background1">
-    <div id="bg" class="bg">
+    <div id="bg">
     </div>
   </div>
 <script>
@@ -13,12 +13,9 @@ var par = document.getElementById("params");
 var val2 = par.value;
 var psSet = document.getElementById("psSet");
 var myVar = setInterval(function(){ 
-	console.log(nDig.value);
 	if (nDig.value != val) {
 	clearInterval(myVar);
 	if (psSet.value == 0) {
-	console.log("parameters");
-	console.log(par.value);
 	setupPS(par.value);
 	setupCanvas(nDig.value);
 	psSet.value = 1;

@@ -1,9 +1,10 @@
+<div ng-app="studentdash" ng-controller="studentCtrl">
 <div class="background1">
       <!--Sidebar content-->
 <div class = "mascot">
-  <img onclick = "setupCanvas()"src="img/mascot.png" alt="mascot" width="100%" height="100%"/>
+  <img src="img/mascot.png" alt="mascot" width="100%" height="100%"/>
 </div>
-<div id="topBorder" class="topBorder"><p>Welcome, <span id="clientName"></span>
+<div id="topBorder" class="topBorder"><p>Welcome, {{user.firstName}} {{user.surName}}</span>
 	</p></div>
 <div id="mySidenav" class="sidenav">
   <a href="#!/Dashboard">
@@ -63,13 +64,15 @@
 
 <div class = "dashList">
 	<p>Problem Sets</p>
-<a href="#!/MathFacts/2/0/9/1/1">MathFact</a>
-<a href="#!/MathFacts/4/0/999/1/1">MultiDigit</a>
+	<a href="#!/MathFacts/2/0/9/1/1">MathFact</a>
+	<a href="#!/MathFacts/4/0/999/1/1">MultiDigit</a>
 	<a href="#!/volume" >Volume</a>
 	<a href="#!/conversions" >Conversion</a>
+	<a href="{{x[0]}}"ng-repeat="x in notes">
+	Problem Set {{$index+1}}
+	</a>
 </div>
 	</div>
-</div>
 
     <div class="col-md-10">
       <!--Body content-->
@@ -152,3 +155,4 @@ setTimeout(waitForTransition
 
 		}
 </script>
+</div>

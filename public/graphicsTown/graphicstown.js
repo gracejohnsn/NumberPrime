@@ -47,9 +47,8 @@ canvas = document.createElement("canvas");
 arcball = new ArcBall(canvas);
 }
 canvas.onselectstart = function () { return false; }
-var h = window.screen.availHeight*.6;
-var w = window.screen.availWidth*.8;
-
+var h = window.screen.availHeight*.7;
+var w = window.screen.availWidth;
     canvas.setAttribute("width",w);
     canvas.setAttribute("height",h);
     canvas.setAttribute("z-index",99);

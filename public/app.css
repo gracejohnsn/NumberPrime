@@ -221,6 +221,19 @@ border : 1px solid black;
   transition : 0.5s;
   }
 
+.bg2 {
+  -moz-box-shadow:    inset 0 0 20px #000000;
+  -webkit-box-shadow: inset 0 0 20px #000000;
+  box-shadow:         inset 0 0 20px #000000;
+  height : 100%;
+  width  : 100%;
+  top    : 0%;
+  left   : 0%;
+  background-color : #cce699;
+  position : fixed;
+  z-index : -1;
+  transition : 0.5s;
+}
 .reveal-if-active {
   opacity: 0;
   max-height: 0;

@@ -17,6 +17,7 @@ var min = undefined;
 var mult = undefined;
 var type = undefined;
 var scaleDigits = numDigits;
+var scope = undefined;
 
 if (numDigits < 4) {
  scaleDigits = 4;
@@ -306,14 +307,19 @@ var selected = 0;
 		}
 	}
 	if (answers[answers.length-1].checkHitbox(lastXY) == 1) {
-		if (evaluateProblem() == 1) { 
-				createProblem(type);
+		scope.correct = evaluateProblem();
+		scope.writeProblem();
+		scope.totalCorrect += scope.correct;
+		scope.probNum++;
+		scope.$apply();
+		if (scope.probNum == 10) {
+		scope.problemSetDone();
 		}
+		createProblem(type);
 		for (var i = 0; i < numDigits; i++) {
 	answers[i].updateDigit(dBoxes[0].offset,dBoxes[0].digit);
 	poles[i].digit = 0;
 		}
-
 		}
 	}
 //Update AnswerBoxes
@@ -337,7 +343,6 @@ if (lastXY[3] == 1) {
 	if (cPole.checkHitbox(lastXY) == 1) {
 		var dig;
 		for (var it = i*9; it < (i+1)*9; it++) {
-		console.log(posBalls[it][1]);
 		if ((posBalls[it])[1] -.05 <= (1.0-lastXY[1])) {
 			dig = it-(i*9)+1;
 			console.log(dig);
@@ -388,7 +393,7 @@ twgl.m4.setTranslation(modelM,cBox.position,modelM);
 //Draw Abacus
 for (ind = 0; ind < numDigits; ind++) {
 cBox = poles[ind];
-		   modelM = twgl.m4.scaling([cBox.scale[0],cBox.scale[1],1.0]);
+		   modelM = twgl.m4.scaling([cBox.scale[0]/2.0,cBox.scale[1],1.0]);
 twgl.m4.setTranslation(modelM,cBox.position,modelM);
 		twgl.setUniforms(shaderProgram,{
             view:vM, proj:drawingState.proj,
@@ -449,7 +454,6 @@ for (ind = 0; ind < numDigits; ind++) {
 })();
 
 var createProblem = function(type) {
-			console.log("createProblem");
 		var maxN;
 		if (!max) {
 		  maxN = Math.pow(10,nD)-1;
@@ -467,8 +471,11 @@ var createProblem = function(type) {
 			var diff = top-bot;
 			n1 = Math.round(Math.random()*diff)+1;
 			n2 = Math.round(Math.random()*diff)+1;
-			prob[0] = n1*mult;
-			prob[1] = n2*mult;
+			prob[0] = (n1+bot)*mult;
+			prob[1] = (n2+bot)*mult;
+			scope.num1 = prob[0];
+			scope.num2 = prob[1];
+			scope.$apply();
 			var ans;
 			var curr;
 			probState = 1;
@@ -518,10 +525,10 @@ var createProblem = function(type) {
 
 var setupPS = function(nD) {
 "use strict";
-console.log("SETUP");
-console.log(nD);
+var dom_el = document.querySelector('[ng-controller="mathCtrl"]');
+var ng_el = angular.element(dom_el);
+scope = ng_el.scope();
 var arr = nD.split(",");
-console.log(arr);
 numDigits = arr[0];
 type = parseInt(arr[1]);
 max = arr[2];
@@ -542,7 +549,6 @@ var test = new TexturedPlane();
 test.position[1] = 3;
 test.scale = [1.0, 1.0];
 grobjects.push(test);
-
 var i;
 for (i = 0; i < 10; i++) {
 dBoxes.push(new DigitBox(i,0));
