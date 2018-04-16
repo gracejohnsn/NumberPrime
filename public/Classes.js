@@ -166,6 +166,44 @@ class Class {
         this.classDesc = _classDesc;
     }
 
+    static createClass(_app, _teacherId, _classDesc, _timeStamp){
+        return _app.database().ref("classes").push({
+            "teacherId": _teacherId,
+            "studentList" : "",
+            "timeStamp" : _timeStamp.toUTCString(),
+            "classDesc" : _classDesc,
+        }).then(
+            function(result) {
+                //console.log("key: "+ result.key);
+                return result.key;
+            }
+        );
+    }
+    
+    static removeClass(_app, _classId){
+        var getClass = Class.readClassData(_app, _classId);
+        var dataPromise = new Promise(
+            function(resolve, reject) {
+                resolve({"classId" : _classId});
+            }
+        );
+
+        return Promise.all([getClass, dataPromise]).then(
+            function(results) {
+                var classInstance = results[0];
+                var classId = results[1]["classId"];
+                //if(!Object.keys(classInstance.studentList).includes(studentId)) {
+                  //  throw "class does not exist";
+                //}
+                //console.log("class ID: " + classId);
+                return _app.database().ref("classes").child(classId).remove();
+            },
+            function(err) {
+                throw "couldn't remove class: " + err;
+            }
+        );
+    }
+
     // given a classId, run the given function with the returned
     // data snapshot (arg of function should be snapshot, reference data 
     // w/ "snap.val()")
@@ -197,7 +235,7 @@ class Class {
                 throw "hash has expired";
             } else {
                 return _app.database().ref("classes/" + classObj.classId + 
-                    "/studentList/" + hashObj.studentId).set(true);
+                    "/studentList/" + hashObj.studentId).set(hashObj.studentId);
             }
         });
     }
