@@ -8,6 +8,7 @@ angular.module('myApp', [
   'settings',
   'measurement',
   'volume',
+  'conversions',
   'view2',
 
 ]);
@@ -23,7 +24,7 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 	   when('/DashboardTeach', {
           template: '<teacherdash></teacherdash>'
         }).
-	   when('/MathFacts', {
+	   when('/MathFacts/:nDigs/:type/:max/:min/:mult', {
           template: '<math></math>'
         }).
 
@@ -38,6 +39,9 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
       template: '<volume></volume>'
     }).
 
+    when('/conversions', {
+      template: '<conversions></conversions>'
+    }).
 	   when('/Login', {
           template: '<login></login>'
         }).

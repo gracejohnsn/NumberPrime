@@ -1,4 +1,6 @@
       <!--Sidebar content-->
+<div ng-app="teacherdash" ng-controller="teacherCtrl">
+<p>{{uid}}</p>
 <div class = "mascot" style="display:block;">
 <img src="img/mascot.png" alt="mascot" width="100%" height="100%"/>
 </div>
@@ -10,10 +12,10 @@
 <img src="img/profileIcon.png" alt="Dashboard Icon" />
 	<p>Dashboard</p>
   </a>
-  <a onclick="toggleMenu()">
+  <button ng-click="createProbSet()">
   <img src="img/plus.png" alt="Math Icon"/>
-    <p>Math Menu</p>
-  </a>
+    <p>Create Problems Set</p>
+  </button>
   <a href="#!/Settings">
 <img src="img/settings.png" alt="Settings Icon"/>
   <p>Settings</p></a>
@@ -52,21 +54,6 @@
 <img src="img/logout.png" alt="Logout Icon"/>
 <p>Logout</p>
 </a>
-</div>
-
-<div id="mathSB" class="sidenav" style="left:15%;border-left:0px solid black;width:15%;opacity:0;">
-  <a>
-  <img src="img/plus.png" alt="Math Icon"/>
-    <p>Math Facts</p>
-  </a>
-  <a>
-  <img src="img/plus.png" alt="Math Icon"/>
-    <p>Multi-Digit</p>
-  </a>
-  <a>
-  <img src="img/plus.png" alt="Math Icon"/>
-    <p>Measurement</p>
-  </a>
 </div>
 
 <div id="bg" class="bg" style="display:block;">
@@ -124,19 +111,6 @@
       </div>
           </div>
 -->
-<script>
-
-function toggleMenu() {
-  var width;
-  var sN = document.getElementById("mathSB");
-  if (sN.style.opacity == "0") {
-    sN.style.opacity = "100";
-  } else {
-    sN.style.opacity = "0";
-  }
-}
-
-</script>
 
 <script>
   function app(user) {
@@ -178,3 +152,4 @@ function toggleMenu() {
     }
   }
 </script>
+</div>

@@ -2,9 +2,9 @@ var grobjects = grobjects || [];
 var TexturedPlane = undefined;
 var DigitBox = undefined;
 var selectBox;
-var dBoxes = undefined;
-var answers = undefined;
-var problems = undefined;
+var dBoxes = [];
+var answers = [];
+var problems = [];
 var poles = [];
 var balls = [];
 var posBalls = [];
@@ -12,19 +12,9 @@ var prob = [0.0,0.0,0.0];
 var probState = 0;
 var answer = 0;
 var numDigits = 4;
-var max = undefined;
-var min = undefined;
-var mult = undefined;
-var type = undefined;
-var scaleDigits = numDigits;
-var scope = undefined;
-
-if (numDigits < 4) {
- scaleDigits = 4;
-}
 
 for (var i = 0; i < 100; i++) {
-	posBalls.push([-0.08/scaleDigits,0.0,0.005]);
+	posBalls.push([-0.08/numDigits,1.0,0.005]);
 }
 
 var lastX;
@@ -32,7 +22,6 @@ var lastY;
 var click = 0;
     var image = new Image();
     image.src = "graphicstown/Textures/UI.png";
-//	image.src = "Textures/UI.png";
 (function() {
     "use strict";
     //creates a gl texture from an image object. Sometiems the image is upside down so flipY is passed to optionally flip the data.
@@ -131,7 +120,7 @@ bgBuffer = twgl.createBufferInfoFromArrays(drawingState.gl,bg);
 if (this.texture == null) { 
 this.texture = createGLTexture(gl, image, true);
 }
-        var cM = twgl.m4.lookAt([0.5,0.5,0.9],[0.5,0.5,0.0],[0,1,0]);
+        var cM = twgl.m4.lookAt([0.5,0.5,0.825],[0.5,0.5,0.0],[0,1,0]);
         var vM = twgl.m4.inverse(cM);
 		twgl.setUniforms(shaderProgram,{
             view:vM, proj:drawingState.proj,
@@ -158,18 +147,18 @@ this.texture = createGLTexture(gl, image, true);
 	switch (this.type) {
 	case 0 : 
 		if (digit > 0) {
-this.position = [(.1+.075*((this.digit-1.0)%3)),0.4-.10*Math.floor((this.digit-1.0)/3.0),0.005];
+this.position = [(.05+.075*((this.digit-1.0)%3)),0.35-.10*Math.floor((this.digit-1.0)/3.0),0.005];
 		} else {
-		this.position = [.175,0.1,.003];
+		this.position = [.125,0.05,.003];
 		}
 		break;
 	case 1 : 	
-		this.position = [0.35,0.35,-0.03];
+		this.position = [0.3,0.3,-0.03];
 		break;
 	case 2 :  
 		this.color = [1.0,1.0,1.0];
-		this.scale[0] = 2.0/scaleDigits;
-		this.position = [.13+.15*this.scale[0]*answers.length,0.65,0.003];
+		this.scale[0] = 2.0/numDigits;
+		this.position = [0.125+.15*this.scale[0]*answers.length,0.6,0.003];
 		this.offset = [0.0,0.0,0.0];
 				break;
 	case 3 :
@@ -180,18 +169,18 @@ this.position = [(.1+.075*((this.digit-1.0)%3)),0.4-.10*Math.floor((this.digit-1
 		this.color = [0.2,0.5,0.2];
 		}
 		this.offset = [.125*(this.digit+2),-.25,0.0];
-		this.position = [0.4,.15+.2*this.digit,0.003];
+		this.position = [0.3,.05+.2*this.digit,0.003];
 		this.scale[0] = 1.0;
 		this.scale[1] = 2.0;
 		break;
 	case 4 : 
 		this.position[2] = -.003;
 		this.bgOff = [0.75,0.0];
-		this.scale[0] = 2.0/scaleDigits;
+		this.scale[0] = 2.0/numDigits;
 		break;
 	case 5 : {
-	this.scale = [1.0/scaleDigits,9.0,0.0];
-	this.position = [.55+(.4/scaleDigits)*poles.length, 0.5,0.003];
+	this.scale = [1.0/numDigits,10.0,0.0];
+	this.position = [.5625+(.4/numDigits)*poles.length, 0.1,0.003];
 	this.offset = [0.0,-0.5,0.0];
 	break;
 	}
@@ -207,13 +196,13 @@ this.position = [(.1+.075*((this.digit-1.0)%3)),0.4-.10*Math.floor((this.digit-1
         
 var digitbox = {
 	aPosition : {numComponents: 3, data : [
-         -0.075, 0.05,  0.003,
-         0.075, 0.05,  0.003,
-         -0.075, -0.05,  0.003,
+         0.00, 0.1,  0.003,
+         0.15, 0.1,  0.003,
+         0.00, 0.0,  0.003,
 
-         -0.075,  -0.05,  0.003,
-         0.075,  -0.05,  0.003,
-         0.075,  0.05,  0.003,
+         0.00,  0.0,  0.003,
+         0.15,  0.0,  0.003,
+         0.15,  0.1,  0.003,
 	]},
 //BackGround Texture
 	aTexCoord : {numComponents: 2, data : [
@@ -227,13 +216,13 @@ var digitbox = {
 	]},
 //Digit/Text Texture
 	aTexCoord2 : {numComponents: 2, data : [
-       0.51,   0.99,
-       0.624, 0.99,
-       0.51,   0.875,
+       0.5,   1.0,
+       0.625, 1.0,
+       0.5,   0.875,
 
-       0.51,    0.875,
-       0.624,  0.875,
-       0.624,  0.99,
+       0.5,    0.875,
+       0.625,  0.875,
+       0.625,  1.0,
 	]},
 //Color Texture
      aTexCoord3 : {numComponents:2, data : [
@@ -264,9 +253,9 @@ digitBuffer = twgl.createBufferInfoFromArrays(drawingState.gl,digitbox);
     DigitBox.prototype.checkHitbox = function(lastXY) {
 	var lY = 1.0 - lastXY[1];
 	var lX = lastXY[0]; 
-	    if (this.position[0]- .075*this.scale[0] < lX && 
-		  this.position[0] + .075*this.scale[0] > lX) {
-			if (this.position[1]-.05*this.scale[1] < lY && (this.position[1] + .05*this.scale[1] > lY)) {
+	    if (this.position[0] < lX && 
+		  this.position[0] + .15*this.scale[0] > lastXY[0]) {
+			if (this.position[1] < lY && (this.position[1] + .10*this.scale[1] > lY)) {
 			return 1;
 			}
 		}
@@ -275,7 +264,6 @@ digitBuffer = twgl.createBufferInfoFromArrays(drawingState.gl,digitbox);
 	
 	var evaluateProblem = function() {
 	var ansArray = [];
-	console.log(answer);
 	for (var i = 0; i < numDigits; i++) {
 	ansArray.push(answers[i].digit);
 	}
@@ -283,6 +271,41 @@ digitBuffer = twgl.createBufferInfoFromArrays(drawingState.gl,digitbox);
 	if (a == answer) return 1;
 	else return 0;
 	}
+
+	var createProblem = function(type) {
+			var curr;
+			probState = 1;
+			var place = Math.pow(10,numDigits-1);
+			prob[0] = Math.floor(Math.random()*(place-1)) + 1.0;
+			prob[1] = Math.floor(Math.random()*(place-1)) + 1.0;
+			prob[2] = type;
+			switch (type) {
+			case 0 : answer = prob[0] + prob[1];
+				break;
+			case 1 : answer = prob[0] - prob[1];
+				break;
+			case 2 : answer = prob[0] * prob[1];
+				break;
+			case 3 :  answer = prob[0] / prob[1];
+				break;
+			}
+			console.log(answer);
+
+		var cDig;
+	for (var row = 0; row < 2; row++) {
+		for (var i = 0; i < numDigits; i++) {
+		cDig = Math.floor(prob[row]/place);
+	problems[numDigits*row+i].updateDigit(dBoxes[cDig].offset,dBoxes[cDig].digit);
+		problems[numDigits*row+i].position = [0.125+.15*problems[0].scale[0]*i,0.85-.1*row,0.003];
+		prob[row] = prob[row]%place;
+		place = place/10;
+		}
+		place = Math.pow(10,numDigits-1);
+		}
+		problems[numDigits*2+1].position = [0.075,.75,0.003];
+		problems[numDigits*2+1].offset = [0.0125+.125*type,-0.375,0.0];
+}
+
 
 var curBox;
 var selected = 0;
@@ -306,20 +329,15 @@ var selected = 0;
 	poles[i].digit = 0;
 		}
 	}
-	if (answers[answers.length-1].checkHitbox(lastXY) == 1) {
-		scope.correct = evaluateProblem();
-		scope.writeProblem();
-		scope.totalCorrect += scope.correct;
-		scope.probNum++;
-		scope.$apply();
-		if (scope.probNum == 10) {
-		scope.problemSetDone();
+	if (answers[numDigits+1].checkHitbox(lastXY) == 1) {
+		if (evaluateProblem() == 1) { 
+				createProblem(0);
 		}
-		createProblem(type);
 		for (var i = 0; i < numDigits; i++) {
 	answers[i].updateDigit(dBoxes[0].offset,dBoxes[0].digit);
 	poles[i].digit = 0;
 		}
+
 		}
 	}
 //Update AnswerBoxes
@@ -340,24 +358,14 @@ if (lastXY[3] == 1) {
 	var carry = 0;
 	for (var i = 0; i < numDigits; i++) {
 	cPole = poles[i];
-	if (cPole.checkHitbox(lastXY) == 1) {
-		var dig;
-		for (var it = i*9; it < (i+1)*9; it++) {
-		if ((posBalls[it])[1] -.05 <= (1.0-lastXY[1])) {
-			dig = it-(i*9)+1;
-			console.log(dig);
-			}
-		}
-			if (cPole.digit == dig) {
-			cPole.digit--;
-			}
-			else if (dig > cPole.digit ) {
-			cPole.digit = dig;
-			}
-			else {
-			cPole.digit = dig - 1;
-			}  	
-		}
+	if (cPole.checkHitbox(lastXY) == 1 || carry) {
+	cPole.digit++;
+	}
+	carry = 0;
+	if (cPole.digit > 9) {
+	cPole.digit = 0;
+	carry = 1;
+	}
 	}
 }
 
@@ -366,7 +374,7 @@ if (lastXY[3] == 1) {
 	if (this.texture == null) { 
 	this.texture = createGLTexture(gl, image, true);
 	}
-        var cM = twgl.m4.lookAt([0.5,0.5,0.9],[0.5,0.5,0.0],[0,1,0]);
+        var cM = twgl.m4.lookAt([0.5,0.5,.825],[0.5,0.5,0.0],[0,1,0]);
         var vM = twgl.m4.inverse(cM);
 	twgl.setBuffersAndAttributes(gl,shaderProgram,digitBuffer);
 
@@ -378,7 +386,7 @@ var ind;
 for (ind = 0; ind < dBoxes.length; ind++) {
 cBox = dBoxes[ind];
 	if (cBox.type == 1 && selected == 1) {
-	cBox.position = [lastXY[0],1.0-lastXY[1],0.003];
+	cBox.position = [lastXY[0]-.04,.95 - lastXY[1],0.003];
 	}
 		   modelM = twgl.m4.scaling([cBox.scale[0],cBox.scale[1],1.0]);
 
@@ -393,7 +401,7 @@ twgl.m4.setTranslation(modelM,cBox.position,modelM);
 //Draw Abacus
 for (ind = 0; ind < numDigits; ind++) {
 cBox = poles[ind];
-		   modelM = twgl.m4.scaling([cBox.scale[0]/2.0,cBox.scale[1],1.0]);
+		   modelM = twgl.m4.scaling([cBox.scale[0],cBox.scale[1],1.0]);
 twgl.m4.setTranslation(modelM,cBox.position,modelM);
 		twgl.setUniforms(shaderProgram,{
             view:vM, proj:drawingState.proj,
@@ -414,32 +422,25 @@ var blockClrs = [1,0,0, 0,1,0,
 			1,1,0, 1,0,1,
 			0,1,1, 1,1,1];
 var blockClr = [0.0,0.0,0.0];
-for (ind = 0; ind < numDigits; ind++) {
+for (ind = 0; ind < poles.length; ind++) {
 	blockClr = [0.0,0.0,0.0];
 	cPole = poles[ind];
-	for (var j = 0; j < 9; j++) {
-	if (j+1 == cPole.digit) {
-	ballOff = dBoxes[j+1].offset;
-	}
-	else {
-	ballOff = [-0.5,0.5,0.0];
-	}
+	for (var j = 0; j < 10; j++) {
 	blockClr[0] += blockClrs[ind*3]*.1;
 	blockClr[1] += blockClrs[ind*3+1]*.1;
 	blockClr[2] += blockClrs[ind*3+2]*.1;
-	cBall = posBalls[9*ind+j];
+	cBall = posBalls[10*ind+j];
 	if (j < cPole.digit) {
-		if (cBall[1] >= 0.1+0.07*j) {
+		if (cBall[1] >= 0.07*j) {
 		cBall[1] -= .01;
 		}
 	} else {
-		if (cBall[1] < 0.3+0.07*j) {
+		if (cBall[1] < 1.0) {
 		cBall[1] += .01;
-		
 	}
 	}
-		modelM = twgl.m4.scaling([2.0/scaleDigits,0.7,1.0]);
-	twgl.m4.setTranslation(modelM,[cPole.position[0],cBall[1],cBall[2]],modelM);
+		modelM = twgl.m4.scaling([2.0/numDigits,0.7,1.0]);
+	twgl.m4.setTranslation(modelM,[cPole.position[0]+cBall[0],cPole.position[1]+cBall[1],cBall[2]],modelM);
 		twgl.setUniforms(shaderProgram,{
             view:vM, proj:drawingState.proj,
             model: modelM, uTexture : this.texture,
@@ -451,104 +452,12 @@ for (ind = 0; ind < numDigits; ind++) {
 }
 
 
-})();
 
-var createProblem = function(type) {
-		var maxN;
-		if (!max) {
-		  maxN = Math.pow(10,nD)-1;
-			} else {
-		  maxN = max;
-			}
-			if (!mult) {
-				mult = 1;
-			}
-			var bot = min/mult;
-			var top = Math.floor(max/mult);
-			if (bot != Math.floor(bot)) {
-			 bot = Math.floor(bot)+1;
-			}
-			var diff = top-bot;
-			n1 = Math.round(Math.random()*diff)+1;
-			n2 = Math.round(Math.random()*diff)+1;
-			prob[0] = (n1+bot)*mult;
-			prob[1] = (n2+bot)*mult;
-			scope.num1 = prob[0];
-			scope.num2 = prob[1];
-			scope.$apply();
-			var ans;
-			var curr;
-			probState = 1;
-			var place = Math.pow(10,numDigits-1);
-//			prob[0] = Math.floor(Math.random()*(place-1)) + 1.0;
-//			prob[1] = Math.floor(Math.random()*(place-1)) + 1.0;
-			prob[2] = type;
-			console.log("Switch");
-			switch (type) {
-			case 0 : answer = prob[0] + prob[1];
-				break;
-			case 1 :
-			console.log("SUB");
-			console.log(prob[0])
-			console.log(prob[1]);
-			if (prob[0] < prob[1]) {
-				console.log("Switch" + prob[0] + " " + prob[1]);
-				var temp = prob[0];
-				prob[0] = prob[1];
-				prob[1] = temp;
-				console.log("Switch" + prob[0] + " " + prob[1]);
-			} 
-				answer = prob[0] - prob[1];
-				break;
-			case 2 : answer = prob[0] * prob[1];
-				break;
-			case 3 :  answer = prob[0] / prob[1];
-				break;
-			}
-
-		var cDig;
-	for (var row = 0; row < 2; row++) {
-		for (var i = 0; i < numDigits; i++) {
-		cDig = Math.floor(prob[row]/place);
-	problems[numDigits*row+i].updateDigit(dBoxes[cDig].offset,dBoxes[cDig].digit);
-		problems[numDigits*row+i].position = [.13+.15*problems[0].scale[0]*i,0.85-.1*row,0.003];
-		prob[row] = prob[row]%place;
-		place = place/10;
-		}
-		place = Math.pow(10,numDigits-1);
-		}
-		var x = problems[0].position[0];
-		problems[numDigits*2+1].position = [x-.05,.75,0.003];
-		problems[numDigits*2+1].offset = [0.0125+.125*type,-0.375,0.0];
-}
-
-
-var setupPS = function(nD) {
-"use strict";
-var dom_el = document.querySelector('[ng-controller="mathCtrl"]');
-var ng_el = angular.element(dom_el);
-scope = ng_el.scope();
-var arr = nD.split(",");
-numDigits = arr[0];
-type = parseInt(arr[1]);
-max = arr[2];
-min = arr[3];
-mult = arr[4];
-if (numDigits >= 4) {
-scaleDigits = numDigits;
-} else {
-scaleDigits = 4;
-}
-grobjects = [];
-dBoxes = [];
-answers = [];
-problems = [];
-poles = [];
-grobjects = [];
 var test = new TexturedPlane();
 test.position[1] = 3;
 test.scale = [1.0, 1.0];
 grobjects.push(test);
+
 var i;
 for (i = 0; i < 10; i++) {
 dBoxes.push(new DigitBox(i,0));
@@ -564,7 +473,7 @@ dBoxes.push(answers[i]);
 answers.push(new DigitBox(0,3));
 dBoxes.push(answers[numDigits]);
 answers.push(new DigitBox(1,3));
-dBoxes.push(answers[answers.length-1]);
+dBoxes.push(answers[numDigits+1]);
 for (i = 0; i <= numDigits*2+1; i++) {
 problems.push(new DigitBox(0,4));
 dBoxes.push(problems[i]);
@@ -575,7 +484,8 @@ for (i = 0; i < 8; i++) {
 poles.push(new DigitBox(0,5));
 //dBoxes.push(poles[i]);
 }
-console.log("Everything Pushed");
-console.log(dBoxes.length);
-createProblem(type);
-}
+
+createProblem(0);
+
+
+})();
