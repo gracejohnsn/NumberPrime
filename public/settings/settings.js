@@ -33,8 +33,9 @@ app.controller('settings', function($scope) {
         $scope.email = email;
         var firstName = name.substr(0, name.indexOf(" "));
         var lastName = name.substr(name.lastIndexOf(" ") + 1, );
+        //console.log("Hey! Settings is working");
         User.writeUserData(firebase, firebase.auth().currentUser.uid, firstName, 
-          lastName, email, new Date().toUTCString(), $scope.role, null); // TODO this needs to be edited
+          lastName, email, "justUpdating", null, null); // TODO this needs to be edited
       }
       $scope.cancel = function() {
         $scope.var = false;

@@ -35,32 +35,53 @@ class User {
     static writeUserData(_app, _userId, _firstName, _surName, 
         _email, _timeStampString, _type, _typeSpecificData) {
         var retPromise;
-        if (_type == "student") {
-            retPromise = _app.database().ref("users/" + _userId).set({
-                firstName: _firstName,
-                surName: _surName,
-                email: _email,
-                timeStamp: _timeStampString,
-                type: _type,
-                student: _typeSpecificData
-              }).then(function () { // return if no problem adding student
-                  return;
-              }, function() { // runs with error
-                  throw "unable to add student";
-              });
-        } else {
-            retPromise = _app.database().ref("users/" + _userId).set({
-                firstName: _firstName,
-                surName: _surName,
-                email: _email,
-                timeStamp: _timeStampString,
-                type: _type,
-                teacher: _typeSpecificData
-              }).then(function () {
-                  return;
-              }, function() {
-                  throw "unable to add teacher";
-              });
+        //update only name and email
+        if(_timeStampString == "justUpdating"){
+            var updates = {};
+            //console.log("hello updates here");
+            updates['/users/' + _userId + '/firstName'] = _firstName;
+            updates['/users/' + _userId + '/surName'] = _surName;
+            updates['/users/' + _userId + '/email'] = _email;
+    
+            //return _app.database().ref().update(updates);
+    
+            retPromise =  _app.database().ref().update(updates).then(
+                function () { // return if no problem adding student
+                      return;
+                  }, function() { // runs with error
+                      throw "unable to update user";
+                  }
+            );
+
+        }else{
+            if (_type == "student") {
+                //console.log("hello not going to update for you");
+                retPromise = _app.database().ref("users/" + _userId).set({
+                    firstName: _firstName,
+                    surName: _surName,
+                    email: _email,
+                    timeStamp: _timeStampString,
+                    type: _type,
+                    student: _typeSpecificData
+                }).then(function () { // return if no problem adding student
+                    return;
+                }, function() { // runs with error
+                    throw "unable to add student";
+                });
+            } else {
+                retPromise = _app.database().ref("users/" + _userId).set({
+                    firstName: _firstName,
+                    surName: _surName,
+                    email: _email,
+                    timeStamp: _timeStampString,
+                    type: _type,
+                    teacher: _typeSpecificData
+                }).then(function () {
+                    return;
+                }, function() {
+                    throw "unable to add teacher";
+                });
+            }
         }
         return retPromise;
     }
@@ -268,22 +289,25 @@ class Class {
 }
 
 class Notification {
-    /*constructor(_studentOrClassId, _pid, _audience, _timeStamp) {
-        if (new.target === Notification) {
-            throw new TypeError("Cannot construct Abstract instances directly");
-        }
-        this.studentOrClassId = _studentOrClassId;
-        this.problemURI = _problemURI;
-        this.audience = _audience;
-        this.timeStamp = _timeStamp;
-    }*/
+    constructor(_studentId, _notificationId, _problemURL, _creationDate, _completedDate, _dueDate, _message) {
+        this.studentId = _studentId;
+        this.notificationId = _notificationId
+        this.problemURL = _problemURL;
+        this.creationDate = _creationDate;
+        this.completedDate = _completedDate;
+        this.dueDate = _dueDate;
+        this.message = _message;
+    }
 
-    static createNotification(_app, _studentOrClassId, _problemURI, _audience, _timeStamp) {
+    static createNotification(_app, _studentOrClassId, _problemURL, _audience, _timeStamp, _dueDate, _message) {
         var timeSt = _timeStamp.toUTCString();
         if(_audience == "student") {
             return _app.database().ref("notifications").child(_studentOrClassId).push({
-                "suggestion" : _problemURI,
-                "timeStamp" : timeSt,
+                "problemURL" : _problemURL,
+                "creationDate" : timeSt,
+                "dueDate" : _dueDate,
+                "completedDate" : null,
+                "message" : _message,
             }).then(
                 function(result) {
                     //console.log("key: "+ result.key);
@@ -302,8 +326,11 @@ class Notification {
                         studList.push(JSON.stringify(result[0].studentList[k]));//JSON.parse(result.studentList[k]))
                         //students added here
                         notifPromises.push( _app.database().ref("notifications").child (JSON.stringify(result[0].studentList[k]).split("\"")[1] ).push({
-                            "suggestion" : _problemURI,
-                            "timeStamp" : timeSt,
+                            "problemURL" : _problemURL,
+                            "creationDate" : timeSt,
+                            "dueDate" : _dueDate,
+                            "completedDate" : null,
+                            "message" : _message,
                         }) );
                     }
                     //can't find student here?
@@ -326,9 +353,18 @@ class Notification {
                     //console.log("here");
                     var val = snapshot.val();
                     var notifications = [];
-                    for(var k in val) {
-                        notifications.push([val[k].suggestion, val[k].timeStamp])
-                    }
+                    snapshot.forEach(
+                        function(childSnapshot) {
+                            //for(var k in val) {
+                            val = childSnapshot.val();
+                            //console.log(val.problemURL);
+                            //_studentId, _notificationId, _problemURL, _creationDate, _dueDate, _message)
+                            var notif = new Notification(_studentId, childSnapshot.key, val.problemURL, val.creationDate, val.completedDate, val.dueDate, val.message);
+                               // console.log("ugh");
+                            notifications.push(notif );
+                            //}
+                        }
+                    );
                     //console.log(_studentId);
                     //console.log(notifications);
                     return notifications;
@@ -337,6 +373,36 @@ class Notification {
                 }
             }
         );
+    }
+
+    /*static updateDueDate(){
+
+    }*/
+
+    static setCompleteProblem(_app, _notificationId, _studentId, _timeStamp){
+        var updates = {};
+        updates['/notifications/' + _studentId + '/' + _notificationId + '/completedDate'] = _timeStamp.toUTCString();
+
+        //return _app.database().ref().update(updates);
+
+        var ret =  _app.database().ref().update(updates).then(
+            function () { // return if no problem adding student
+                  return;
+              }, function() { // runs with error
+                  throw "unable to update completion time";
+              }
+        );
+
+        /*var ret =  _app.database().ref("notifications").child(_studentId).child(_notificationId).child("completionDate").set( _timeStamp.toUTCString).then(
+            function () { // return if no problem adding student
+                console.log("hellooo");
+                  return;
+              }, function() { // runs with error
+                  throw "unable to update completion time";
+              }
+        );*/
+        return ret;
+            
     }
 
 

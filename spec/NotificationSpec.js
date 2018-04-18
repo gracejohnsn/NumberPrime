@@ -9,17 +9,18 @@ var mockApp;
 describe("Notification", function() {
 	var date1;
 	var date2;
+	var notif;
 	it("Should create a notification for afisk",
 		function(done) {
 			date1 = new Date();
-			Notification.createNotification(mockApp, "afisk", "5698", "student", date1).then(
+			Notification.createNotification(mockApp, "afisk", "5698", "student", date1, date1, "hello").then(
 				function () {
 					expect(true).toBe(true);
 				}
 			).then(
 				function(result) {
 					date2 = new Date();
-					Notification.createNotification(mockApp, "afisk", "5699", "student", date2	).then(
+					Notification.createNotification(mockApp, "afisk", "5699", "student", date2, date2, "hey student").then(
 						function(result) {
 							expect(true).toBe(true);
 						}
@@ -29,18 +30,42 @@ describe("Notification", function() {
 				function(result) {
 					Notification.readNotifications(mockApp, "afisk").then(
 						function(result) {
-							expect(result[0][0]).toBe("5678");
-							expect(result[0][1]).toBe("Tue, 27 Mar 2018 15:16:00 GMT");
-							expect(result[1][0]).toBe("5698");
-							expect(result[1][1]).toBe(date1.toUTCString());
-							expect(result[2][0]).toBe("5699");
-							expect(result[2][1]).toBe(date2.toUTCString());
+							expect(result[0].problemURL).toBe("5698");
+							expect(result[0].creationDate).toBe(date1.toUTCString());
+							expect(result[0].completedDate).toBe(null);
+
+							expect(result[1].problemURL).toBe("5699");
+							expect(result[1].creationDate).toBe(date2.toUTCString());
+							expect(result[1].completedDate).toBe(null);
+							notif = result[1];
+
+							expect(result[2].problemURL).toBe("5678");
+							expect(result[2].creationDate).toBe("Tue, 27 Mar 2018 15:16:00 GMT");
+							expect(result[2].completedDate).toBe("Tue, 27 Mar 2018 16:16:00 GMT");
 							expect(true).toBe(true);
-							done();
+						}
+					).then(
+						function(result){
+							date1 = new Date();
+							Notification.setCompleteProblem(mockApp, notif.notificationId, notif.studentId, date1).then(
+								function(result){
+									expect(true).toBe(true);
+								}
+							)
+						}
+					).then(
+						function(result){
+							Notification.readNotifications(mockApp, "afisk").then(
+								function(result){
+									expect(result[1].completedDate).toBe(date1.toUTCString());
+									expect(result[1].problemURL).toBe("5699");
+									done();
+								}
+							)
 						}
 					)
 				}
-		);
+			);
 		}
 	);
 
@@ -58,10 +83,10 @@ describe("Notification", function() {
 		}
 	);
 
-	it("Should create a notification for all students in class:1234 (E6NwApIZTdMx63GYxU3XTHI6OUU2, mscott1)",
+	/*it("Should create a notification for all students in class:1234 (E6NwApIZTdMx63GYxU3XTHI6OUU2, mscott1)",
 	function(done) {
 		date1 = new Date();
-		Notification.createNotification(mockApp, "1234", "5698", "class", date1).then(
+		Notification.createNotification(mockApp, "1234", "5698", "class", date1, date1, "hey student").then(
 			function () {
 				expect(true).toBe(true);
 			}
@@ -69,14 +94,15 @@ describe("Notification", function() {
 			function(result) {
 				Notification.readNotifications(mockApp, "E6NwApIZTdMx63GYxU3XTHI6OUU2").then(
 					function(result){
-						expect(result[0][0]).toBe("5698");
-						expect(result[0][1]).toBe(date1.toUTCString());
+						console.log("hello");
+						expect(result.problemURI).toBe("5698");
+						expect(result.timeStamp).toBe(date1.toUTCString());
 					}
 				);
 				Notification.readNotifications(mockApp, "mscott1").then(
 					function(result) {
-						expect(result[0][0]).toBe("5698");
-						expect(result[0][1]).toBe(date1.toUTCString());
+						expect(result.problemURI).toBe("5698");
+						expect(result.timeStamp).toBe(date1.toUTCString());
 						expect(true).toBe(true);
 						done();
 					},
@@ -88,7 +114,7 @@ describe("Notification", function() {
 			}
 	);
 	}
-);
+);*/
 
 	/*it("should not be able to add a user w/ same uid as another user to the database", 
 		function(done) {

@@ -86,6 +86,7 @@ describe("Class", function() {
                 function(result){
                     Class.readClassData(mockApp, classId).then(
                         function(result){
+                            //console.log(result);
                             expect(result.teacherId).toEqual("mscott2");
                             expect(result.studentList).toEqual("");
                             expect(result.classDesc).toEqual("My class is pretty neat");

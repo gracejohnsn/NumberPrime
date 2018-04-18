@@ -70,54 +70,6 @@ describe("Student-Class integration--", function() {
 		}
 	);
 
-				/*Student.generateHash(mockApp, "afisk", new Date()).then(
-				function(result) {
-					return Class.addStudentWithHash(mockApp, result, result);
-				}).then(
-				function(result) {
-					return Class.readClassData(mockApp, result);
-				}).then(
-				function(result) {
-					expect(Object.keys(result.studentList)).toContain("afisk");
-					done();
-				});*/
-
-
-	/*it(`should add student to a created class`, 
-	function(done) {
-
-		Student.generateHash(mockApp, "afisk", new Date(new Date().getTime())
-		).then(
-		function(result){
-			console.log("hello");
-			Class.createClass(mockApp, "mscott2", "My class is pretty neat", new Date())
-			.then(
-				function(result) {
-					classId = result;
-					expect(true).toBe(true);
-				}
-			)
-			.then(
-			function(result) {
-				console.log("hello");
-				return Class.addStudentWithHash(mockApp, result, classId);
-			})
-			.then(
-			function(result) { // promise success (student added) (shouldn't happen)
-				Class.readClassData(mockApp, classId).then(
-					function(result){
-						expect(result.studentList).toBe({"afisk": "afisk"});
-						done();
-					}
-				);
-				expect(true).toBe(true);
-				done();
-			},
-			)
-			}
-		);
-	});*/
-
 	it(`should have authorization built-in, disallowing teachers from adding
 		students to classes that don't belong to them`);
 
