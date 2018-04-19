@@ -23,10 +23,6 @@ if (numDigits < 4) {
  scaleDigits = 4;
 }
 
-for (var i = 0; i < 100; i++) {
-	posBalls.push([-0.08/scaleDigits,0.0,0.005]);
-}
-
 var lastX;
 var lastY;
 var click = 0;
@@ -424,9 +420,9 @@ for (ind = 0; ind < numDigits; ind++) {
 	else {
 	ballOff = [-0.5,0.5,0.0];
 	}
-	blockClr[0] += blockClrs[ind*3]*.1;
-	blockClr[1] += blockClrs[ind*3+1]*.1;
-	blockClr[2] += blockClrs[ind*3+2]*.1;
+	blockClr[0] += blockClrs[(ind*3)%24]*.1;
+	blockClr[1] += blockClrs[(ind*3+1)%24]*.1;
+	blockClr[2] += blockClrs[(ind*3+2)%24]*.1;
 	cBall = posBalls[9*ind+j];
 	if (j < cPole.digit) {
 		if (cBall[1] >= 0.1+0.07*j) {
@@ -571,10 +567,15 @@ dBoxes.push(problems[i]);
 }
 
 //Poles
-for (i = 0; i < 8; i++) {
+for (i = 0; i < numDigits; i++) {
 poles.push(new DigitBox(0,5));
 //dBoxes.push(poles[i]);
 }
+posBalls = [];
+for (var i = 0; i < numDigits*10; i++) {
+	posBalls.push([-0.08/scaleDigits,0.0,0.005]);
+}
+
 console.log("Everything Pushed");
 console.log(dBoxes.length);
 createProblem(type);

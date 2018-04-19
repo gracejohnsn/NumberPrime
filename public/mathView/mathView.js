@@ -12,6 +12,8 @@ math.controller('mathCtrl',["$scope", "$routeParams",
 	var uid = firebase.auth().currentUser.uid;
 	var classId = firebase.auth().currentUser;
 	console.log(classId);
+	$scope.test = ["one","two","three"];
+	$scope.test2 = ["1","2","3"];
  	var userPromise = User.readUserData(firebase, uid);
   	var scopePromise = new Promise(
     		function(resolve, reject) {

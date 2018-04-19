@@ -27,6 +27,7 @@ sDash.controller('studentCtrl',["$scope",
 		.then((notifications)=> {
 	$scope.notes = notifications;
 	$scope.$apply();
+	console.log($scope.notes);
 	});
 	$scope.id = uid;
 	}]);
