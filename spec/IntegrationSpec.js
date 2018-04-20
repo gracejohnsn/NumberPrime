@@ -40,6 +40,36 @@ describe("Student-Class integration--", function() {
 			});
 	});
 
+	it(`should add student to a created class`, 
+		function(done) {
+			var classId = "";
+			//var dateT = new Date();
+            Class.createClass(mockApp, "mscott2", "My class is pretty neat", new Date()).then(
+                function(result) {
+					classId = result;
+					expect(true).toBe(true);
+                }
+			).then(
+			function(result){
+				Student.generateHash(mockApp, "afisk", new Date()).then(
+					function(result){
+						Class.addStudentWithHash(mockApp, result, classId).then(
+							function(result){
+								Class.readClassData(mockApp, classId).then(
+									function(result){
+										expect(JSON.stringify(result.studentList)).toContain("afisk");
+										done();
+									}
+								)
+							}
+						)
+					}
+				)
+
+			})
+		}
+	);
+
 	it(`should have authorization built-in, disallowing teachers from adding
 		students to classes that don't belong to them`);
 

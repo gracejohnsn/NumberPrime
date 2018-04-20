@@ -1,0 +1,32 @@
+[debug] [2018-04-12T02:17:30.418Z] ----------------------------------------------------------------------
+[debug] [2018-04-12T02:17:30.433Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\astma\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
+[debug] [2018-04-12T02:17:30.433Z] CLI Version:   3.17.7
+[debug] [2018-04-12T02:17:30.433Z] Platform:      win32
+[debug] [2018-04-12T02:17:30.433Z] Node Version:  v9.6.1
+[debug] [2018-04-12T02:17:30.433Z] Time:          Wed Apr 11 2018 21:17:30 GMT-0500 (Central Daylight Time)
+[debug] [2018-04-12T02:17:30.433Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-04-12T02:17:30.480Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-04-12T02:17:30.496Z] > authorizing via signed-in user
+[debug] [2018-04-12T02:17:30.496Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/numberprime-b359d  
+  
+ Wed Apr 11 2018 21:17:30 GMT-0500 (Central Daylight Time)
+[debug] [2018-04-12T02:17:30.918Z] <<< HTTP RESPONSE 200
+[debug] [2018-04-12T02:17:30.933Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/numberprime-b359d/tokens  
+  
+ Wed Apr 11 2018 21:17:30 GMT-0500 (Central Daylight Time)
+[debug] [2018-04-12T02:17:31.277Z] <<< HTTP RESPONSE 200
+[debug] [2018-04-12T02:17:31.277Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/numberprime-b359d  
+  
+ Wed Apr 11 2018 21:17:31 GMT-0500 (Central Daylight Time)
+[debug] [2018-04-12T02:17:31.480Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'C:\Users\astma\onedrive\documents\github\numberprime'...
+[info] 
+[debug] [2018-04-12T02:17:31.496Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/820335136282/clients/_:getWebAppConfig  
+  
+ Wed Apr 11 2018 21:17:31 GMT-0500 (Central Daylight Time)
+[debug] [2018-04-12T02:17:31.777Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] +  hosting: Local server: http://localhost:5000
+

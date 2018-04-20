@@ -3,9 +3,9 @@ const functions = require('firebase-functions');
 var firebase = require('firebase');
 var firebaseui = require('firebaseui');
 
-var provider = new firebase.auth.GoogleAuthProvider();
 
-firebase.auth().signInWithPopup(provider).then(function(result) {
+
+/*firebase.auth().signInWithPopup(provider).then(function(result) {
     // This gives you a Google Access Token. You can use it to access the Google API.
     var token = result.credential.accessToken;
     // The signed-in user info.
@@ -20,7 +20,9 @@ firebase.auth().signInWithPopup(provider).then(function(result) {
     // The firebase.auth.AuthCredential type that was used.
     var credential = error.credential;
     // ...
-  });
+  });*/
+
+ 
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions

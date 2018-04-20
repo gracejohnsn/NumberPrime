@@ -1,8 +1,8 @@
 /**
  * Created by gleicher on 10/9/2015.
  */
-
-var canvas;
+var arcball = undefined;
+var canvas = undefined;
 var lClick = 0;
 
 /*
@@ -36,22 +36,34 @@ it sets up the main function to be called on window.onload
 
     return true;
  }
-var setupCanvas = function() {
+var setupCanvas = function(num) {
     "use strict";
-
+	console.log("value" + num);
+	console.log("setupCanvas");
     // set up the canvas and context
-    canvas = document.createElement("canvas");
-    canvas.setAttribute("width",800);
-    canvas.setAttribute("height",400);
+
+if (!canvas) {
+canvas = document.createElement("canvas");
+arcball = new ArcBall(canvas);
+}
+canvas.onselectstart = function () { return false; }
+var h = window.screen.availHeight*.7;
+var w = window.screen.availWidth;
+    canvas.setAttribute("width",w);
+    canvas.setAttribute("height",h);
     canvas.setAttribute("z-index",99);
     var bg = document.getElementById("bg");
+   	console.log("Value" + num);
+	console.log("background");
+	console.log(bg);
 	if (bg) {
     bg.appendChild(canvas);
+	console.log("append");
 	}
     // make a place to put the drawing controls - a div
     var controls = document.createElement("DIV");
     controls.id = "controls";
-    document.body.appendChild(controls);
+   // document.body.appendChild(controls);
 
     // a switch between camera modes
     var uiMode = document.createElement("select");
@@ -59,7 +71,7 @@ var setupCanvas = function() {
     uiMode.innerHTML += "<option>Drive</option>";
     uiMode.innerHTML += "<option>Fly</option>";
     uiMode.innerHTML += "</select>";
-    controls.appendChild(uiMode);
+  //  controls.appendChild(uiMode);
 
     var resetButton = document.createElement("button");
     resetButton.innerHTML = "Reset View";
@@ -71,20 +83,20 @@ var setupCanvas = function() {
         driveXTheta = 0;
 
     }
-    controls.appendChild(resetButton);
+   // controls.appendChild(resetButton);
 
     // make some checkboxes - using my cheesy panels code
-    var checkboxes = makeCheckBoxes([ ["Run",1], ["Examine",0] ]); //
+//    var checkboxes = makeCheckBoxes([ ["Run",1], ["Examine",0] ]); //
 
     // a selector for which object should be examined
     var toExamine = document.createElement("select");
     grobjects.forEach(function(obj) {
            toExamine.innerHTML +=  "<option>" + obj.name + "</option>";
         });
-    controls.appendChild(toExamine);
+ //   controls.appendChild(toExamine);
 
     // make some sliders - using my cheesy panels code
-    var sliders = makeSliders([["TimeOfDay",0,24,12]]);
+//    var sliders = makeSliders([["TimeOfDay",0,24,12]]);
 
     // this could be gl = canvas.getContext("webgl");
     // but twgl is more robust
@@ -103,9 +115,7 @@ var setupCanvas = function() {
     // information for the cameras
     var lookAt = [0,0,0];
     var lookFrom = [0,5,-10];
-    var fov = 1.1;
-
-    var arcball = new ArcBall(canvas);
+    var fov = 1.0;
 
     // for timing
     var realtime = 0
@@ -134,7 +144,7 @@ var setupCanvas = function() {
     function draw() {
         // advance the clock appropriately (unless its stopped)
         var curTime = Date.now();
-        if (checkboxes.Run.checked) {
+        if (1) {
             realtime += (curTime - lastTime);
         }
         lastTime = curTime;
@@ -211,7 +221,7 @@ var setupCanvas = function() {
         }
 
         // get lighting information
-        var tod = Number(sliders.TimeOfDay.value);
+        var tod = Number(0);
         var sunAngle = Math.PI * (tod-6)/12;
         var sunDirection = [Math.cos(sunAngle),Math.sin(sunAngle),0];
 
@@ -238,7 +248,7 @@ var setupCanvas = function() {
         });
 
         // now draw all of the objects - unless we're in examine mode
-        if (checkboxes.Examine.checked) {
+        if (0) {
             // get the examined object - too bad this is an array not an object
             var examined = undefined;
             grobjects.forEach(function(obj) { if (obj.name == toExamine.value) {examined=obj;}});
@@ -249,7 +259,6 @@ var setupCanvas = function() {
             if(examined.draw) examined.draw(drawingState);
             if(examined.drawAfter) examined.drawAfter(drawingState);
         } else {
-
             grobjects.forEach(function (obj) {
                 if(obj.draw) obj.draw(drawingState);
             });

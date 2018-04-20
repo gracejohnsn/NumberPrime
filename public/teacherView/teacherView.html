@@ -1,4 +1,58 @@
       <!--Sidebar content-->
+<style>
+/* Modal Content */
+
+.PSmodal {
+ position : fixed;
+ width : 50%;
+ height : 50%;
+ display : none;
+ left : 25%;
+ top : 10%;
+ z-index : 99;
+}
+.PSmodal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.PSmodal-content p {
+	text-align:center;
+    font-size:24px;
+}
+
+.PSmodal-content button {
+ margin-left:25%;
+ width:50%;
+ font-size:20px;
+}
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.PSmodal-content input {
+  width: 100%;
+  clear: both;
+}
+</style>
+
+
+<div ng-app="teacherdash" ng-controller="teacherCtrl">
+<p>{{uid}}</p>
 <div class = "mascot" style="display:block;">
 <img src="img/mascot.png" alt="mascot" width="100%" height="100%"/>
 </div>
@@ -10,9 +64,9 @@
 <img src="img/profileIcon.png" alt="Dashboard Icon" />
 	<p>Dashboard</p>
   </a>
-  <a onclick="toggleMenu()">
+  <a id="PSbtn" onclick="createPS()">
   <img src="img/plus.png" alt="Math Icon"/>
-    <p>Math Menu</p>
+    <p>Create Problems Set</p>
   </a>
   <a href="#!/Settings">
 <img src="img/settings.png" alt="Settings Icon"/>
@@ -44,9 +98,7 @@
           <h3></h3>
         </div>
   </div>
-
 </div>
-
   <!-- </div> -->
   <a href="#!/Login">
 <img src="img/logout.png" alt="Logout Icon"/>
@@ -54,20 +106,23 @@
 </a>
 </div>
 
-<div id="mathSB" class="sidenav" style="left:15%;border-left:0px solid black;width:15%;opacity:0;">
-  <a>
-  <img src="img/plus.png" alt="Math Icon"/>
-    <p>Math Facts</p>
-  </a>
-  <a>
-  <img src="img/plus.png" alt="Math Icon"/>
-    <p>Multi-Digit</p>
-  </a>
-  <a>
-  <img src="img/plus.png" alt="Math Icon"/>
-    <p>Measurement</p>
-  </a>
+<div id="PSmodal" class="PSmodal">
+  <div class="PSmodal-content">
+    <span id="PSclose" class="close">&times;</span>
+    <p style="font-size:30px" style="text-align:center">Create Problem Set</p>
+    <form>
+    <label>Message</label><input type="text" value="ProblemSet" ng-model="params.msg"><br>
+    <label>Number of Digits</label><input type="number" value="1" ng-model="params.nD"><br>
+    <label>Type of Problem</label><input type="number" value="0" ng-model="params.type"><br>
+    <label>Maximum Number</label><input type="number" value="9" ng-model="params.max"><br>
+    <label>Minimum Number</label><input type="number" value="1" ng-model="params.min"><br>
+    <label>Multiples of</label><input type="number" value="1" ng-model="params.mult"><br>             
+    </form><br>
+    <button ng-click="update(params)">Submit Problem Set</button>
+    <pre>params = {{params}}</pre>
+  </div>
 </div>
+
 
 <div id="bg" class="bg" style="display:block;">
       <div class = "dashTable" style="width:75%; display:block;" >
@@ -124,19 +179,6 @@
       </div>
           </div>
 -->
-<script>
-
-function toggleMenu() {
-  var width;
-  var sN = document.getElementById("mathSB");
-  if (sN.style.opacity == "0") {
-    sN.style.opacity = "100";
-  } else {
-    sN.style.opacity = "0";
-  }
-}
-
-</script>
 
 <script>
   function app(user) {
@@ -149,7 +191,38 @@ function toggleMenu() {
   }
 </script>
 
+
 <script>
+// Get the modal
+var PSmodal = document.getElementById('PSmodal');
+
+// Get the button that opens the modal
+var PSbtn = document.getElementById("PSbtn");
+
+// Get the <span> element that closes the modal
+var PSclose = document.getElementById("PSclose");
+
+// When the user clicks the button, open the modal 
+var createPS = function() {
+    PSmodal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+PSclose.onclick = function() {
+    PSmodal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == PSmodal) {
+        PSmodal.style.display = "none";
+    }
+}
+</script>
+<script>
+
+
+
   function addStudents() {
     // Get the modal
     var modal = document.getElementById('addStudentsModal');
@@ -178,3 +251,4 @@ function toggleMenu() {
     }
   }
 </script>
+</div>

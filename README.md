@@ -26,6 +26,16 @@ Steps:
 4. Open localhost:5000
 5. Enjoy using *NumberPrime*!
 
+### Page List
+#!/Login
+#!/Dashboard
+#!/DashboardTeach
+#!/MathFacts/4
+#!/Measurement
+#!/conversions
+#!/volume
+#!/Settings
+
 ### To Run Testing Suite
 Steps (assuming you've run the above steps):
 1. Run 'npm install jasmine'

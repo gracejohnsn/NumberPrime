@@ -1,0 +1,35 @@
+<div ng-app="math" ng-controller="mathCtrl"  data-ng-init="getValues()">
+  <input id="nDigs" type="hidden" value={{first}}>
+  <input id="params" type="hidden" value={{params}}>
+  <input id="psSet" value = 0 type="hidden">
+  <div class ="background1">
+    <div id="bg">
+    </div>
+  </div>
+<script>
+var nDig = document.getElementById("nDigs");
+var val = nDig.value;
+var par = document.getElementById("params");
+var val2 = par.value;
+var psSet = document.getElementById("psSet");
+var myVar = setInterval(function(){ 
+	if (nDig.value != val) {
+	clearInterval(myVar);
+	if (psSet.value == 0) {
+	setupPS(par.value);
+	setupCanvas(nDig.value);
+	psSet.value = 1;
+	}
+	} 
+}, 10);
+function app(user) {
+			// user.displayName
+			// user.email
+			// user.photoURL
+			// user.uid
+			document.getElementById("clientName").innerHTML = user.displayName;
+
+		}
+
+</script>
+</div>

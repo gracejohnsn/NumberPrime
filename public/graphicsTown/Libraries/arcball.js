@@ -148,7 +148,7 @@ rect = canvas.getBoundingClientRect();
     });
 
 
-    document.addEventListener("mouseup",function(e) {
+    canvas.addEventListener("mouseup",function(e) {
 	   that.rC = 0;
         that.mode = 0;
         that.mouseDown = 0;

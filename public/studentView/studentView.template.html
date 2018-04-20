@@ -1,12 +1,13 @@
+<div ng-app="studentdash" ng-controller="studentCtrl">
 <div class="background1">
       <!--Sidebar content-->
 <div class = "mascot">
-  <img onclick = "setupCanvas()"src="img/mascot.png" alt="mascot" width="100%" height="100%"/>
+  <img src="img/mascot.png" alt="mascot" width="100%" height="100%"/>
 </div>
-<div id="topBorder" class="topBorder"><p>Welcome, <span id="clientName"></span>
+<div id="topBorder" class="topBorder"><p>Welcome, {{user.firstName}} {{user.surName}}</span>
 	</p></div>
 <div id="mySidenav" class="sidenav">
-  <a href="/Dashboard">
+  <a href="#!/Dashboard">
     <img src="img/profileIcon.png" alt="Dashboard Icon" />
 	   <p>Dashboard</p>
   </a>
@@ -17,18 +18,18 @@
   <a href="#!/Settings">
     <img src="img/settings.png" alt="Settings Icon"/>
 	   <p>Settings</p></a>
-  <a href="#!/Login">
+  <a onclick="logout()">
     <img src="img/logout.png" alt="Logout Icon"/>
     <p>Logout</p>
   </a>
 </div>
 
 <div id="mathSB" class="sidenav" style="left:15%;border-left:0px solid black;width:15%;opacity:0;">
-  <a>
+  <a href="#!/MathFacts/2/0/9/1/1">
   <img src="img/plus.png" alt="Math Icon"/>
     <p>Math Facts</p>
   </a>
-  <a>
+  <a href="#!/MathFacts/4/0/999/1/1">
   <img src="img/plus.png" alt="Math Icon"/>
     <p>Multi-Digit</p>
   </a>
@@ -63,12 +64,15 @@
 
 <div class = "dashList">
 	<p>Problem Sets</p>
-	<a>ProblemSet</a>
-	<a>ProblemSet</a>
-	<a>ProblemSet</a>	<a>ProblemSet</a>	<a>ProblemSet</a>	<a>ProblemSet</a>	<a>ProblemSet</a>	<a>ProblemSet</a>	<a>ProblemSet</a>	<a>ProblemSet</a>	<a>ProblemSet</a>
+	<a href="#!/MathFacts/2/0/9/1/1">MathFact</a>
+	<a href="#!/MathFacts/4/0/999/1/1">MultiDigit</a>
+	<a href="#!/volume" >Volume</a>
+	<a href="#!/conversions" >Conversion</a>
+	<a href="{{x.problemURL}}"ng-repeat="x in notes">
+	{{x.message}}
+	</a>
 </div>
 	</div>
-</div>
 
     <div class="col-md-10">
       <!--Body content-->
@@ -142,12 +146,5 @@ setTimeout(waitForTransition
 </script>
 
 <script>
-  	function app(user) {
-			// user.displayName
-			// user.email
-			// user.photoURL
-			// user.uid
-			document.getElementById("clientName").innerHTML = user.displayName;
-
-		}
 </script>
+</div>
