@@ -3,7 +3,7 @@ const functions = require('firebase-functions');
 var firebase = require('firebase');
 var firebaseui = require('firebaseui');
 
-var provider = new firebase.auth.GoogleAuthProvider();
+
 
 /*firebase.auth().signInWithPopup(provider).then(function(result) {
     // This gives you a Google Access Token. You can use it to access the Google API.
@@ -20,7 +20,12 @@ var provider = new firebase.auth.GoogleAuthProvider();
     // The firebase.auth.AuthCredential type that was used.
     var credential = error.credential;
     // ...
-  });
+  });*/
+
+  function login() {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    return firebase.auth().signInWithPopup(provider);
+  }
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -28,4 +33,3 @@ var provider = new firebase.auth.GoogleAuthProvider();
 // exports.helloWorld = functions.https.onRequest((request, response) => {
 //  response.send("Hello from Firebase!");
 // });
-*/
