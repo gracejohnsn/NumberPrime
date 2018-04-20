@@ -28,9 +28,16 @@ sDash.controller('studentCtrl',["$scope",
 				);
 			} else {
 			  // No user is signed in.
-			  var provider = new firebase.auth.GoogleAuthProvider();
-				firebase.auth().signInWithRedirect(provider).then(
+				var provider = new firebase.auth.GoogleAuthProvider();
+				provider.setCustomParameters({
+					prompt: 'select_account'
+				});
+				/*firebase.auth().signInWithRedirect(provider).then(
 				firebase.auth().getRedirectResult()
+				);*/
+				firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE).then(
+				firebase.auth().signInWithRedirect(provider)).then(
+				firebase.auth().getRedirectResults()
 				);
 			}
 		  });
@@ -52,3 +59,8 @@ sDash.controller('studentCtrl',["$scope",
 		$scope.id = uid;*/
 	}
 ]);
+
+function logout() {
+	firebase.auth().signOut();
+	window.location = "/#!/Login";
+}
