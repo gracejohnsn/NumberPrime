@@ -35,7 +35,7 @@ sDash.controller('studentCtrl',["$scope",
 				/*firebase.auth().signInWithRedirect(provider).then(
 				firebase.auth().getRedirectResult()
 				);*/
-				firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE).then(
+				firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(
 				firebase.auth().signInWithRedirect(provider)).then(
 				firebase.auth().getRedirectResults()
 				);
