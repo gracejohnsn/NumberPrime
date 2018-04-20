@@ -16,9 +16,30 @@ sDash.controller('studentCtrl',["$scope",
 				//alert(uid);
 				var dataPromise = User.readUserData(firebase, uid).then(
 					function(result) {
+						if ('student' != result.type) {
+							alert("Not a student user!");
+						}
 						$scope.$apply(
 							function() {
 								$scope.user = result;
+
+								// populate with class notifications
+								Notification.readNotifications(firebase,result.classId).then(
+									function(result) {
+										$scope.$apply(
+											function() {
+												if ($scope.notes == undefined || $scope.notes == null) {
+													$scope.notes = [];
+												}
+												$scope.notes = $scope.notes.concat(result);
+											}
+										);
+									}
+								).catch(
+									function(err) {
+										console.log(err);
+									}
+								);
 							}
 						);
 					},
@@ -26,6 +47,25 @@ sDash.controller('studentCtrl',["$scope",
 						alert(err);
 					}
 				);
+				
+				// populate with user notifications
+				Notification.readNotifications(firebase,uid).then(
+					function(result) {
+						$scope.$apply(
+							function() {
+								if ($scope.notes == undefined || $scope.notes == null) {
+									$scope.notes = [];
+								}
+								$scope.notes = $scope.notes.concat(result);
+							}
+						);
+					}
+				).catch(
+					function(err) {
+						console.log(err);
+					}
+				);
+				
 			} else {
 			  // No user is signed in.
 				var provider = new firebase.auth.GoogleAuthProvider();

@@ -22,10 +22,7 @@ var firebaseui = require('firebaseui');
     // ...
   });*/
 
-  function login() {
-    var provider = new firebase.auth.GoogleAuthProvider();
-    return firebase.auth().signInWithPopup(provider);
-  }
+ 
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
