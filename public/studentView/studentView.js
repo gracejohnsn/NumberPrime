@@ -29,7 +29,9 @@ sDash.controller('studentCtrl',["$scope",
 			} else {
 			  // No user is signed in.
 			  var provider = new firebase.auth.GoogleAuthProvider();
-    		  firebase.auth().signInWithPopup(provider);
+				firebase.auth().signInWithRedirect(provider).then(
+				firebase.auth().getRedirectResult()
+				);
 			}
 		  });
 		  
