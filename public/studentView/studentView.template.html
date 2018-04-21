@@ -33,7 +33,7 @@
               <p style="text-align:center">To be added to a class, click 'Generate Code' below, then show the code to your teacher.</p>
               <form style="text-align:center">
               <div class="form-actions">
-                <button id="generateCode" onclick="getRandCode()">Generate Code</button>
+                <button id="generateCode" onclick="getRandCode(); this.disabled = true;">Generate Code</button>
               </div>
               <p id="code"></p>
             </form>
