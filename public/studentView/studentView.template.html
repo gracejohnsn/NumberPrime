@@ -17,7 +17,33 @@
   </a>
   <a href="#!/Settings">
     <img src="img/settings.png" alt="Settings Icon"/>
-	   <p>Settings</p></a>
+     <p>Settings</p></a>
+     <a id="addStudents" onclick="addStudents()">
+      <img src="img/plus.png" alt="Math Icon"/>
+      <p>Add Me To A Class</p>
+    </a>
+
+    <div id="addStudentsModal" class="modal">
+      <div class="modal-content">
+          <div class="modal-header">
+              <span class="close">&times;</span>
+              <h2 style="text-align:center"><strong>Add Me to a Class</strong></h2>
+            </div>
+            <div class="modal-body">
+              <p style="text-align:center">To be added to a class, click 'Generate Code' below, then show the code to your teacher.</p>
+              <form style="text-align:center">
+              <div class="form-actions">
+                <button id="generateCode" onclick="getRandCode()">Generate Code</button>
+              </div>
+              <p id="code"></p>
+            </form>
+            </div>
+            <div class="modal-footer">
+              <h3></h3>
+            </div>
+      </div>
+    </div>
+
   <a onclick="logout()">
     <img src="img/logout.png" alt="Logout Icon"/>
     <p>Logout</p>
@@ -146,5 +172,45 @@ setTimeout(waitForTransition
 </script>
 
 <script>
+
+
+
+  function addStudents() {
+    // Get the modal
+    var modal = document.getElementById('addStudentsModal');
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("addStudents");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on the button, open the modal
+    btn.onclick = function() {
+      modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  }
+
+  function getRandCode() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (var i = 0; i < 10; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    document.getElementById('code').innerHTML = text;
+  }
 </script>
 </div>
