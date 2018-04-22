@@ -14,13 +14,13 @@ angular.
 
   $(document).ready(
     function() {
-      firebase.auth().getRedirectResult().then(
-        function(result) {
-          if(result.user) {
+      firebase.auth().onAuthStateChanged(
+        function(user) {
+          if(user) {
             window.location = "/#!/Dashboard";
           }
         }
-      )
+      );
     }
   );
 
@@ -31,5 +31,6 @@ function login() {
   });
 
   firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(
-  firebase.auth().signInWithRedirect(provider));
+  firebase.auth().signInWithRedirect(provider)).then(
+  firebase.auth().getRedirectResult());
 }
