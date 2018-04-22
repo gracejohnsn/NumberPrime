@@ -67,18 +67,17 @@ sDash.controller('studentCtrl',["$scope",
 				);
 				
 			} else {
-			  // No user is signed in.
-				var provider = new firebase.auth.GoogleAuthProvider();
+				window.location = "/#!/Login";
+				// No user is signed in.
+				/*var provider = new firebase.auth.GoogleAuthProvider();
 				provider.setCustomParameters({
 					prompt: 'select_account'
 				});
-				/*firebase.auth().signInWithRedirect(provider).then(
-				firebase.auth().getRedirectResult()
-				);*/
+
 				firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(
 				firebase.auth().signInWithRedirect(provider)).then(
 				firebase.auth().getRedirectResults()
-				);
+				);*/
 			}
 		  });
 		  
