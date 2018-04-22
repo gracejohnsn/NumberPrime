@@ -443,7 +443,7 @@ DigitBox.prototype.draw = function (drawingState) {
 					posBalls[9*ind+j] += .01;		
 				}
 			}
-			modelM = twgl.m4.scaling([1.0/scaleDigits,1.0/scaleDigits,1.0]);
+			modelM = twgl.m4.scaling([1.0/scaleDigits,.6,1.0]);
 			twgl.m4.setTranslation(modelM,[cPole.position[0],cBall,0.005],modelM);
 			twgl.setUniforms(shaderProgram,{
 				model: modelM, color : blockClr, offset : [0.255,0.0],
