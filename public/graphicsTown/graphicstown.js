@@ -150,7 +150,9 @@ var w = window.screen.availWidth;
         lastTime = curTime;
 
         // first, let's clear the screen
-        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        gl.clearColor(0.9, 0.9, 0.9, 1.0);
+       // gl.enable(gl.BLEND);
+       // gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
         gl.enable(gl.DEPTH_TEST);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 

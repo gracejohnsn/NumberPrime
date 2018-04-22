@@ -1,0 +1,89 @@
+<div ng-app="math" ng-controller="mathCtrl"  data-ng-init="getValues()">
+  <input id="nDigs" type="hidden" value={{first}}>
+  <input id="params" type="hidden" value={{params}}>
+  <input id="psSet" value = 0 type="hidden">
+  <div class ="background1">
+    <div id="bg">
+    </div>
+  </div>
+<script>
+var nDig = document.getElementById("nDigs");
+var val = nDig.value;
+var par = document.getElementById("params");
+var val2 = par.value;
+var psSet = document.getElementById("psSet");
+var myVar = setInterval(function(){ 
+	if (nDig.value != val) {
+	clearInterval(myVar);
+	if (psSet.value == 0) {
+	setupPS(par.value);
+	setupCanvas(nDig.value);
+	psSet.value = 1;
+	}
+	} 
+}, 10);
+function app(user) {
+			// user.displayName
+			// user.email
+			// user.photoURL
+			// user.uid
+			document.getElementById("clientName").innerHTML = user.displayName;
+
+		}
+
+</script>
+<script id="tex-vs" type="notjs">
+	precision highp float;
+	attribute vec3 aPosition;
+	attribute vec2 shapeTex;
+	attribute vec2 bgTex;
+	attribute vec2 borderTex;
+	attribute vec2 fillTex;
+	varying vec2 vShape;
+	varying vec2 vBG;
+ 	varying vec2 vBorder;
+	varying vec2 vFill;
+	varying vec3 vPos;
+	uniform mat4 view;
+	uniform mat4 proj;
+	uniform mat4 model;
+	uniform vec3 offset;
+	uniform vec2 bgOff;
+	uniform vec2 shapeOff;
+	uniform vec2 bordOff;
+	void main(void) {
+	vPos 		= aPosition;
+	vShape 	= shapeTex + shapeOff;
+	vBG 		= bgTex + bgOff;
+	vBorder = borderTex + bordOff;
+	vFill 	= fillTex + offset.xy;
+	gl_Position = proj * view * model * vec4(aPosition, 1.0);
+	}
+</script>
+<script id="tex-fs" type="notjs">
+	precision highp float;
+	varying vec2 vShape;
+	varying vec2 vBG;
+ 	varying vec2 vBorder;
+	varying vec2 vFill;
+	varying vec3 vColor;
+	varying vec3 vPos;
+	uniform sampler2D uTexture;
+	uniform vec3 bgClr;
+	uniform vec3 brdClr;
+	uniform vec3 color;
+	void main(void) {
+	vec4 shape 	= texture2D(uTexture,vShape);
+	if (shape.x < 0.2 && shape.y < 0.2 && shape.z < 0.2) {
+		discard;
+	}
+	vec4 bg 		= vec4(bgClr,1.0)*texture2D(uTexture,vBG);
+	vec4 border = vec4(brdClr,1.0)*texture2D(uTexture,vBorder);
+	vec4 fill 	= vec4(color,1.0)*texture2D(uTexture,vFill);
+//	if (bg.xyz == vec3(0.0,0.0,0.0) && fill.xyz == vec3(0.0,0.0,0.0)) {
+//		discard;
+//	}
+	gl_FragColor = (bg+border+2.0*fill);
+	}
+</script>
+</div>

@@ -4,7 +4,10 @@
   <input id="psSet" value = 0 type="hidden">
   <div class ="background1">
     <div id="bg">
-    </div>
+	</div>
+	BackGround Color : <input id="bgColor" type="color" value="#ff8d4b"><br>
+	Border Color : <input id="brdColor" type="color" value="#ff8d4b"><br>
+	Number Color : <input id="texColor" type="color" value="#ff8d4b">
   </div>
 <script>
 var nDig = document.getElementById("nDigs");
@@ -12,6 +15,29 @@ var val = nDig.value;
 var par = document.getElementById("params");
 var val2 = par.value;
 var psSet = document.getElementById("psSet");
+var bgColor = document.getElementById("bgColor");
+var brdColor = document.getElementById("brdColor");
+var texColor = document.getElementById("texColor");
+
+
+function updateClr(event) {
+	var tar = event.target.id;
+	if (psSet.value == 1) {
+		if (tar == "bgColor") {
+			updateColor(event.target.value,0);
+		} else if (tar == "brdColor") {
+			updateColor(event.target.value,1);
+		} else {
+			updateColor(event.target.value,2);
+		}
+	}
+}
+
+bgColor.addEventListener("change", updateClr, false);
+brdColor.addEventListener("change", updateClr, false);
+texColor.addEventListener("change", updateClr, false);
+
+
 var myVar = setInterval(function(){ 
 	if (nDig.value != val) {
 	clearInterval(myVar);
@@ -31,5 +57,36 @@ function app(user) {
 
 		}
 
+</script>
+<script id="tex-vs" type="notjs">
+	precision highp float;
+	attribute vec3 aPosition;
+	attribute vec2 aTexCoord;
+	varying vec3 vPos;
+	varying vec2 vTexCoord;
+	uniform mat4 view;
+	uniform mat4 proj;
+	uniform mat4 model;
+	uniform vec2 offset;
+	void main(void) {
+		vPos 				= aPosition;
+		vTexCoord	  = aTexCoord + offset;
+		gl_Position = proj * view * model * vec4(aPosition, 1.0);
+	}
+</script>
+<script id="tex-fs" type="notjs">
+	precision highp float;
+	varying vec2 vTexCoord;
+	varying vec3 vPos;
+	uniform vec3 color;
+	uniform sampler2D uTexture;
+	void main(void) {
+		vec4 clr 	= vec4(color,1.0)*texture2D(uTexture,vTexCoord);
+		if (clr.x < 0.05 && clr.y < 0.05 && clr.z < 0.05) {
+				discard;
+		} else {
+			gl_FragColor = clr;
+		}
+	}
 </script>
 </div>
