@@ -7,10 +7,6 @@
 <div id="topBorder" class="topBorder"><p>Welcome, {{user.firstName}} {{user.surName}}</span>
 	</p></div>
 <div id="mySidenav" class="sidenav">
-  <a href="#!/Dashboard">
-    <img src="img/profileIcon.png" alt="Dashboard Icon" />
-	   <p>Dashboard</p>
-  </a>
   <a onclick="toggleMenu()">
     <img src="img/plus.png" alt="Math Icon"/>
     <p>Math Menu</p>
@@ -50,7 +46,7 @@
   </a>
 </div>
 
-<div id="mathSB" class="sidenav" style="left:15%;border-left:0px solid black;width:15%;opacity:0;">
+<div id="mathSB" class="extendsidenav" style="left:10%;border-left:0px solid black;width:10%;opacity:0;">
   <a href="#!/MathFacts/2/0/9/1/1">
   <img src="img/plus.png" alt="Math Icon"/>
     <p>Math Facts</p>
@@ -70,7 +66,7 @@
 <button>Best Categories</button>
 <button>Best To Practice</button>
 <button>Most Practiced</button>
-<table style="width:100%">
+<table class="statsTable" style="width:100%">
 <tr><th>Date Completed</th><th>Problem Set</th><th>Score</th></tr>
 
 <tr><td>Date Completed</td><td>Problem Set</td><td>Score</td></tr>
@@ -142,8 +138,8 @@ var waitForTransition = function(tG,type) {
 		tG.style.opacity = "100";
 	}
 	else {
-		tG.style.width = "80%";
-		tG.style.left = "15%";
+		tG.style.width = "90%";
+		tG.style.left = "10%";
 	}
 }
 
@@ -158,8 +154,8 @@ function toggleMenu() {
   var cT;
   if (sN.style.opacity == "0") {
     sT = Date.now();
-    bG.style.left = "30%";
-    bG.style.width = "65%";
+    bG.style.left = "20%";
+    bG.style.width = "80%";
     setTimeout(waitForTransition
     ,500,sN,1);
   } else {

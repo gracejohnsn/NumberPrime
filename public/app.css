@@ -15,7 +15,7 @@
   
   width : 100%;
   
-  background-color:whitesmoke;
+  background-color: #64B5C8;
   
   /*background: linear-gradient(to bottom,
   
@@ -28,12 +28,9 @@
   
   
   body {
-  
-  background-color:#3366cc;
-  
-  font-family: 
-  Verdana, Geneva, Tahoma, 
-  sans-serif;
+  font-family: 'Boogaloo';
+  background-color:#64B5C8;
+  font-size: 1.5em;
   
   }
   
@@ -117,13 +114,12 @@
   
   
   .topBorder {
+  height : 20%;
   
-  height : 
-  20%;
+  left : 10%;
   
-  left : 15%;
-  
-  width : 85%;
+  width : 90%;
+  border-radius: 10px 10px 0px 0px;
   
   position: 
   fixed;
@@ -159,16 +155,18 @@
   width : 60%;
   
   background-color : 
-  whitesmoke;
+  #C8F577;
   
-  overflow-y: 
-  scroll;
+  border-radius: 10px;
   
   overflow-x: 
   hidden;
   
   }
-  
+  .statsTable {
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
   
   
   .dashTable p {
@@ -201,7 +199,7 @@
   1px solid 
   black;
   
-  overflow : 
+  overflow-y: 
   scroll;
   
   }
@@ -248,11 +246,10 @@
   
   float : left;
   
-  border : 
-  solid white;
-  
   background-color: 
-  steelblue;
+  #764DC5;
+
+  color: black;
   
   border-width : 
   2px 1px 
@@ -267,11 +264,10 @@
   }
   
   .dashList {
-  
+
+  border-radius: 10px 0px 0px 10px;
   overflow-y : 
   scroll;
-  
-  align : center;
   
   position : 
   relative;
@@ -286,15 +282,16 @@
   height : 
   90%;
   
-  width : 30%;
+  width : 35%;
   
   background-color : 
   #ffffe6;
   
   }
   
-  .dashList p {
-  
+  .dashList p:nth-child(odd){
+  background-color: #C8F577;
+
   margin : 
   0px 0px 
   0px 0px;
@@ -311,12 +308,11 @@
   
   }
   
-  
-  
-  .dashList a {
-  
+  .dashList a:nth-child(odd) {
+  background-color: #C8F577;
+  text-decoration: none;
   width : 80%;
-  
+  color: black;
   width : 100%;
   
   height : 
@@ -334,29 +330,68 @@
   transition : 
   0.5s;
   
-  background-color :whitesmoke;
-  
   }
+
+  .dashList p:nth-child(even){
+    background-color: #C8F577;
+  
+    margin : 
+    0px 0px 
+    0px 0px;
+    
+    top : 0px;
+    
+    height : 
+    15%;
+    
+    width : 100%;
+    
+    font-size : 
+    30px;
+    
+    }
+    
+    .dashList a:nth-child(even) {
+    background-color: rgb(188, 241, 90);
+    text-decoration: none;
+    color: black;
+    width : 80%;
+    
+    width : 100%;
+    
+    height : 
+    20%;
+    
+    font-size : 
+    24px;
+    
+    line-height : 
+    80px;
+    
+    display : 
+    block;
+    
+    transition : 
+    0.5s;
+    
+    }
   
   .dashList a:hover {
-  
-  background-color : 
-  whitesmoke;
   
   -moz-box-shadow: 
   inset 0 
   0 20px 
-  #000000;
+  #84CD00;
   
   -webkit-box-shadow: 
   inset 0 
   0 20px 
-  #000000;
+  #84CD00;
   
   box-shadow: 
   inset 0 
   0 20px 
-  #000000;
+  #84CD00;
   
   transition : 
   0.5s;
@@ -385,21 +420,11 @@
   
   
   .mascot {
+  background-color: #9170D1;
+
+  width: 10%;
   
-  border : 
-  1px solid 
-  black;
-  
-  border-radius : 
-  50%;
-  
-  top: 1%;
-  
-  left: 1%;
-  
-  width: 13%;
-  
-  height: 18%;
+  height: 20%;
   
   position: 
   fixed;
@@ -410,16 +435,23 @@
   
   border-radius : 
   50%;
+  width: 80%;
+  height: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5%;
+  margin-bottom: auto;
+  display: block;
   
   }
   
   .sidenav {
-  
+  background-color: #9170D1;
   align : center;
   
   height: 80%;
   
-  width: 15%;
+  width: 10%;
   
   position: 
   fixed;
@@ -429,17 +461,38 @@
   
   top: 20%;
   
-  overflow-x: 
-  hidden;
+  /*overflow-x: 
+  hidden;*/
   
   transition: 
   0.5s;
   
   }
   
+  .extendsidenav {
+    align : center;
+    
+    height: 80%;
+    
+    width: 10%;
+    
+    position: 
+    fixed;
+    
+    z-index: 
+    1;
+    
+    top: 20%;
+    
+    /*overflow-x: 
+    hidden;*/
+    
+    transition: 
+    0.5s;
+    
+    }
   
-  
-  .sidenav a {
+    .extendsidenav a,.sidenav a {
   
   text-align: 
   center;
@@ -473,7 +526,7 @@
   
   
   
-  .sidenav img {
+  .extendsidenav img, .sidenav img {
   
     margin-top : 
   5%;
@@ -486,7 +539,7 @@
   
   }
   
-  .sidenav p {
+  .extendsidenav p, .sidenav p {
   
     margin-top : 
   2%;
@@ -506,7 +559,7 @@
   
   }
   
-  .sidenav a:hover {
+  .extendsidenav a:hover, .sidenav a:hover {
   
   color: #000000;
   
@@ -522,17 +575,14 @@
   height : 
   70%;
   
-  width : 80%;
+  width : 90%;
   
   top : 20%;
   
-  left : 15%;
+  left : 10%;
   
   background-color : 
-  palevioletred;
-  
-  border-radius: 
-  10px;
+  #0491B2;
   
   position : 
   fixed;
