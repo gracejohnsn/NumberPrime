@@ -2,7 +2,7 @@
  * Created by gleicher on 10/9/2015.
  */
 var arcball = undefined;
-var canvas = undefined;
+var mathCanvas = undefined;
 var lClick = 0;
 
 /*
@@ -42,22 +42,22 @@ var setupCanvas = function(num) {
 	console.log("setupCanvas");
     // set up the canvas and context
 
-if (!canvas) {
-canvas = document.createElement("canvas");
-arcball = new ArcBall(canvas);
-}
-canvas.onselectstart = function () { return false; }
-var h = window.screen.availHeight*.7;
-var w = window.screen.availWidth;
-    canvas.setAttribute("width",w);
-    canvas.setAttribute("height",h);
-    canvas.setAttribute("z-index",99);
+    if (!mathCanvas) {
+    mathCanvas = document.createElement("canvas");
+    arcball = new ArcBall(mathCanvas);
+    }
+    mathCanvas.onselectstart = function () { return false; }
+    var h = window.screen.availHeight*.7;
+    var w = window.screen.availWidth;
+    mathCanvas.setAttribute("width",w);
+    mathCanvas.setAttribute("height",h);
+    mathCanvas.setAttribute("z-index",99);
     var bg = document.getElementById("bg");
    	console.log("Value" + num);
 	console.log("background");
 	console.log(bg);
 	if (bg) {
-    bg.appendChild(canvas);
+    bg.appendChild(mathCanvas);
 	console.log("append");
 	}
     // make a place to put the drawing controls - a div
@@ -100,7 +100,7 @@ var w = window.screen.availWidth;
 
     // this could be gl = canvas.getContext("webgl");
     // but twgl is more robust
-    var gl = twgl.getWebGLContext(canvas);
+    var gl = twgl.getWebGLContext(mathCanvas);
 
     // make a fake drawing state for the object initialization
     var drawingState = {

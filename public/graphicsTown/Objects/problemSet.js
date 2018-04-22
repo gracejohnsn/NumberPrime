@@ -276,7 +276,7 @@ DigitBox.prototype.draw = function (drawingState) {
 		}
 		if (answers[answers.length-1].checkHitbox(lastXY) == 1) {
 			scope.correct = evaluateProblem();
-			scope.writeProblem();
+		//	scope.writeProblem();
 			scope.totalCorrect += scope.correct;
 			scope.probNum++;
 			scope.$apply();
@@ -517,7 +517,11 @@ var createProblem = function(type) {
 				break;
 			case 2 : answer = prob[0] * prob[1];
 				break;
-			case 3 :  answer = prob[0] / prob[1];
+			case 3 :
+				prob[1] = prob[1]%10;
+				var change = prob[0]%prob[1];
+				prob[0]-=change;  
+				answer = prob[0] / prob[1];
 				break;
 			}
 
