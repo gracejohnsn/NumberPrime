@@ -1,366 +1,918 @@
+
+
+
 /* app css stylesheet */
 
+
+
 .background1 {
- position : fixed;
- height : 100%;
- width  : 100%;
- background-color :  rgba(32, 43, 88,1.0);
- background: linear-gradient(to bottom,
-rgba(219, 127, 142,1.0),rgba(219,127,142,1.0) 20%,rgba(219,127,142,0.0)
-);
-}
 
-body {
+  position : 
+  fixed;
+  
+  height : 
+  100%;
+  
+  width : 100%;
+  
+  background-color:whitesmoke;
+  
+  /*background: linear-gradient(to bottom,
+  
+  rgba(219, 127, 142,1.0),rgba(219,127,142,1.0) 20%,rgba(219,127,142,0.0)
+  
+  );*/
+  
+  }
+  
+  
+  
+  body {
+  
   background-color:#3366cc;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-
-.menu {
-  list-style: none;
-  border-bottom: 0.1em solid black;
-  margin-bottom: 2em;
-  padding: 0 0 0.5em;
-}
-
-form {
-  border: 3px solid #f1f1f1;
-}
-
-input[type=text], input[type=password] {
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid yellowgreen;
-  box-sizing: border-box;
-}
-
-button {
-  background-color: #4caf50;
+  
+  font-family: 
+  Verdana, Geneva, Tahoma, 
+  sans-serif;
+  
+  }
+  
+  
+  
+  .menu {
+  
+  list-style: 
+  none;
+  
+  border-bottom: 
+  0.1em solid 
+  black;
+  
+  margin-bottom: 
+  2em;
+  
+  padding: 
+  0 0 0.5em;
+  
+  }
+  
+  
+  
+  form {
+  
+  border: 3px
+  solid #f1f1f1;
+  
+  }
+  
+  
+  
+  input[type=text], input[type=password]
+   {
+  
+  padding: 
+  12px 20px;
+  
+  margin: 8px
+  0;
+  
+  display: 
+  inline-block;
+  
+  border: 1px
+  solid springgreen;
+  
+  box-sizing: 
+  border-box;
+  
+  }
+  
+  
+  
+  button {
+  
+  background-color: 
+  #4caf50;
+  
   color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
+  
+  padding: 
+  14px 20px;
+  
+  margin: 8px
+  0;
+  
   border: none;
+  
   cursor: pointer;
-}
-
-
-
-
+  
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
   .topBorder {
-    height : 20%;
-    left   : 15%;
-    width  : 85%;
-    position: fixed;
-    z-index: 1;
-    background: red; /* For browsers that do not support gradients */
-    background: linear-gradient(to left, rgba(51, 102, 204,1.0), rgba(255, 102, 102,1.0));
-    overflow-y: hidden;
-    transition: 0.5s;
+  
+  height : 
+  20%;
+  
+  left : 15%;
+  
+  width : 85%;
+  
+  position: 
+  fixed;
+  
+  z-index: 
+  1;
+  
+  overflow-y: 
+  hidden;
+  
+  transition: 
+  0.5s;
+  
   }
-
+  
+  
+  
   .dashTable {
-  position : absolute;
-  text-align : center;
+  
+  position : 
+  absolute;
+  
+  text-align : 
+  center;
+  
   left : 2.5%;
-  top  : 5%;
-  height : 90%;
-  width  : 60%;
-  background-color : #ebf5d6;
-  overflow-y: scroll;
-  overflow-x: hidden;
- }
-
- .dashTable p {
- margin : 0px 0px 0px 0px;
- top : 0px;
- height : 15%;
- width : 100%;
- font-size : 30px;
- }
-
-.dashTable table {
-table-layout:fixed;
-width : 100%;
-border : 1px solid black;
-overflow : scroll;
-}
-
-.dashTable td th {
-width : 33%;
-border : 1px solid black;
-}
-
-.dashTable table tr:nth-child(odd) {
-  background: rgba(255.0,255.0,255.0,0.5);
-}
-
-.dashTable table tr:nth-child(even) {
-   background: rgba(0.0,0.0,0.0,0.0);
-}
-
- .dashTable button {
-  margin : 0px 0px 0px 0px;
+  
+  top : 5%;
+  
+  height : 
+  90%;
+  
+  width : 60%;
+  
+  background-color : 
+  whitesmoke;
+  
+  overflow-y: 
+  scroll;
+  
+  overflow-x: 
+  hidden;
+  
+  }
+  
+  
+  
+  .dashTable p {
+  
+  margin : 
+  0px 0px 
+  0px 0px;
+  
+  top : 0px;
+  
+  height : 
+  15%;
+  
+  width : 100%;
+  
+  font-size : 
+  30px;
+  
+  }
+  
+  
+  
+  .dashTable table {
+  
+  table-layout:fixed;
+  
+  width : 100%;
+  
+  border : 
+  1px solid 
+  black;
+  
+  overflow : 
+  scroll;
+  
+  }
+  
+  
+  
+  .dashTable td th {
+  
+  width : 33%;
+  
+  border : 
+  1px solid 
+  black;
+  
+  }
+  
+  
+  
+  .dashTable table tr:nth-child(odd) {
+  
+  background: 
+  rgba(255.0,255.0,255.0,0.5);
+  
+  }
+  
+  
+  
+  .dashTable table tr:nth-child(even) {
+  
+  background: 
+  rgba(0.0,0.0,0.0,0.0);
+  
+  }
+  
+  
+  
+  .dashTable button {
+  
+  margin : 
+  0px 0px 
+  0px 0px;
+  
   width : 33.3333%;
+  
   float : left;
-   border : solid white;
-   border-width : 2px 1px 2px 1px;
-   border-bottom-left-radius: 10%;
-   border-bottom-right-radius: 10%;
+  
+  border : 
+  solid white;
+  
+  background-color: 
+  steelblue;
+  
+  border-width : 
+  2px 1px 
+  2px 1px;
+  
+  border-bottom-left-radius: 
+  10%;
+  
+  border-bottom-right-radius: 
+  10%;
+  
   }
+  
   .dashList {
-  overflow-y : scroll;
+  
+  overflow-y : 
+  scroll;
+  
   align : center;
-  position : relative;
-  text-align : center;
+  
+  position : 
+  relative;
+  
+  text-align : 
+  center;
+  
   left : 65%;
-  top  : 5%;
-  height : 90%;
-  width  : 30%;
-   background-color : #ffffe6;
- }
- .dashList p {
- margin : 0px 0px 0px 0px;
- top : 0px;
- height : 15%;
- width : 100%;
- font-size : 30px;
- }
-
- .dashList a {
- width : 80%;
-  -moz-box-shadow:    inset 0 0 20px #000000;
-  -webkit-box-shadow: inset 0 0 20px #000000;
-  box-shadow:         inset 0 0 20px #000000;
- width : 100%;
- height : 20%;
- font-size : 24px;
- line-height : 80px;
- display : block;
- transition : 0.5s;
- background-color : rgba(204, 255, 204,1.0);
- }
- .dashList a:hover {
- background-color : rgba(0, 102, 0,0.5);
- -moz-box-shadow:    inset 0 0 20px #000000;
-  -webkit-box-shadow: inset 0 0 20px #000000;
-  box-shadow:         inset 0 0 20px #000000;
- transition : 0.5s;
- }
-
+  
+  top : 5%;
+  
+  height : 
+  90%;
+  
+  width : 30%;
+  
+  background-color : 
+  #ffffe6;
+  
+  }
+  
+  .dashList p {
+  
+  margin : 
+  0px 0px 
+  0px 0px;
+  
+  top : 0px;
+  
+  height : 
+  15%;
+  
+  width : 100%;
+  
+  font-size : 
+  30px;
+  
+  }
+  
+  
+  
+  .dashList a {
+  
+  width : 80%;
+  
+  width : 100%;
+  
+  height : 
+  20%;
+  
+  font-size : 
+  24px;
+  
+  line-height : 
+  80px;
+  
+  display : 
+  block;
+  
+  transition : 
+  0.5s;
+  
+  background-color :whitesmoke;
+  
+  }
+  
+  .dashList a:hover {
+  
+  background-color : 
+  whitesmoke;
+  
+  -moz-box-shadow: 
+  inset 0 
+  0 20px 
+  #000000;
+  
+  -webkit-box-shadow: 
+  inset 0 
+  0 20px 
+  #000000;
+  
+  box-shadow: 
+  inset 0 
+  0 20px 
+  #000000;
+  
+  transition : 
+  0.5s;
+  
+  }
+  
+  
+  
   .topBorder p {
-  position : relative;
+  
+  position : 
+  relative;
+  
   left : 5%;
+  
   width : 95%;
-  font-size : 48px;
-  line-height : 48px;
- }
-
+  
+  font-size : 
+  48px;
+  
+  line-height : 
+  48px;
+  
+  }
+  
+  
+  
   .mascot {
-  border : 1px solid black;
-  border-radius : 50%;
+  
+  border : 
+  1px solid 
+  black;
+  
+  border-radius : 
+  50%;
+  
   top: 1%;
+  
   left: 1%;
+  
   width: 13%;
+  
   height: 18%;
-  position: fixed;
+  
+  position: 
+  fixed;
+  
   }
+  
   .mascot img {
-  border-radius : 50%;
+  
+  border-radius : 
+  50%;
+  
   }
-.sidenav {
-    align : center;
-    height: 80%;
-    width: 15%;
-    position: fixed;
-    z-index: 1;
-    top: 20%;
-    overflow-x: hidden;
-    transition: 0.5s;
-}
-
-.sidenav a {
-    text-align: center;
-    overflow : hidden;
-    text-decoration: none;
-    white-space: nowrap;
-    width : 100%;
-    height : 21.85%;
-    text-overflow: ellipsis;
-    color: #FFFFFF;
-    display: block;
-    transition: 0.5s;
-}
-
-.sidenav img {
-	margin-top : 5%;
-	height : 60%;
-	width : 60%;
-}
-.sidenav p {
-	margin-top : 2%;
-	height : 35%;
-	width : 100%;
-        background: radial-gradient(closest-side, rgba(0, 0, 0,0.0), rgba(0, 0, 0,0.25));
-}
-.sidenav a:hover {
-    color: #000000;
-    background-color : rgba(255,255,255,0.5);
-}
-
+  
+  .sidenav {
+  
+  align : center;
+  
+  height: 80%;
+  
+  width: 15%;
+  
+  position: 
+  fixed;
+  
+  z-index: 
+  1;
+  
+  top: 20%;
+  
+  overflow-x: 
+  hidden;
+  
+  transition: 
+  0.5s;
+  
+  }
+  
+  
+  
+  .sidenav a {
+  
+  text-align: 
+  center;
+  
+  overflow : 
+  hidden;
+  
+  text-decoration: 
+  none;
+  
+  white-space: 
+  nowrap;
+  
+  width : 100%;
+  
+  height : 
+  21.85%;
+  
+  text-overflow: 
+  ellipsis;
+  
+  color: #FFFFFF;
+  
+  display: 
+  block;
+  
+  transition: 
+  0.5s;
+  
+  }
+  
+  
+  
+  .sidenav img {
+  
+    margin-top : 
+  5%;
+  
+    height : 
+  60%;
+  
+    width : 
+  60%;
+  
+  }
+  
+  .sidenav p {
+  
+    margin-top : 
+  2%;
+  
+    height : 
+  35%;
+  
+    width : 
+  100%;
+  
+  background: 
+  radial-gradient(closest-side, 
+  rgba(0, 
+  0, 0,0.0),
+  rgba(0,
+  0, 0,0.25));
+  
+  }
+  
+  .sidenav a:hover {
+  
+  color: #000000;
+  
+  background-color : 
+  rgba(255,255,255,0.5);
+  
+  }
+  
+  
+  
   .bg {
-  -moz-box-shadow:    inset 0 0 20px #000000;
-  -webkit-box-shadow: inset 0 0 20px #000000;
-  box-shadow:         inset 0 0 20px #000000;
-  height : 70%;
-  width  : 80%;
-  top    : 20%;
-  left   : 15%;
-  background-color : #cce699;
-  position : fixed;
-  z-index : -1;
-  transition : 0.5s;
+  
+  height : 
+  70%;
+  
+  width : 80%;
+  
+  top : 20%;
+  
+  left : 15%;
+  
+  background-color : 
+  palevioletred;
+  
+  border-radius: 
+  10px;
+  
+  position : 
+  fixed;
+  
+  z-index : 
+  -1;
+  
+  transition : 
+  0.5s;
+  
   }
-
-.bg2 {
-  -moz-box-shadow:    inset 0 0 20px #000000;
-  -webkit-box-shadow: inset 0 0 20px #000000;
-  box-shadow:         inset 0 0 20px #000000;
-  height : 100%;
-  width  : 100%;
-  top    : 0%;
-  left   : 0%;
-  background-color : #cce699;
-  position : fixed;
-  z-index : -1;
-  transition : 0.5s;
-}
-.reveal-if-active {
-  opacity: 0;
-  max-height: 0;
-  overflow: hidden;
-}
-
-input[type="radio"]:checked ~ .reveal-if-active,
-input[type="checkbox"]:checked ~ .reveal-if-active {
-  opacity: 1;
-  max-height: 100px; /* little bit of a magic number :( */
-  overflow: visible;
-}
-
- /* Popup container */
- .popup {
-  position: relative;
-  display: inline-block;
+  
+  
+  
+  .bg2 {
+  
+  -moz-box-shadow: 
+  inset 0 
+  0 20px 
+  #000000;
+  
+  -webkit-box-shadow: 
+  inset 0 
+  0 20px 
+  #000000;
+  
+  box-shadow: 
+  inset 0 
+  0 20px 
+  #000000;
+  
+  height : 
+  100%;
+  
+  width : 100%;
+  
+  top : 0%;
+  
+  left : 0%;
+  
+  background-color : 
+  #d8dce7;
+  
+  position : 
+  fixed;
+  
+  z-index : 
+  -1;
+  
+  transition : 
+  0.5s;
+  
+  }
+  
+  .reveal-if-active {
+  
+  opacity: 
+  0;
+  
+  max-height: 
+  0;
+  
+  overflow: 
+  hidden;
+  
+  }
+  
+  
+  
+  input[type="radio"]:checked
+  ~ .reveal-if-active,
+  
+  input[type="checkbox"]:checked
+  ~ .reveal-if-active {
+  
+  opacity: 
+  1;
+  
+  max-height: 
+  100px; /* little bit of a magic number :( */
+  
+  overflow: 
+  visible;
+  
+  }
+  
+  
+  
+  /* Popup container */
+  
+  .popup {
+  
+  position: 
+  relative;
+  
+  display: 
+  inline-block;
+  
   cursor: pointer;
-}
-
-/* The actual popup (appears on top) */
-.popup .popuptext {
-  visibility: hidden;
+  
+  }
+  
+  
+  
+  /* The actual popup (appears on top) */
+  
+  .popup .popuptext {
+  
+  visibility: 
+  hidden;
+  
   width: 160px;
-  background-color: #555;
+  
+  background-color: 
+  #555;
+  
   color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 8px 0;
-  position: absolute;
-  z-index: 1;
+  
+  text-align: 
+  center;
+  
+  border-radius: 
+  6px;
+  
+  padding: 
+  8px 0;
+  
+  position: 
+  absolute;
+  
+  z-index: 
+  1;
+  
   bottom: 125%;
+  
   left: 50%;
-  margin-left: -80px;
-}
-
-/* Popup arrow */
-.popup .popuptext::after {
-  content: "";
-  position: absolute;
+  
+  margin-left: 
+  -80px;
+  
+  }
+  
+  
+  
+  /* Popup arrow */
+  
+  .popup .popuptext::after {
+  
+  content: 
+  "";
+  
+  position: 
+  absolute;
+  
   top: 100%;
+  
   left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #555 transparent transparent transparent;
-}
-
-/* Toggle this class when clicking on the popup container (hide and show the popup) */
-.popup .show {
-  visibility: visible;
-  -webkit-animation: fadeIn 1s;
-  animation: fadeIn 1s
-}
-
-/* Add animation (fade in the popup) */
-@-webkit-keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity: 1;}
-}
-
-@keyframes fadeIn {
-  from {opacity: 0;}
+  
+  margin-left: 
+  -5px;
+  
+  border-width: 
+  5px;
+  
+  border-style: 
+  solid;
+  
+  border-color: 
+  #555 transparent 
+  transparent transparent;
+  
+  }
+  
+  
+  
+  /* Toggle this class when clicking on the popup container (hide and show the popup) */
+  
+  .popup .show {
+  
+  visibility: 
+  visible;
+  
+  -webkit-animation: fadeIn 
+  1s;
+  
+  animation: fadeIn 
+  1s
+  
+  }
+  
+  
+  
+  /* Add animation (fade in the popup) */
+  
+  @-webkit-keyframes 
+  fadeIn {
+  
+  from {opacity: 
+  0;}
+  
+  to {opacity: 
+  1;}
+  
+  }
+  
+  
+  
+  @keyframes 
+  fadeIn {
+  
+  from {opacity: 
+  0;}
+  
   to {opacity:1 ;}
-}
-
- /* The Modal (background) */
- .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  
+  }
+  
+  
+  
+  /* The Modal (background) */
+  
+  .modal {
+  
+  display: 
+  none; /* Hidden by default */
+  
+  position: 
+  fixed; /* Stay in place */
+  
+  z-index: 
+  1; /* Sit on top */
+  
   left: 0;
+  
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* The Close Button */
-.close {
+  
+  width: 100%;
+  /* Full width */
+  
+  height: 100%;
+  /* Full height */
+  
+  overflow: 
+  auto; /* Enable scroll if needed */
+  
+  background-color: 
+  rgb(0,0,0);
+  /* Fallback color */
+  
+  background-color: 
+  rgba(0,0,0,0.4);
+  /* Black w/ opacity */
+  
+  }
+  
+  
+  
+  /* The Close Button */
+  
+  .close {
+  
   color: #aaa;
+  
   float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
+  
+  font-size: 
+  28px;
+  
+  font-weight: 
+  bold;
+  
+  }
+  
+  
+  
+  .close:hover,
+  
+  .close:focus {
+  
   color: black;
-  text-decoration: none;
+  
+  text-decoration: 
+  none;
+  
   cursor: pointer;
-}
-
- /* Modal Header */
- .modal-header {
-  padding: 2px 16px;
-  background-color: #5cb85c;
+  
+  }
+  
+  
+  
+  /* Modal Header */
+  
+  .modal-header {
+  
+  padding: 
+  2px 16px;
+  
+  background-color: 
+  #5cb85c;
+  
   color: white;
-}
-
-/* Modal Body */
-.modal-body {padding: 2px 16px;}
-
-/* Modal Footer */
-.modal-footer {
-  padding: 2px 16px;
-  background-color: #5cb85c;
+  
+  }
+  
+  
+  
+  /* Modal Body */
+  
+  .modal-body {padding:
+  2px 16px;}
+  
+  
+  
+  /* Modal Footer */
+  
+  .modal-footer {
+  
+  padding: 
+  2px 16px;
+  
+  background-color: 
+  #5cb85c;
+  
   color: white;
-}
-
-/* Modal Content */
-.modal-content {
-  position: relative;
-  background-color: #fefefe;
+  
+  }
+  
+  
+  
+  /* Modal Content */
+  
+  .modal-content {
+  
+  position: 
+  relative;
+  
+  background-color: 
+  #fefefe;
+  
   margin: auto;
-  padding: 0;
-  border: 1px solid #888;
+  
+  padding: 
+  0;
+  
+  border: 1px
+  solid #888;
+  
   width: 80%;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  
+  box-shadow: 
+  0 4px 8px
+  0 rgba(0,0,0,0.2),0
+  6px 20px
+  0 rgba(0,0,0,0.19);
+  
   animation-name: animatetop;
-  animation-duration: 0.4s
-}
-
-/* Add Animation */
-@keyframes animatetop {
-  from {top: -300px; opacity: 0}
-  to {top: 0; opacity: 1}
-}
+  
+  animation-duration: 
+  0.4s
+  
+  }
+  
+  
+  
+  /* Add Animation */
+  
+  @keyframes 
+  animatetop {
+  
+  from {top: 
+  -300px; opacity: 
+  0}
+  
+  to {top: 
+  0; opacity: 
+  1}
+  
+  }
+  
+  
+  
+  
+  
