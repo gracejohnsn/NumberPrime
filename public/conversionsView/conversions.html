@@ -77,18 +77,29 @@ div {
   </div>
  
 <script>
-var questionsList = ["Convert 3600 seconds into hours.","Convert 20 inches to feet. ", 
-                    "Convert 45 pounds to ounces","Convert 50 cm to m.","Convert 50 minutes into seconds","Convert 50 yards to miles."
-                    ,"Convert 2 hours into seconds", "Convert 10 kilograms to grams.","Convert 50 feet to inches.","Convert 100 Tons to pounds. "];
-var answerList = [1, 1.6, 720,0.5,3000,0.0284,7200,10000,4.16,200000];
+var questionsList = [];
+var answerList = [3600, 200, 300];
 var curQuestionId = -1;
 var correctCount = 0;
+var randomCategory;
+var length_unit_us = ["Inches","Feet","yards","miles"];
+var length_unit_m = ["millimeter","centimeter","meter","kilometer"];
+var mass_unit_us = ["ounces","pounds","ton",];
+var mass_unit_m = ["grams","kilograms"];
+var time_unit = ["seconds","minutes","hours"];
+var n = 0;
 
 function submit() 
 {
     document.getElementById("output").style.display = "block";
-    var x = document.getElementById("answer").value;   
-    if(x == getAnswer()){
+    var x = document.getElementById("answer").value;  
+
+
+
+
+
+
+    if(x == questionsList[n].answer){
         document.getElementById("output").innerHTML = "Your answer is correct!";
         document.getElementById("nextQuestionId").style.display = "block";
         correctCount = correctCount + 1
@@ -103,13 +114,15 @@ function start()
 {
     document.getElementById("onStart").style.display = "none";
     document.getElementById("main").style.display = "block";
-    document.getElementById("question").innerHTML = getQuestion();
+    var myQuestion = new questions();
+    questionsList.push(myQuestion);
+    document.getElementById("question").innerHTML = "Convert " + myQuestion.randomNumber + " " + myQuestion.fromUnit + " to " + myQuestion.toUnit + " . "; 
 }
 
 function nextQuestion()
 {
 
-    if(curQuestionId == (questionsList.length-1))
+    if(10 == (questionsList.length))
     {
         resultPage()
     }
@@ -117,7 +130,10 @@ function nextQuestion()
     {
         document.getElementById("output").style.display = "none";
         document.getElementById("main").style.display = "block";
-        document.getElementById("question").innerHTML = getQuestion();
+        var myQuestion = new questions();
+        questionsList.push(myQuestion);
+        n = n + 1;
+        document.getElementById("question").innerHTML = "Convert " + myQuestion.randomNumber + " " + myQuestion.fromUnit + " to " + myQuestion.toUnit + ".";        
         document.getElementById("answer").value = "";
     }
 }
@@ -131,10 +147,7 @@ function getQuestion()
 
 }
 
-function getAnswer()
-{
-    return answerList[curQuestionId];
-}
+
 
 function resultPage()
 {
@@ -144,7 +157,172 @@ function resultPage()
 
 }
 
+function questions () {
+    this.randomNumber = getRandomNumbers(),
+    this.fromUnit = getFrom(),
+    this.toUnit = getTo(this.fromUnit),
+    this.answer = calculateAnswer(this.fromUnit,this.toUnit,this.randomNumber)
 
+};
+
+function getRandomNumbers(){
+      var number = Math.floor((Math.random() * 100) + 1);
+      return number;
+}
+
+function getFrom(){
+    var categories = ["LengthUS", "LengthMetric", "MassUS", "MassMetric", "Time"];
+     randomCategory = categories[Math.floor(Math.random()*categories.length)];
+    
+    if(randomCategory == "LengthUS"){
+        var randomLengthUs = length_unit_us[Math.floor(Math.random()*length_unit_us.length)];
+        return randomLength
+    }
+    if(randomCategory == "MassUS"){
+        var randomMassUS = mass_unit_us[Math.floor(Math.random()*mass_unit_us.length)];
+        return randomMass
+    }
+    if(randomCategory == "Time"){
+        var randomTime = time_unit[Math.floor(Math.random()*time_unit.length)];
+        return randomTime
+    }
+     if(randomCategory == "LengthMetric"){
+        var randomLengthMetric = length_unit_m[Math.floor(Math.random()*length_unit_m.length)];
+        return randomLengthMetric
+    }
+     if(randomCategory == "MassMetric"){
+        var randomMassMetric = mass_unit_m[Math.floor(Math.random()*mass_unit_m.length)];
+        return randomMassMetric
+    }
+
+}
+
+function getTo(fromUnit){
+    if(randomCategory == "LengthUS"){
+        var randomLengthUs = length_unit_us[Math.floor(Math.random()*length_unit_us.length)];
+        while(randomLengthUs == fromUnit)
+        {
+        var randomLengthUs = length_unit_us[Math.floor(Math.random()*length_unit_us.length)];
+         
+        }
+        return randomLengthUs;
+        
+    }
+    if(randomCategory == "LengthMetric"){
+        var randomLengthMetric = length_unit_m[Math.floor(Math.random()*length_unit_m.length)];
+        while(randomLengthMetric == fromUnit)
+        {
+        var randomLengthMetric = length_unit_m[Math.floor(Math.random()*length_unit_m.length)];
+         
+        }
+        return randomLengthMetric;
+        
+    }
+    if(randomCategory == "MassUS"){
+        var randomMassUS = mass_unit_us[Math.floor(Math.random()*mass_unit_us.length)];
+        while(randomMassUS == fromUnit)
+        {
+        var randomMassUS = mass_unit_us[Math.floor(Math.random()*mass_unit_us.length)];
+         
+        }
+        return randomMassUS;
+    }
+    if(randomCategory == "MassMetric"){
+        var randomMassMetric = mass_unit_m[Math.floor(Math.random()*mass_unit_m.length)];
+        while(randomMassMetric == fromUnit)
+        {
+        var randomMassMetric = mass_unit_m[Math.floor(Math.random()*mass_unit_m.length)];
+         
+        }
+        return randomMassMetric;
+    }
+    if(randomCategory == "Time"){
+        var randomTime = time_unit[Math.floor(Math.random()*time_unit.length)];
+        while(randomTime == fromUnit)
+        {
+         var randomTime = time_unit[Math.floor(Math.random()*time_unit.length)];
+         
+        }
+        return randomTime;
+    }
+
+
+}
+
+function calculateAnswer(fromUnit,toUnit,randomNumber){
+        if("seconds" == fromUnit  && "minutes" == toUnit){
+            return randomNumber/60;
+        }
+        else if(fromUnit == "seconds" && toUnit == "hours"){
+            return randomNumber/3600;
+        }
+        else if(fromUnit == "minutes" && toUnit == "hours"){
+            return randomNumber/60;
+        }
+        else if(fromUnit == "minutes" && toUnit == "seconds"){
+            return randomNumber*60;
+        }
+        else if(fromUnit == "hours" && toUnit == "minutes"){
+            return randomNumber*60;
+        }
+        else if(fromUnit == "hours" && toUnit == "seconds"){
+            return (randomNumber*3600);
+        }
+        else if(fromUnit == "Inches" && toUnit == "Feet"){
+            return (randomNumber/12);
+        }
+        else if(fromUnit == "Feet" && toUnit == "Inches"){
+            return (randomNumber*12);
+        }
+        else if(fromUnit == "Feet" && toUnit == "yards"){
+            return (randomNumber/3);
+        }
+        else if(fromUnit == "yards" && toUnit == "Feet"){
+            return (randomNumber*3);
+        }
+        else if(fromUnit == "yards" && toUnit == "miles"){
+            return (randomNumber*0.000568);
+        }
+        else if(fromUnit == "miles" && toUnit == "yards"){
+            return (randomNumber/0.000568);
+        }
+        else if(fromUnit == "millimeter" && toUnit == "centimeter"){
+            return (randomNumber/10);
+        }
+        else if(fromUnit == "centimeter" && toUnit == "millimeter"){
+            return (randomNumber*10);
+        }
+        else if(fromUnit == "centimeter" && toUnit == "meter"){
+            return (randomNumber/100);
+        }
+        else if(fromUnit == "meter" && toUnit == "centimeter"){
+            return (randomNumber*100);
+        }
+        else if(fromUnit == "meter" && toUnit == "kilometer"){
+            return (randomNumber/1000);
+        }
+        else if(fromUnit == "kilometer" && toUnit == "meter"){
+            return (randomNumber*1000);
+        }
+        else if(fromUnit == "ounces" && toUnit == "pounds"){
+            return (randomNumber/16);
+        }
+        else if(fromUnit == "pounds" && toUnit == "ounces"){
+            return (randomNumber*16);
+        }
+        else if(fromUnit == "pounds" && toUnit == "ton"){
+            return (randomNumber*0.0005);
+        }
+        else if(fromUnit == "ton" && toUnit == "pounds"){
+            return (randomNumber/0.0005);
+        }
+        else if(fromUnit == "grams" && toUnit == "kilograms"){
+            return (randomNumber/1000);
+        }
+        else if(fromUnit == "kilograms" && toUnit == "grams"){
+            return (randomNumber*1000);
+        }
+}
 
 </script>
 </body>
