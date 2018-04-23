@@ -17,7 +17,20 @@ angular.
       firebase.auth().onAuthStateChanged(
         function(user) {
           if(user) {
-            window.location = "/#!/Dashboard";
+            var uid = user.uid;
+            User.readUserData(firebase, uid).then(
+              function(result) {
+                if('student' == result.type) {
+                  window.location = "/#!/Dashboard";
+                } else {
+                  window.location = "/#!/DashboardTeach";
+                }
+              }
+            ).catch(
+              function(err) {
+                window.location = "/#!/view2";
+              }
+            );
           }
         }
       );

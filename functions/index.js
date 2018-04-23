@@ -1,7 +1,7 @@
 const functions = require('firebase-functions');
 
 var firebase = require('firebase');
-var firebaseui = require('firebaseui');
+//var firebaseui = require('firebaseui');
 
 
 
@@ -21,8 +21,6 @@ var firebaseui = require('firebaseui');
     var credential = error.credential;
     // ...
   });*/
-
- 
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
