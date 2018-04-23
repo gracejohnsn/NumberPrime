@@ -1,13 +1,13 @@
 'use strict';
 
-angular.module('measurement', ['ngRoute']);
-angular.
-  module('measurement').
-  component('measurement', {
-    templateUrl: 'MeasurementView/measurement.html',
-    controller: ['MeasurementController',
-      function MeasurementController() {
+  var meas = angular.module('measurement', ['ngRoute']);
+  meas.
+    component('measurement', {
+      templateUrl: 'MeasurementView/measurement.html',
+          controller: 'measurementCtrl'
+    });
+  
+  meas.controller('measurementCtrl',["$scope", 
+    function($scope) {
 
-	}
-    ]
-  });
+    }]);

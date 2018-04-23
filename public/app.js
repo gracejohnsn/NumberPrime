@@ -24,7 +24,7 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 	   when('/DashboardTeach', {
           template: '<teacherdash></teacherdash>'
         }).
-	   when('/MathFacts/:nDigs/:type/:max/:min/:mult', {
+	   when('/MathFacts/:type/:max1/:min1/:mult1/:max2/:min2/:mult2', {
           template: '<math></math>'
         }).
 

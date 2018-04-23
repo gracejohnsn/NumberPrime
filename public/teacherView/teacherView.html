@@ -112,11 +112,26 @@
     <p style="font-size:30px" style="text-align:center">Create Problem Set</p>
     <form>
     <label>Message</label><input type="text" value="ProblemSet" ng-model="params.msg"><br>
-    <label>Number of Digits</label><input type="number" value="1" ng-model="params.nD"><br>
-    <label>Type of Problem</label><input type="number" value="0" ng-model="params.type"><br>
-    <label>Maximum Number</label><input type="number" value="9" ng-model="params.max"><br>
-    <label>Minimum Number</label><input type="number" value="1" ng-model="params.min"><br>
-    <label>Multiples of</label><input type="number" value="1" ng-model="params.mult"><br>             
+    <label>Type Of Problem</label><br>
+    <select ng-model="params.type">
+        <option value="0">Addition</option>
+        <option value="1">Subtraction</option>
+        <option value="2">Muliplication</option>
+        <option value="3">Division</option>
+      </select>
+    <br>
+    <label>Max Number</label>
+      <br>
+      <input style="width:45%" type="number" value="9" ng-model="params.max">
+      <input style="width:45%" type="number" value="9" ng-model="params.max2"><br>
+    <label>Min Number</label>
+      <br>
+      <input style="width:45%"type="number" value="1" ng-model="params.min">
+      <input style="width:45%" type="number" value="9" ng-model="params.min2"><br>
+    <label>Multiples of</label>
+      <br>
+      <input style="width:45%" type="number" value="1" ng-model="params.mult">
+      <input style="width:45%" type="number" value="9" ng-model="params.mult2"><br>             
     </form><br>
     <button ng-click="update(params)">Submit Problem Set</button>
     <pre>params = {{params}}</pre>

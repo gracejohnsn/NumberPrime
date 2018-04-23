@@ -12,17 +12,9 @@ var prob = [0.0,0.0,0.0];
 var probState = 0;
 var answer = 0;
 var numDigits = 4;
-var max = undefined;
-var min = undefined;
-var mult = undefined;
-var type = undefined;
 var scaleDigits = numDigits;
 var scope = undefined;
-
-if (numDigits < 4) {
- scaleDigits = 4;
-}
-
+var mathParams = undefined;
 var lastX;
 var lastY;
 var click = 0;
@@ -276,19 +268,19 @@ DigitBox.prototype.draw = function (drawingState) {
 		}
 		if (answers[answers.length-1].checkHitbox(lastXY) == 1) {
 			scope.correct = evaluateProblem();
-		//	scope.writeProblem();
+			scope.writeProblem();
 			scope.totalCorrect += scope.correct;
 			scope.probNum++;
 			scope.$apply();
 			if (scope.probNum == 10) {
 			scope.problemSetDone();
 			}
-			createProblem(type);
+			createProblem(mathParams[1]);
 			for (var i = 0; i < numDigits; i++) {
 				answers[i].updateDigit(dBoxes[0].fillOff,dBoxes[0].digit);
 				poles[i].digit = 0;
-				answers[i].bgOff = [0.25,0.0];
-				answers[i].bordOff = [0.25,0.0];
+				answers[i].bgOff = [.25,-.25];
+				answers[i].bordOff = [.5,0.0];
 			}
 		}
 	}
@@ -372,24 +364,25 @@ DigitBox.prototype.draw = function (drawingState) {
 			});
 			twgl.drawBufferInfo(gl, gl.TRIANGLES, digitBuffer,6,24);	
 		} else {
-		if (cBox.type == 1 && selected == 1) {
-			cBox.position = [lastXY[0],1.0-lastXY[1],0.01];
-		}
-		modelM = twgl.m4.scaling([cBox.scale[0],cBox.scale[1],1.0]);
-		twgl.m4.setTranslation(modelM,cBox.position,modelM);
-		if (cBox.type != 4) {
-		twgl.setUniforms(shaderProgram,{
-    	    model: modelM, color : tClr, offset : cBox.bgOff,
-		});
-		twgl.drawBufferInfo(gl, gl.TRIANGLES, digitBuffer,6);
-		twgl.setUniforms(shaderProgram,{
-    	    color : textColor, offset : cBox.fillOff,
-		});
-		twgl.drawBufferInfo(gl, gl.TRIANGLES, digitBuffer,6,12);
-		twgl.setUniforms(shaderProgram,{
-			 color : borderColor, offset : cBox.bordOff,
-		});
-		twgl.drawBufferInfo(gl, gl.TRIANGLES, digitBuffer,6,24);
+			modelM = twgl.m4.scaling([cBox.scale[0],cBox.scale[1],1.0]);
+			if (cBox.type == 1 && selected == 1) {
+				cBox.position = [lastXY[0],1.0-lastXY[1],0.01];
+				modelM = twgl.m4.rotateZ(modelM,s);
+			}
+			twgl.m4.setTranslation(modelM,cBox.position,modelM);
+			if (cBox.type != 4) {
+			twgl.setUniforms(shaderProgram,{
+				model: modelM, color : tClr, offset : cBox.bgOff,
+			});
+			twgl.drawBufferInfo(gl, gl.TRIANGLES, digitBuffer,6);
+			twgl.setUniforms(shaderProgram,{
+				color : textColor, offset : cBox.fillOff,
+			});
+			twgl.drawBufferInfo(gl, gl.TRIANGLES, digitBuffer,6,12);
+			twgl.setUniforms(shaderProgram,{
+				color : borderColor, offset : cBox.bordOff,
+			});
+			twgl.drawBufferInfo(gl, gl.TRIANGLES, digitBuffer,6,24);
 	} else {
 		twgl.setUniforms(shaderProgram,{
     	    model: modelM, color : textColor, offset : cBox.fillOff,
@@ -477,15 +470,12 @@ var evaluateProblem = function() {
 }
 
 var createProblem = function(type) {
-		var maxN;
-		if (!max) {
-		  maxN = Math.pow(10,nD)-1;
-			} else {
-		  maxN = max;
-			}
-			if (!mult) {
-				mult = 1;
-			}
+		var max = mathParams[2];
+		var min = mathParams[3];
+		var mult = mathParams[4];
+		var max2 = mathParams[5];
+		var min2 = mathParams[6];
+		var mult2 = mathParams[7];
 			var bot = min/mult;
 			var top = Math.floor(max/mult);
 			if (bot != Math.floor(bot)) {
@@ -493,9 +483,15 @@ var createProblem = function(type) {
 			}
 			var diff = top-bot;
 			n1 = Math.round(Math.random()*diff)+1;
-			n2 = Math.round(Math.random()*diff)+1;
+			var bot2 = min/mult2;
+			var top2 = Math.floor(max2/mult2);
+			if (bot2 != Math.floor(bot2)) {
+			 bot2 = Math.floor(bot2)+1;
+			}
+			var diff2 = top2-bot2;
+			n2 = Math.round(Math.random()*diff2)+1;
 			prob[0] = (n1+bot)*mult;
-			prob[1] = (n2+bot)*mult;
+			prob[1] = (n2+bot)*mult2;
 			scope.num1 = prob[0];
 			scope.num2 = prob[1];
 			scope.$apply();
@@ -503,7 +499,7 @@ var createProblem = function(type) {
 			var curr;
 			probState = 1;
 			var place = Math.pow(10,numDigits-1);
-			prob[2] = type;
+			prob[2] = mathParams[1];
 			switch (type) {
 			case 0 : answer = prob[0] + prob[1];
 				break;
@@ -557,17 +553,32 @@ var updateColor = function(clr,swtch) {
 	}
 } 
 
-var setupPS = function(nD) {
+var setupPS = function(parameters) {
 	"use strict";
 	var dom_el = document.querySelector('[ng-controller="mathCtrl"]');
 	var ng_el = angular.element(dom_el);
 	scope = ng_el.scope();
-	var arr = nD.split(",");
-	numDigits = arr[0];
-	type = parseInt(arr[1]);
-	max = arr[2];
-	min = arr[3];
-	mult = arr[4];
+	console.log(parameters);
+	mathParams = parameters.split(",");
+	for (var i = 0; i < mathParams.length; i++) {
+		mathParams[i] = parseInt(mathParams[i]);
+	}
+	console.log(mathParams);
+	var highestVal;
+	var p = 0;
+	if (mathParams[1] == 2) {
+		highestVal = mathParams[2]*mathParams[5];
+	} else if (mathParams[1] == 0){
+		highestVal = mathParams[2]+mathParams[5];
+	} else {
+		highestVal = mathParams[2];
+	}
+	while (highestVal > 0) {
+		console.log(highestVal);
+		highestVal = Math.round(highestVal/10);
+		p++;
+	}
+	numDigits = p;
 	if (numDigits >= 4) {
 		scaleDigits = numDigits;
 	} else {
@@ -616,5 +627,5 @@ var setupPS = function(nD) {
 	for (var i = 0; i < numDigits*10; i++) {
 		posBalls.push(0.0);
 	}
-	createProblem(type);
+	createProblem(mathParams[1]);
 }

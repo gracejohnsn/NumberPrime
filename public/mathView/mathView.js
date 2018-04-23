@@ -25,9 +25,12 @@ math.controller('mathCtrl',["$scope", "$routeParams",
 	var sP = "";
 	sP = sP.concat($routeParams.nDigs+",");
 	sP = sP.concat($routeParams.type+",");
-	sP = sP.concat($routeParams.max+",");
-	sP = sP.concat($routeParams.min+",");
-	sP = sP.concat($routeParams.mult);
+	sP = sP.concat($routeParams.max1+",");
+	sP = sP.concat($routeParams.min1+",");
+	sP = sP.concat($routeParams.mult1+",");
+	sP = sP.concat($routeParams.max2+",");
+	sP = sP.concat($routeParams.min2+",");
+	sP = sP.concat($routeParams.mult2+",");
 	$scope.params = sP;
 	$scope.num1 = 0;
 	$scope.num2 = 0;
@@ -35,7 +38,6 @@ math.controller('mathCtrl',["$scope", "$routeParams",
 	$scope.totalCorrect = 0;
 	$scope.probNum = 0;
 	$scope.writeProblem = function() {
-	console.log("Write Prob");
 	var time = Date.now();
 	ProblemInstance.createProblemInstance(firebase, uid, "MultiDigit", $scope.correct,  time, {"num1" : $scope.num1, "num2" : $scope.num2, "operation" : "addition"});
 	}

@@ -27,11 +27,13 @@ tDash.controller('teacherCtrl',["$scope",
 	$scope.update = function(params) {
 	$scope.param = angular.copy(params);
 	console.log($scope.param);
- 	$scope.probURL = "#!/MathFacts/"+$scope.param.nD+"/"+$scope.param.type+"/"+$scope.param.max+"/"+$scope.param.min+"/"+$scope.param.mult;
+	 $scope.probURL = "#!/MathFacts/"+$scope.param.type+"/"+
+	 $scope.param.max+"/"+$scope.param.min+"/"+$scope.param.mult+"/"
+	 +$scope.param.max2+"/"+$scope.param.min2+"/"+$scope.param.mult2;
 	console.log($scope.probURL);
 	var time = new Date();
-	var cID = $scope.user.classId;
-	console.log("ClassID" + cID);
-	Notification.createNotification(firebase,cID,$scope.probURL,"class",time,time,$scope.param.msg);
+//	var cID = $scope.user.classId;
+//	console.log("ClassID=" + cID);
+	Notification.createNotification(firebase,uid,$scope.probURL,"student",time,time,$scope.param.msg);
 	};
 	}]);
