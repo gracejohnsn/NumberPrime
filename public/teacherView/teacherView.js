@@ -21,19 +21,19 @@ tDash.controller('teacherCtrl',["$scope",
 	User.readUserData(firebase, uid)
 		.then((userData)=> {
 	$scope.user = userData;
+	console.log($scope.user);
 	$scope.$apply();
 	});
 	$scope.update = function(params) {
 	$scope.param = angular.copy(params);
 	console.log($scope.param);
- 	$scope.probURL = "#!/MathFacts/"+$scope.param.nD+"/"+$scope.param.type+"/"+$scope.param.max+"/"+$scope.param.min+"/"+$scope.param.mult;
+	 $scope.probURL = "#!/MathFacts/"+$scope.param.type+"/"+
+	 $scope.param.max+"/"+$scope.param.min+"/"+$scope.param.mult+"/"
+	 +$scope.param.max2+"/"+$scope.param.min2+"/"+$scope.param.mult2;
 	console.log($scope.probURL);
 	var time = new Date();
+//	var cID = $scope.user.classId;
+//	console.log("ClassID=" + cID);
 	Notification.createNotification(firebase,uid,$scope.probURL,"student",time,time,$scope.param.msg);
 	};
-	$scope.createProbSet = function() {
-	var time = new Date();
-	console.log(time);
-	Notification.createNotification(firebase,uid,"#!/MathFacts/4/0/999/100/1","student",time,time,"Test");
-	}
 	}]);
