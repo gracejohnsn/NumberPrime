@@ -481,17 +481,17 @@ var createProblem = function(type) {
 			if (bot != Math.floor(bot)) {
 			 bot = Math.floor(bot)+1;
 			}
-			var diff = top-bot;
-			n1 = Math.round(Math.random()*diff)+1;
-			var bot2 = min/mult2;
-			var top2 = Math.floor(max2/mult2);
-			if (bot2 != Math.floor(bot2)) {
-			 bot2 = Math.floor(bot2)+1;
+			var diff = top-bot+1;
+			n1 = Math.floor(Math.random()*diff)+bot;
+			bot = min2/mult2;
+			top = Math.floor(max2/mult2);
+			if (bot != Math.floor(bot)) {
+			 bot = Math.floor(bot)+1;
 			}
-			var diff2 = top2-bot2;
-			n2 = Math.round(Math.random()*diff2)+1;
-			prob[0] = (n1+bot)*mult;
-			prob[1] = (n2+bot)*mult2;
+			diff = top-bot+1;
+			n2 = Math.floor(Math.random()*diff)+bot;
+			prob[0] = (n1)*mult;
+			prob[1] = (n2)*mult2;
 			scope.num1 = prob[0];
 			scope.num2 = prob[1];
 			scope.$apply();
@@ -575,7 +575,7 @@ var setupPS = function(parameters) {
 	}
 	while (highestVal > 0) {
 		console.log(highestVal);
-		highestVal = Math.round(highestVal/10);
+		highestVal = Math.floor(highestVal/10);
 		p++;
 	}
 	numDigits = p;
