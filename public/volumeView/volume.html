@@ -18,7 +18,7 @@ Weight:
 -->
 <head>
   <style>
-    *{margin:0;padding:0;background:#3366cc;}
+    *{margin:0;padding:0;background:#64B5C8;}
     body{overflow:hidden;}
     form {
     position:absolute;
@@ -30,6 +30,7 @@ Weight:
     text-align:center;
     }
 
+    /*#6130BF*/
     h1 {
       text-align: center;
       color: lightgray;
@@ -49,6 +50,15 @@ Weight:
       color: white;
       margin: auto;
 
+    }
+
+    canvas {
+      width: 90%;
+      height: 100%;
+      margin: auto;
+      display: block;
+      padding: 0;
+      vertical-align: middle;
     }
 
     #answer {
@@ -79,7 +89,7 @@ Weight:
         <button id="submission" onclick="checkAnswer()">Submit</button>
       </div>
       <form>
-        <input id="color" type="color" value="#ff8d4b">
+        <input id="color" type="color" value="#84CD00">
       </form>
       <!--<h2>You got {{correct}} correct out of 5!</h2>
       <a href="#!/studentView"></a>-->
@@ -165,7 +175,7 @@ Weight:
   // draw the cube
   drawCube(
     window.innerWidth/2,
-    window.innerHeight/2 + wobble + y/2 -20,
+    window.innerHeight/2 + wobble + y/2 -50,
     x1,
     x2,
     y,
@@ -190,10 +200,8 @@ Weight:
 
   // Draw a cube to the specified specs
   function drawCube(x, y, wx, wy, h, color) {
-
-
     ctx.fillStyle = "#F8F8F8";
-    ctx.fillRect(window.innerWidth/4, 100, 700, 500);
+
 
     //shadeColor(color, 10)
     //right side of cube h x wy
@@ -247,9 +255,9 @@ Weight:
     ctx.fillStyle = "#000";
     ctx.fillText(h/10 + " cm", ((x-wx+x-wx)*0.5) -50, midpoint(y - wx * 0.5, y - h - wx * 0.5));//(c+b)/2
 
-    ctx.font = "30px Helvetica";
-    ctx.fillStyle = "#000";
-    ctx.fillText("What is the volume of this object?", (canvas.width/2) -250 , 150);
+    ctx.font = "200% Boogaloo";
+    ctx.fillStyle = "#3B0B97";
+    ctx.fillText("What is the volume of this object?", (canvas.width/4) + 100 , 100);
 
   }
 
