@@ -8,7 +8,7 @@
  height : 50%;
  display : none;
  left : 25%;
- top : 10%;
+ top : 0%;
  z-index : 99;
 }
 .PSmodal-content {
@@ -123,15 +123,18 @@
     <label>Max Number</label>
       <br>
       <input style="width:45%" type="number" value="9" ng-model="params.max">
-      <input style="width:45%" type="number" value="9" ng-model="params.max2"><br>
+      <input style="width:45%" type="number" value="9" ng-model="params.max2">
+      <br>
     <label>Min Number</label>
       <br>
       <input style="width:45%"type="number" value="1" ng-model="params.min">
-      <input style="width:45%" type="number" value="9" ng-model="params.min2"><br>
+      <input style="width:45%" type="number" value="9" ng-model="params.min2">
+      <br>
     <label>Multiples of</label>
       <br>
       <input style="width:45%" type="number" value="1" ng-model="params.mult">
-      <input style="width:45%" type="number" value="9" ng-model="params.mult2"><br>             
+      <input style="width:45%" type="number" value="9" ng-model="params.mult2">
+      <br>             
     </form><br>
     <button ng-click="update(params)">Submit Problem Set</button>
     <pre>params = {{params}}</pre>
