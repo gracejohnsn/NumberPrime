@@ -2,32 +2,32 @@
 
 var sDash = angular.module('studentdash', ['ngRoute']);
 sDash.
-  component('studentdash', {
-    templateUrl: 'studentView/studentView.template.html',
-        controller: 'studentCtrl'
-  });
+component('studentdash', {
+	templateUrl: 'studentView/studentView.template.html',
+	controller: 'studentCtrl'
+});
 
-sDash.controller('studentCtrl',["$scope", 
-	function($scope) {
+sDash.controller('studentCtrl', ["$scope",
+	function ($scope) {
 		//alert("Hello");
-		firebase.auth().onAuthStateChanged(function(user) {
+		firebase.auth().onAuthStateChanged(function (user) {
 			if (user) {
 				var uid = user.uid;
 				//alert(uid);
 				var dataPromise = User.readUserData(firebase, uid).then(
-					function(result) {
+					function (result) {
 						if ('student' != result.type) {
 							alert("Not a student user!");
 						}
 						$scope.$apply(
-							function() {
+							function () {
 								$scope.user = result;
 
 								// populate with class notifications
-								Notification.readNotifications(firebase,result.classId).then(
-									function(result) {
+								Notification.readNotifications(firebase, result.classId).then(
+									function (result) {
 										$scope.$apply(
-											function() {
+											function () {
 												if ($scope.notes == undefined || $scope.notes == null) {
 													$scope.notes = [];
 												}
@@ -36,23 +36,23 @@ sDash.controller('studentCtrl',["$scope",
 										);
 									}
 								).catch(
-									function(err) {
+									function (err) {
 										console.log(err);
 									}
 								);
 							}
 						);
 					},
-					function(err) {
+					function (err) {
 						alert(err);
 					}
 				);
-				
+
 				// populate with user notifications
-				Notification.readNotifications(firebase,uid).then(
-					function(result) {
+				Notification.readNotifications(firebase, uid).then(
+					function (result) {
 						$scope.$apply(
-							function() {
+							function () {
 								if ($scope.notes == undefined || $scope.notes == null) {
 									$scope.notes = [];
 								}
@@ -61,11 +61,11 @@ sDash.controller('studentCtrl',["$scope",
 						);
 					}
 				).catch(
-					function(err) {
+					function (err) {
 						console.log(err);
 					}
 				);
-				
+
 			} else {
 				window.location = "/#!/Login";
 				// No user is signed in.
@@ -79,8 +79,8 @@ sDash.controller('studentCtrl',["$scope",
 				firebase.auth().getRedirectResults()
 				);*/
 			}
-		  });
-		  
+		});
+
 
 		/*var scopePromise = new Promise(
 				function(resolve, reject) {

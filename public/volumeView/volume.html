@@ -1,23 +1,23 @@
 <!--Volume:
-1. volume of cubes, cuboid stuff
-2. elaines jewellery box
-3. count/calculate unit cubes
+  1. volume of cubes, cuboid stuff
+  2. elaines jewellery box
+  3. count/calculate unit cubes
 
-Conversion:
-1. convert time
-2. which one is greater? (two different units)
-3. Drag and drop: smallest to largest
+  Conversion:
+  1. convert time
+  2. which one is greater? (two different units)
+  3. Drag and drop: smallest to largest
 
-Length:
-1. Convert distance to different units (us and metric)
-2. ruler graphic
+  Length:
+  1. Convert distance to different units (us and metric)
+  2. ruler graphic
 
-Weight:
-1. Convert weight to different units (us and metric)
-2. graphic??
--->
-<head>
-  <style>
+  Weight:
+  1. Convert weight to different units (us and metric)
+  2. graphic??
+  -->
+  <head>
+    <style>
     *{margin:0;padding:0;background:#64B5C8;}
     body{overflow:hidden;}
     form {
@@ -77,21 +77,21 @@ Weight:
     input[type="text"], textarea {
       background-color : white;
     }
-    
-  </style>
-</head>
-<body>
-      <h1>Problem <span id="num"></span> of 5</h1>
-      <canvas id="myCanvas"></canvas>
-      <div id = "answer">
-        <input id="ans" type="text" name="Your Answer" style="backgorund-color:white">
-        <button id="submission" onclick="checkAnswer()">Submit</button>
-      </div>
-      <form>
-        <input id="color" type="color" value="#84CD00">
-      </form>
-      <!--<h2>You got {{correct}} correct out of 5!</h2>
-      <a href="#!/studentView"></a>-->
+    </style>
+  </head>
+  <body>
+    <h1>Problem <span id="num"></span> of 5</h1>
+    <canvas id="myCanvas"></canvas>
+    <div id="answer">
+      <input id="ans" type="text" name="Your Answer"
+        style="background-color:white">
+      <button id="submission" onclick="checkAnswer()">Submit</button>
+    </div>
+    <form>
+      <input id="color" type="color" value="#84CD00">
+    </form>
+    <!--<h2>You got {{correct}} correct out of 5!</h2>
+  <a href="#!/studentView"></a>-->
 
 </body>
 
@@ -194,12 +194,14 @@ Weight:
     R = (num >> 16) + amt,
     G = (num >> 8 & 0x00FF) + amt,
     B = (num & 0x0000FF) + amt;
-  return '#' + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 + (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 + (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
-  }
+  return '#' + (0x1000000 + (R
+  <255 ? R <1 ? 0 : R : 255) * 0x10000 + (G <255 ? G <1 ? 0 : G : 255) * 0x100 +
+    (B <255 ? B <1 ? 0 : B : 255)).toString(16).slice(1);
+    }
 
-  // Draw a cube to the specified specs
-  function drawCube(x, y, wx, wy, h, color) {
-    ctx.fillStyle = "#F8F8F8";
+    // Draw a cube to the specified specs
+    function drawCube(x, y, wx, wy, h, color) {
+    ctx.fillStyle="#F8F8F8" ;
 
 
     //shadeColor(color, 10)
@@ -210,8 +212,8 @@ Weight:
     ctx.lineTo(x + wy, y - h - wy * 0.5); //e
     ctx.lineTo(x, y - h * 1); //d
     ctx.closePath();
-    ctx.fillStyle = shadeColor(color, 10);
-    ctx.strokeStyle = shadeColor(color, 50);
+    ctx.fillStyle= shadeColor(color, 10);
+    ctx.strokeStyle= shadeColor(color, 50);
     ctx.stroke();
     ctx.fill();
 
@@ -223,8 +225,8 @@ Weight:
     ctx.lineTo(x - wx, y - h - wx * 0.5); //c
     ctx.lineTo(x, y - h * 1); //d
     ctx.closePath();
-    ctx.fillStyle = shadeColor(color, -10);
-    ctx.strokeStyle = color;
+    ctx.fillStyle= shadeColor(color, -10);
+    ctx.strokeStyle= color;
     ctx.stroke();
     ctx.fill();
 
@@ -232,37 +234,38 @@ Weight:
     //top side of cube wx x wy
     ctx.beginPath();
     ctx.moveTo(x, y - h); //d
-    ctx.lineTo(x - wx, y - h - wx * 0.5);  //c
+    ctx.lineTo(x - wx, y - h - wx * 0.5); //c
     ctx.lineTo(x - wx + wy, y - h - (wx * 0.5 + wy * 0.5)); //g
     ctx.lineTo(x + wy, y - h - wy * 0.5); //e
     ctx.closePath();
-    ctx.fillStyle = shadeColor(color, 20);
-    ctx.strokeStyle = shadeColor(color, 60);
+    ctx.fillStyle= shadeColor(color, 20);
+    ctx.strokeStyle= shadeColor(color, 60);
     ctx.stroke();
     ctx.fill();
 
-    ctx.font = "0.7em Arial";
-    ctx.fillStyle = "#000";
-    ctx.fillText( wy/10 + " cm",((x+x+wy)*0.5),15+(y+y-wy*0.5)*0.5); //(a+f)/2
+    ctx.font="0.7em Arial" ;
+    ctx.fillStyle="#000" ;
+    ctx.fillText( wy/10 +"cm" ,((x+x+wy)*0.5),15+(y+y-wy*0.5)*0.5); //(a+f)/2
+    ctx.font="0.7em Arial" ;
+    ctx.fillStyle="#000" ;
+    ctx.fillText(wx/10 +"cm" ,((x+x-wx)*0.5)-20,19+((y+y-wx*0.5)*0.5));
+    //(a+b)/2
 
+    ctx.font="0.7em Arial" ;
+    ctx.fillStyle="#000" ;
+    ctx.fillText(h/10 +"cm" , ((x-wx+x-wx)*0.5) -50, midpoint(y - wx * 0.5, y -
+    h - wx * 0.5));//(c+b)/2
 
-    ctx.font = "0.7em Arial";
-    ctx.fillStyle = "#000";
-    ctx.fillText(wx/10 + " cm",((x+x-wx)*0.5)-20,19+((y+y-wx*0.5)*0.5)); //(a+b)/2
+    ctx.font="200% Boogaloo" ;
+    ctx.fillStyle="#3B0B97" ;
+    ctx.fillText(" What is the volume of this object?" , (canvas.width/4) + 100
+    , 100);
 
-    ctx.font = "0.7em Arial";
-    ctx.fillStyle = "#000";
-    ctx.fillText(h/10 + " cm", ((x-wx+x-wx)*0.5) -50, midpoint(y - wx * 0.5, y - h - wx * 0.5));//(c+b)/2
+    }
 
-    ctx.font = "200% Boogaloo";
-    ctx.fillStyle = "#3B0B97";
-    ctx.fillText("What is the volume of this object?", (canvas.width/4) + 100 , 100);
-
-  }
-
-  function midpoint(x1, x2) {
-    var b = x1+x2;
+    function midpoint(x1, x2) {
+    var b= x1+x2;
     return b/2;
-  }
+    }
 
 </script>
