@@ -8,7 +8,7 @@
     height: 50%;
     display: none;
     left: 25%;
-    top: 10%;
+    top: 0%;
     z-index: 99;
   }
 
@@ -115,6 +115,7 @@
     </a>
   </div>
 
+
   <div id="PSmodal" class="PSmodal">
     <div class="PSmodal-content">
       <span id="PSclose" class="close">&times;</span>
@@ -152,65 +153,64 @@
       <button ng-click="update(params)">Submit Problem Set</button>
       <pre>params = {{params}}</pre>
     </div>
-  </div>
 
 
-  <div id="bg" class="bg" style="display:block;">
-    <div class="dashTable" style="width:75%; display:block;">
-      <p>Class Overview</p>
-      <button style="width:50%">Class List</button>
-      <button style="width:50%">Class Statistics</button>
-      <table style="width:100%">
-        <tr>
-          <th>Student Name</th>
-          <th>Email</th>
-        </tr>
+    <div id="bg" class="bg" style="display:block;">
+      <div class="dashTable" style="width:75%; display:block;">
+        <p>Class Overview</p>
+        <button style="width:50%">Class List</button>
+        <button style="width:50%">Class Statistics</button>
+        <table style="width:100%">
+          <tr>
+            <th>Student Name</th>
+            <th>Email</th>
+          </tr>
 
-        <tr>
-          <td>StudentName</td>
-          <td>StudentEmail</td>
-        </tr>
-        <tr>
-          <td>StudentName</td>
-          <td>StudentEmail</td>
-        </tr>
-        <tr>
-          <td>StudentName</td>
-          <td>StudentEmail</td>
-        </tr>
-        <tr>
-          <td>StudentName</td>
-          <td>StudentEmail</td>
-        </tr>
-        <tr>
-          <td>StudentName</td>
-          <td>StudentEmail</td>
-        </tr>
-        <tr>
-          <td>StudentName</td>
-          <td>StudentEmail</td>
-        </tr>
-        <tr>
-          <td>StudentName</td>
-          <td>StudentEmail</td>
-        </tr>
-        <tr>
-          <td>StudentName</td>
-          <td>StudentEmail</td>
-        </tr>
-        <tr>
-          <td>StudentName</td>
-          <td>StudentEmail</td>
-        </tr>
-        <tr>
-          <td>StudentName</td>
-          <td>StudentEmail</td>
-        </tr>
-      </table>
+          <tr>
+            <td>StudentName</td>
+            <td>StudentEmail</td>
+          </tr>
+          <tr>
+            <td>StudentName</td>
+            <td>StudentEmail</td>
+          </tr>
+          <tr>
+            <td>StudentName</td>
+            <td>StudentEmail</td>
+          </tr>
+          <tr>
+            <td>StudentName</td>
+            <td>StudentEmail</td>
+          </tr>
+          <tr>
+            <td>StudentName</td>
+            <td>StudentEmail</td>
+          </tr>
+          <tr>
+            <td>StudentName</td>
+            <td>StudentEmail</td>
+          </tr>
+          <tr>
+            <td>StudentName</td>
+            <td>StudentEmail</td>
+          </tr>
+          <tr>
+            <td>StudentName</td>
+            <td>StudentEmail</td>
+          </tr>
+          <tr>
+            <td>StudentName</td>
+            <td>StudentEmail</td>
+          </tr>
+          <tr>
+            <td>StudentName</td>
+            <td>StudentEmail</td>
+          </tr>
+        </table>
+      </div>
     </div>
-  </div>
-  <!--Body content-->
-  <!--
+    <!--Body content-->
+    <!--
 	<div class="prgGrid"><p>Progress Report</p>
 	<button>Best Categories</button>
 	<button>Improvable Categories</button>
@@ -230,7 +230,7 @@
 	</table>
 	</div>
 -->
-  <!--
+    <!--
       <div text-align = "center" class="stdList">
 	<p>Suggested Problem Sets</p>
 	<li><a>ProblemSet</a></li>
@@ -244,71 +244,71 @@
           </div>
 -->
 
-  <script>
-    function app(user) {
-      // user.displayName
-      // user.email
-      // user.photoURL
-      // user.uid
-      document.getElementById("clientName").innerHTML = user.displayName;
+    <script>
+      function app(user) {
+        // user.displayName
+        // user.email
+        // user.photoURL
+        // user.uid
+        document.getElementById("clientName").innerHTML = user.displayName;
 
-    }
-  </script>
+      }
+    </script>
 
 
-  <script>
-    // Get the modal
-    var PSmodal = document.getElementById('PSmodal');
+    <script>
+      // Get the modal
+      var PSmodal = document.getElementById('PSmodal');
 
-    // Get the button that opens the modal
-    var PSbtn = document.getElementById("PSbtn");
+      // Get the button that opens the modal
+      var PSbtn = document.getElementById("PSbtn");
 
-    // Get the <span> element that closes the modal
-    var PSclose = document.getElementById("PSclose");
+      // Get the <span> element that closes the modal
+      var PSclose = document.getElementById("PSclose");
 
-    // When the user clicks the button, open the modal 
-    var createPS = function () {
-      PSmodal.style.display = "block";
-    }
+      // When the user clicks the button, open the modal 
+      var createPS = function () {
+        PSmodal.style.display = "block";
+      }
 
-    // When the user clicks on <span> (x), close the modal
-    PSclose.onclick = function () {
-      PSmodal.style.display = "none";
-    }
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-      if (event.target == PSmodal) {
+      // When the user clicks on <span> (x), close the modal
+      PSclose.onclick = function () {
         PSmodal.style.display = "none";
       }
-    }
 
-    // Get the modal
-    var modal = document.getElementById('addStudentsModal');
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function (event) {
+        if (event.target == PSmodal) {
+          PSmodal.style.display = "none";
+        }
+      }
 
-    // Get the button that opens the modal
-    var btn = document.getElementById("addStudents");
+      // Get the modal
+      var modal = document.getElementById('addStudentsModal');
 
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
+      // Get the button that opens the modal
+      var btn = document.getElementById("addStudents");
 
-    // When the user clicks on the button, open the modal
-    btn.onclick = function () {
-      modal.style.display = "block";
-    }
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
 
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function () {
-      modal.style.display = "none";
-    }
+      // When the user clicks on the button, open the modal
+      btn.onclick = function () {
+        modal.style.display = "block";
+      }
 
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-      if (event.target == modal) {
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function () {
         modal.style.display = "none";
       }
-    }
-  </script>
-  <script>
-  </script>
-</div>
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      }
+    </script>
+    <script>
+    </script>
+  </div>

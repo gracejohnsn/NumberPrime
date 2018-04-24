@@ -1,20 +1,36 @@
 var grobjects = grobjects || [];
 var TexturedPlane = undefined;
 var DigitBox = undefined;
-var selectBox;
-var dBoxes = undefined;
-var answers = undefined;
-var problems = undefined;
-var poles = [];
-var balls = [];
-var posBalls = [];
+
+var mathScene = {
+	//The Scope For the Scene
+	scope : undefined,
+	//Input 
+	lastXY : undefined,
+	//Draggable/Clickable Buttons
+	buttons : undefined,
+	//Problem Space
+	problems : undefined,
+	//Students Answer Space
+	answers : undefined,
+	abacus : {
+		poles : undefined,
+		ballPos : undefined,
+		colors : undefined,
+	},
+	//Selected Box
+	selected : undefined,
+	//Parameters for Problem
+	params : undefined,
+	//Tracking Current Problem and Overall Problem Set
+	currProb : undefined,
+	problemSet : undefined,
+	colors : undefined,
+}
+
 var prob = [0.0,0.0,0.0];
 var probState = 0;
 var answer = 0;
-var numDigits = 4;
-var scaleDigits = numDigits;
-var scope = undefined;
-var mathParams = undefined;
 var lastX;
 var lastY;
 var click = 0;
@@ -89,38 +105,37 @@ var bg = {
        0.0, 0.5,
        0.5, 0.5,
        0.5, 1.0,
-	]},
-
-};
-bgBuffer = twgl.createBufferInfoFromArrays(drawingState.gl,bg);
-
+	]}
+	};
+	bgBuffer = twgl.createBufferInfoFromArrays(drawingState.gl,bg);
 };
     TexturedPlane.prototype.center = function () {
         return this.position;
     }
 
     TexturedPlane.prototype.draw = function (drawingState) {
-        var gl = drawingState.gl;
-	   var modelM = twgl.m4.scaling([this.scale[0],this.scale[1],1.0]);
+		var gl = drawingState.gl;
+		
+		var modelM = twgl.m4.scaling([this.scale[0],this.scale[1],1.0]);
         twgl.m4.setTranslation(modelM,[0.0,0.0,0.0], modelM);
         gl.useProgram(shaderProgram.program);
-if (this.texture == null) { 
-this.texture = createGLTexture(gl, bgImg, true);
-}
+		if (this.texture == null) { 
+			this.texture = createGLTexture(gl, bgImg, true);
+		}
 		var c = Math.cos(drawingState.realtime*.00005);
 		var off = [this.ty*(.5*c+.5),-.5*this.ty];
         var cM = twgl.m4.lookAt([0.5,0.5,0.9],[0.5,0.5,0.0],[0,1,0]);
         var vM = twgl.m4.inverse(cM);
 		twgl.setUniforms(shaderProgram,{
             view:vM, proj:drawingState.proj,
-             model: modelM, uTexture : this.texture,
-	 color : [1.0,1.0,1.0], offset : off });
-
-	twgl.setBuffersAndAttributes(gl,shaderProgram,bgBuffer);
+            model: modelM, uTexture : this.texture,
+			 color : [1.0,1.0,1.0], offset : off 
+		});
+		twgl.setBuffersAndAttributes(gl,shaderProgram,bgBuffer);
         twgl.drawBufferInfo(gl, gl.TRIANGLES, bgBuffer);
     }
 
-DigitBox = function (digit,type) {
+	DigitBox = function (digit,type) {
 		this.type = type;
         this.name = "DigitBox"+digit + "" + type;
         this.position = [0.0,0.0,0.03];
@@ -134,16 +149,28 @@ DigitBox = function (digit,type) {
 		this.fillOff = [0.0,0.0];
 		switch (this.type) {
 			case 0 : 
-				if (this.digit < 5) {
-					this.fillOff = [0.15*this.digit,0.0];
+				if (mathScene.buttons.length >= 10) {
+					if (this.digit == 0) { 
+						this.color = [0.5,0.2,0.2];
+					}
+					else { 
+						this.color = [0.2,0.5,0.2];
+					}
+					this.position = [0.4,.125+.275*this.digit,0.003];
+					this.scale[0] = 1.0;
+					this.scale[1] = 1.5;
 				} else {
-					this.fillOff = [0.15*(this.digit-5),-0.25];
-				}
-				if (digit > 0) {
-					this.position = [(.075+.085*((this.digit-1.0)%3)),
-					0.45-.125*Math.floor((this.digit-1.0)/3.0),0.005];
-				} else {
-					this.position = [.16,0.075,.003];
+					if (this.digit < 5) {
+						this.fillOff = [0.15*this.digit,0.0];
+					} else {
+						this.fillOff = [0.15*(this.digit-5),-0.25];
+					}
+					if (digit > 0) {
+						this.position = [(.075+.085*((this.digit-1.0)%3)),
+						0.45-.125*Math.floor((this.digit-1.0)/3.0),0.005];
+					} else {
+						this.position = [.16,0.075,.003];
+					}
 				}
 				break;
 			case 1 : 	
@@ -152,8 +179,8 @@ DigitBox = function (digit,type) {
 			case 2 :
 				this.bgOff = [0.25,-0.25];
 				this.bordOff = [0.5,0.0];
-				this.scale[0] = 2.0/scaleDigits;
-				this.position = [.13+.15*this.scale[0]*answers.length,0.65,0.003];
+				this.scale[0] = 2.0/mathScene.params[8];
+				this.position = [.13+.15*this.scale[0]*mathScene.answers.length,0.65,0.003];
 				break;
 			case 3 :
 				if (this.digit == 0) { 
@@ -170,11 +197,11 @@ DigitBox = function (digit,type) {
 				this.position[2] = -.003;
 				this.bgOff = [.25,-.25];
 				this.bordOff = [.25,0.0];
-				this.scale[0] = 2.0/scaleDigits;
+				this.scale[0] = 2.0/mathScene.params[8];
 				break;
 			case 5 : {
-				this.scale = [1.0/scaleDigits,10.0,0.0];
-				this.position = [.55+(.4/scaleDigits)*poles.length, 0.5,0.003];
+				this.scale = [1.0/mathScene.params[8],10.0,0.0];
+				this.position = [.55+(.4/mathScene.params[8])*mathScene.abacus.poles.length, 0.5,0.003];
 				this.bgOff = [0.75,-0.25];
 				break;
 			}
@@ -218,9 +245,8 @@ DigitBox.prototype.init = function (drawingState) {
 	};
 	digitBuffer = twgl.createBufferInfoFromArrays(drawingState.gl,digitbox);
 };
-
-
-    DigitBox.prototype.center = function () {
+	
+	DigitBox.prototype.center = function () {
         return this.position;
     }
 
@@ -230,9 +256,9 @@ DigitBox.prototype.init = function (drawingState) {
 	this.digit = digit;
     }
 
-    DigitBox.prototype.checkHitbox = function(lastXY) {
-	var lY = 1.0 - lastXY[1];
-	var lX = lastXY[0]; 
+    DigitBox.prototype.checkHitbox = function() {
+	var lY = 1.0 - mathScene.lastXY[1];
+	var lX = mathScene.lastXY[0]; 
 	    if (this.position[0] - .075*this.scale[0] < lX && 
 		  this.position[0] + .075*this.scale[0] > lX) {
 			if (this.position[1]-.075*this.scale[1] < lY && (this.position[1] + .075*this.scale[1] > lY)) {
@@ -242,137 +268,226 @@ DigitBox.prototype.init = function (drawingState) {
 		return 0;
 	}
 
-var curBox;
-var selected = 0;
-DigitBox.prototype.draw = function (drawingState) {
-    var gl = drawingState.gl;
-	var lastXY = drawingState.lastXY;
-	//Update SelectBox
-	if (lastXY[3] == 1) {
-		for (var i = 0; i < 10; i++) {
-			curBox = dBoxes[i];
-			if (curBox.checkHitbox(lastXY) == 1) {
-			selectBox.updateDigit(curBox.fillOff,curBox.digit);
-			selectBox.position = (curBox.position);
-			selected = 1;
-			break;
-			}
-		}
-		if (answers[numDigits].checkHitbox(lastXY) == 1) {
-			for (var i = 0; i < numDigits; i++) {
-				answers[i].updateDigit(dBoxes[0].fillOff,dBoxes[0].digit);
-				poles[i].digit = 0;
-				answers[i].bgOff = [.25,-.25];
-				answers[i].bordOff = [.5,0.0];
-			}
-		}
-		if (answers[answers.length-1].checkHitbox(lastXY) == 1) {
-			scope.correct = evaluateProblem();
-			scope.writeProblem();
-			scope.totalCorrect += scope.correct;
-			scope.probNum++;
-			scope.$apply();
-			if (scope.probNum == 10) {
-			scope.problemSetDone();
-			}
-			createProblem(mathParams[1]);
-			for (var i = 0; i < numDigits; i++) {
-				answers[i].updateDigit(dBoxes[0].fillOff,dBoxes[0].digit);
-				poles[i].digit = 0;
-				answers[i].bgOff = [.25,-.25];
-				answers[i].bordOff = [.5,0.0];
-			}
-		}
-	}
-//Update AnswerBoxes
-	if (selected == 1 && lastXY[2] == 0) {
-		for (var i = 0; i < numDigits; i++) {
-		if (answers[i].checkHitbox(lastXY) == 1) {
-	answers[i].updateDigit(selectBox.fillOff,selectBox.digit);
-		selectBox.position = [0.0,0.0,-0.03];
-		answers[i].bgOff = [0.0,0.0];
-		answers[i].bordOff = [0.0,0.0];
-		probState = 2;
-		selected = 0;
-		}
-		}
-	}
-
-//Update Poles
-	if (lastXY[3] == 1) {
-		var cPole;
-		var carry = 0;
-		for (var i = 0; i < numDigits; i++) {
-		cPole = poles[i];
-		if (cPole.checkHitbox(lastXY) == 1) {
-			var dig;
-			for (var it = i*9; it < (i+1)*9; it++) {
-			if ((posBalls[it]) -.05 <= (1.0-lastXY[1])) {
-				dig = it-(i*9)+1;
+	var selected = 0;
+	var checkInput = function() {
+		var curBox;
+		if (mathScene.lastXY[3] == 1 && mathScene.lastXY[0] < 0.5 
+			&& mathScene.lastXY[1] > 0.5) {
+			for (var i = 0; i < 10; i++) {
+				curBox = mathScene.buttons[i];
+				if (curBox.checkHitbox() == 1) {
+				mathScene.selected.updateDigit(curBox.fillOff,curBox.digit);
+				mathScene.selected.position = (curBox.position);
+				selected = 1;
+				break;
 				}
 			}
-				if (cPole.digit == dig) {
-				cPole.digit--;
+			if (mathScene.buttons[mathScene.buttons.length-2].checkHitbox() == 1) {
+				for (var i = 0; i < mathScene.params[0]; i++) {
+					mathScene.answers[i].updateDigit(mathScene.buttons[0].fillOff,mathScene.buttons[0].digit);
+					mathScene.abacus.poles[i].digit = 0;
+					mathScene.answers[i].bgOff = [.25,-.25];
+					mathScene.answers[i].bordOff = [.5,0.0];
 				}
-				else if (dig > cPole.digit ) {
-				cPole.digit = dig;
+			}
+			if (mathScene.buttons[mathScene.buttons.length-1].checkHitbox() == 1) {
+				mathScene.scope.correct = evaluateProblem();
+				mathScene.scope.writeProblem();
+				mathScene.scope.totalCorrect += mathScene.scope.correct;
+				mathScene.scope.probNum++;
+				mathScene.scope.$apply();
+				if (mathScene.scope.probNum == 10) {
+					mathScene.scope.problemSetDone();
 				}
-				else {
-				cPole.digit = dig - 1;
-				}  	
+				createProblem();
+				for (var i = 0; i < mathScene.params[0]; i++) {
+					mathScene.answers[i].updateDigit(mathScene.buttons[0].fillOff,mathScene.buttons[0].digit);
+					mathScene.abacus.poles[i].digit = 0;
+					mathScene.answers[i].bgOff = [.25,-.25];
+					mathScene.answers[i].bordOff = [.5,0.0];
+				}
+			}
+		}
+	//Update AnswerBoxes
+		if (selected == 1 && mathScene.lastXY[2] == 0) {
+			for (var i = 0; i < mathScene.params[0]; i++) {
+			if (mathScene.answers[i].checkHitbox() == 1) {
+				mathScene.answers[i].updateDigit(mathScene.selected.fillOff,mathScene.selected.digit);
+				mathScene.selected.position = [0.0,0.0,-0.03];
+				mathScene.answers[i].bgOff = [0.0,0.0];
+				mathScene.answers[i].bordOff = [0.0,0.0];
+				probState = 2;
+				selected = 0;
+			}
+			}
+		}
+
+	//Update Poles
+		if (mathScene.lastXY[3] == 1 && mathScene.lastXY[0] > 0.5) {
+			var cPole;
+			var carry = 0;
+			for (var i = 0; i < mathScene.params[0]; i++) {
+			cPole = mathScene.abacus.poles[i];
+			if (cPole.checkHitbox() == 1) {
+				var dig;
+				for (var it = i*9; it < (i+1)*9; it++) {
+				if ((mathScene.abacus.ballPos[it]) -.05 <= (1.0-mathScene.lastXY[1])) {
+					dig = it-(i*9)+1;
+					}
+				}
+					if (cPole.digit == dig) {
+					cPole.digit--;
+					}
+					else if (dig > cPole.digit ) {
+					cPole.digit = dig;
+					}
+					else {
+					cPole.digit = dig - 1;
+					}  	
+				}
 			}
 		}
 	}
 
 
-     gl.useProgram(shaderProgram.program);
-	if (this.texture == null) { 
-	this.texture = createGLTexture(gl, image, true);
-	}
-        var cM = twgl.m4.lookAt([0.5,0.5,0.9],[0.5,0.5,0.0],[0,1,0]);
-        var vM = twgl.m4.inverse(cM);
-	twgl.setBuffersAndAttributes(gl,shaderProgram,digitBuffer);
-
-
-//Draw UI Elements
-	var c = 1.0 + .2*Math.cos(drawingState.realtime*.001);
-	var s = .05*Math.sin(drawingState.realtime*.001);
-	var tClr = [backColor[0]*c,backColor[1]*c,backColor[2]*c];
-	twgl.setUniforms(shaderProgram,{
-		view:vM, proj:drawingState.proj, uTexture : this.texture,
-		color : backColor,
-	 });
-	var modelM;
-	var cBox;
-	var ind;
-	for (ind = 0; ind < dBoxes.length; ind++) {
-		cBox = dBoxes[ind];
-		if (cBox.checkHitbox(lastXY) == 1 && lastXY[2] == 0 && ind < 10)  {
-			modelM = twgl.m4.scaling([cBox.scale[0],cBox.scale[1],1.0]);
-			twgl.m4.rotateZ(modelM,s,modelM);
+	var drawAbacus = function(gl) {
+		var cBox;
+		var modelM;
+		var blockClrs = [1,0,0, 0,1,0,
+			0,0,1, 1,1,1,
+			1,1,0, 1,0,1,
+			0,1,1, 1,1,1];
+			var cBall;
+			var blockClr = [0.0,0.0,0.0];
+		for (var ind = 0; ind < mathScene.params[0]; ind++) {
+			cBox = mathScene.abacus.poles[ind];
+			modelM = twgl.m4.scaling([cBox.scale[0]/4.0,cBox.scale[1],1.0]);
 			twgl.m4.setTranslation(modelM,cBox.position,modelM);
 			twgl.setUniforms(shaderProgram,{
-				model: modelM, color : textColor, offset : cBox.bgOff,
+				model: modelM, offset : [0.5,0.0],
+				color : [blockClrs[ind*3],blockClrs[ind*3+1],blockClrs[ind*3+2]],
 			});
+			twgl.drawBufferInfo(gl, gl.TRIANGLES, digitBuffer,6);
+			blockClr = [0.0,0.0,0.0];
+			for (var j = 0; j < 9; j++) {
+				blockClr[0] += blockClrs[(ind*3)%24]*.1;
+				blockClr[1] += blockClrs[(ind*3+1)%24]*.1;
+				blockClr[2] += blockClrs[(ind*3+2)%24]*.1;
+				cBall = mathScene.abacus.ballPos[9*ind+j];
+				if (j < cBox.digit) {
+				if (cBall >= 0.1+0.07*j) {
+					mathScene.abacus.ballPos[9*ind+j] -= .01;
+					}
+				} else {
+					if (cBall < 0.3+0.07*j) {
+						mathScene.abacus.ballPos[9*ind+j] += .01;		
+					}
+				}
+				modelM = twgl.m4.scaling([1.0/mathScene.params[8],.6,1.0]);
+				twgl.m4.setTranslation(modelM,[cBox.position[0],cBall,0.005],modelM);
+				twgl.setUniforms(shaderProgram,{
+					model: modelM, color : blockClr, offset : [0.255,0.0],
+				});
+				twgl.drawBufferInfo(gl, gl.TRIANGLES, digitBuffer,6);
+				if (cBox.digit == j+1) {
+					twgl.setUniforms(shaderProgram,{
+						color : textColor, offset : mathScene.buttons[j+1].fillOff,
+					});
+					twgl.drawBufferInfo(gl, gl.TRIANGLES, digitBuffer,6,12);
+				} 
+			}
+		}
+	}
+
+	
+	DigitBox.prototype.draw = function (drawingState) {
+    	var gl = drawingState.gl;
+		mathScene.lastXY = drawingState.lastXY;
+		//Get Input and Update
+		checkInput();
+		gl.useProgram(shaderProgram.program);
+		if (this.texture == null) { 
+		this.texture = createGLTexture(gl, image, true);
+		}
+		var cM = twgl.m4.lookAt([0.5,0.5,0.9],[0.5,0.5,0.0],[0,1,0]);
+		var vM = twgl.m4.inverse(cM);
+		twgl.setBuffersAndAttributes(gl,shaderProgram,digitBuffer);
+		//Draw UI Elements
+		var c = 1.0 + .2*Math.cos(drawingState.realtime*.001);
+		var s = .05*Math.sin(drawingState.realtime*.001);
+		var tClr = [backColor[0]*c,backColor[1]*c,backColor[2]*c];
+		twgl.setUniforms(shaderProgram,{
+			view:vM, proj:drawingState.proj, uTexture : this.texture,
+		});
+		var modelM;
+		var cBox;
+		var ind;
+		//Draw Buttons and Selected Box
+		for (ind = 0; ind < mathScene.buttons.length+1; ind++) {
+			if (ind < mathScene.buttons.length) {
+				cBox = mathScene.buttons[ind];
+			} else {
+				cBox = mathScene.selected;
+				if (selected)
+					cBox.position = [mathScene.lastXY[0],1.0-mathScene.lastXY[1],0.01];
+			}
+			modelM = twgl.m4.scaling([cBox.scale[0],cBox.scale[1],1.0]);
+			var check = cBox.checkHitbox();
+			if (check == 1 && selected == 0) {
+				twgl.m4.rotateZ(modelM,s,modelM);
+				twgl.m4.setTranslation(modelM,cBox.position,modelM);
+				twgl.setUniforms(shaderProgram,{
+					model: modelM, color : textColor, offset : cBox.bgOff,
+				});
+			} else {
+				twgl.m4.setTranslation(modelM,cBox.position,modelM);
+				twgl.setUniforms(shaderProgram,{
+					model: modelM, color : tClr, offset : cBox.bgOff,
+				});
+			}
+			if (ind >= 10 && ind < mathScene.buttons.length) {
+				if (cBox.digit == 0) {
+					twgl.setUniforms(shaderProgram,{
+					 color : [0.8,0.2,0.2],
+					});
+				} else {
+					twgl.setUniforms(shaderProgram,{
+						color : [0.2,0.8,0.2],
+					   });
+				}
+				twgl.drawBufferInfo(gl, gl.TRIANGLES, digitBuffer,6);
+				twgl.setUniforms(shaderProgram,{
+					color : borderColor, offset : cBox.bordOff,
+				});
+				twgl.drawBufferInfo(gl, gl.TRIANGLES, digitBuffer,6,24);
+			} else {
 			twgl.drawBufferInfo(gl, gl.TRIANGLES, digitBuffer,6);
 			twgl.setUniforms(shaderProgram,{
 				color : textColor, offset : cBox.fillOff,
 			});
 			twgl.drawBufferInfo(gl, gl.TRIANGLES, digitBuffer,6,12);
 			twgl.setUniforms(shaderProgram,{
-				 color : borderColor, offset : cBox.bordOff,
+				color : borderColor, offset : cBox.bordOff,
 			});
-			twgl.drawBufferInfo(gl, gl.TRIANGLES, digitBuffer,6,24);	
-		} else {
-			modelM = twgl.m4.scaling([cBox.scale[0],cBox.scale[1],1.0]);
-			if (cBox.type == 1 && selected == 1) {
-				cBox.position = [lastXY[0],1.0-lastXY[1],0.01];
-				modelM = twgl.m4.rotateZ(modelM,s);
+			twgl.drawBufferInfo(gl, gl.TRIANGLES, digitBuffer,6,24);
 			}
+		}
+		//Draw Problem and Answer
+		for (ind = 0; ind < mathScene.problems.length;ind++) {
+			cBox = mathScene.problems[ind];
+			modelM = twgl.m4.scaling([cBox.scale[0],cBox.scale[1],1.0]);
 			twgl.m4.setTranslation(modelM,cBox.position,modelM);
-			if (cBox.type != 4) {
 			twgl.setUniforms(shaderProgram,{
-				model: modelM, color : tClr, offset : cBox.bgOff,
+				model: modelM, color : textColor, offset : cBox.fillOff,
+			});
+			twgl.drawBufferInfo(gl, gl.TRIANGLES, digitBuffer,6,12);
+		}
+		for (ind = 0; ind < mathScene.answers.length;ind++) {
+			cBox = mathScene.answers[ind];
+			modelM = twgl.m4.scaling([cBox.scale[0],cBox.scale[1],1.0]);
+			twgl.m4.setTranslation(modelM,cBox.position,modelM);
+			twgl.setUniforms(shaderProgram,{
+				model: modelM, color : backColor, offset : cBox.bgOff,
 			});
 			twgl.drawBufferInfo(gl, gl.TRIANGLES, digitBuffer,6);
 			twgl.setUniforms(shaderProgram,{
@@ -383,124 +498,56 @@ DigitBox.prototype.draw = function (drawingState) {
 				color : borderColor, offset : cBox.bordOff,
 			});
 			twgl.drawBufferInfo(gl, gl.TRIANGLES, digitBuffer,6,24);
-	} else {
-		twgl.setUniforms(shaderProgram,{
-    	    model: modelM, color : textColor, offset : cBox.fillOff,
-		});
-		twgl.drawBufferInfo(gl, gl.TRIANGLES, digitBuffer,6,12);
 		}
+		drawAbacus(gl);
 	}
-	}
-
-
-	var blockClrs = [1,0,0, 0,1,0,
-		0,0,1, 1,1,1,
-		1,1,0, 1,0,1,
-		0,1,1, 1,1,1];
-		var cPole;
-		var cBalls;
-		var cBall;
-		var ballOff = [0.0,-0.125,0.0];
-		var blockClr = [0.0,0.0,0.0];
-	//Draw Abacus
-	for (ind = 0; ind < numDigits; ind++) {
-		cBox = poles[ind];
-		modelM = twgl.m4.scaling([cBox.scale[0]/4.0,cBox.scale[1],1.0]);
-		twgl.m4.setTranslation(modelM,cBox.position,modelM);
-		twgl.setUniforms(shaderProgram,{
-			model: modelM, offset : [0.5,0.0],
-			color : [blockClrs[ind*3],blockClrs[ind*3+1],blockClrs[ind*3+2]],
-		 });
-        twgl.drawBufferInfo(gl, gl.TRIANGLES, digitBuffer,6);
-	}
-	for (ind = 0; ind < numDigits; ind++) {
-		blockClr = [0.0,0.0,0.0];
-		cPole = poles[ind];
-		for (var j = 0; j < 9; j++) {
-			if (j+1 == cPole.digit) {
-				ballOff = dBoxes[j+1].offset;
-			}
-			else {
-				ballOff = [-0.5,0.5,0.0];
-			}
-			blockClr[0] += blockClrs[(ind*3)%24]*.1;
-			blockClr[1] += blockClrs[(ind*3+1)%24]*.1;
-			blockClr[2] += blockClrs[(ind*3+2)%24]*.1;
-			cBall = posBalls[9*ind+j];
-			if (j < cPole.digit) {
-			if (cBall >= 0.1+0.07*j) {
-				posBalls[9*ind+j] -= .01;
-				}
-			} else {
-				if (cBall < 0.3+0.07*j) {
-					posBalls[9*ind+j] += .01;		
-				}
-			}
-			modelM = twgl.m4.scaling([1.0/scaleDigits,.6,1.0]);
-			twgl.m4.setTranslation(modelM,[cPole.position[0],cBall,0.005],modelM);
-			twgl.setUniforms(shaderProgram,{
-				model: modelM, color : blockClr, offset : [0.255,0.0],
-			});
-			twgl.drawBufferInfo(gl, gl.TRIANGLES, digitBuffer,6);
-			if (cPole.digit == j+1) {
-				twgl.setUniforms(shaderProgram,{
-					color : textColor, offset : dBoxes[j+1].fillOff,
-				});
-			} else {
-			twgl.setUniforms(shaderProgram,{
-				color : [0.5,0.5,1.0], offset : [0.25,0.25],
-			});
-		}
-			twgl.drawBufferInfo(gl, gl.TRIANGLES, digitBuffer,6,12);
-    	}
-	}
-}
 })();
 
-var evaluateProblem = function() {
-	var ansArray = [];
-	for (var i = 0; i < numDigits; i++) {
-		ansArray.push(answers[i].digit);
+	var evaluateProblem = function() {
+		var ansArray = [];	
+		for (var i = 0; i < mathScene.params[0]; i++) {
+			ansArray.push(mathScene.answers[i].digit);
+		}
+		var a = ansArray.join('');
+		if (a == answer)
+			 return 1;
+		else 
+			return 0;
 	}
-	var a = ansArray.join('');
-	if (a == answer)
-		 return 1;
-	else 
-		return 0;
-}
 
-var createProblem = function(type) {
-		var max = mathParams[2];
-		var min = mathParams[3];
-		var mult = mathParams[4];
-		var max2 = mathParams[5];
-		var min2 = mathParams[6];
-		var mult2 = mathParams[7];
-			var bot = min/mult;
-			var top = Math.floor(max/mult);
-			if (bot != Math.floor(bot)) {
+	var createProblem = function() {
+		var type = mathScene.params[1];
+		var max = mathScene.params[2];
+		var min = mathScene.params[3];
+		var mult = mathScene.params[4];
+		var max2 = mathScene.params[5];
+		var min2 = mathScene.params[6];
+		var mult2 = mathScene.params[7];
+		var bot = min/mult;
+		var top = Math.floor(max/mult);
+		if (bot != Math.floor(bot)) {
 			 bot = Math.floor(bot)+1;
-			}
-			var diff = top-bot+1;
-			n1 = Math.floor(Math.random()*diff)+bot;
-			bot = min2/mult2;
-			top = Math.floor(max2/mult2);
-			if (bot != Math.floor(bot)) {
+		}
+		var diff = top-bot+1;
+		n1 = Math.floor(Math.random()*diff)+bot;
+		bot = min2/mult2;
+		top = Math.floor(max2/mult2);
+		if (bot != Math.floor(bot)) {
 			 bot = Math.floor(bot)+1;
-			}
-			diff = top-bot+1;
-			n2 = Math.floor(Math.random()*diff)+bot;
-			prob[0] = (n1)*mult;
-			prob[1] = (n2)*mult2;
-			scope.num1 = prob[0];
-			scope.num2 = prob[1];
-			scope.$apply();
-			var ans;
-			var curr;
-			probState = 1;
-			var place = Math.pow(10,numDigits-1);
-			prob[2] = mathParams[1];
-			switch (type) {
+		}
+		diff = top-bot+1;
+		n2 = Math.floor(Math.random()*diff)+bot;
+		prob[0] = (n1)*mult;
+		prob[1] = (n2)*mult2;
+		mathScene.scope.num1 = prob[0];
+		mathScene.scope.num2 = prob[1];
+		mathScene.scope.$apply();
+		var ans;
+		var curr;
+		probState = 1;
+		var place = Math.pow(10,mathScene.params[0]-1);
+		prob[2] = type;
+		switch (type) {
 			case 0 : answer = prob[0] + prob[1];
 				break;
 			case 1 :
@@ -522,110 +569,107 @@ var createProblem = function(type) {
 			}
 
 		var cDig;
-	for (var row = 0; row < 2; row++) {
-		for (var i = 0; i < numDigits; i++) {
-			cDig = Math.floor(prob[row]/place);
-			problems[numDigits*row+i].updateDigit(dBoxes[cDig].fillOff,dBoxes[cDig].digit);
-			problems[numDigits*row+i].position = [.13+.15*problems[0].scale[0]*i,0.85-.1*row,0.003];
-			prob[row] = prob[row]%place;
-			place = place/10;
+		for (var row = 0; row < 2; row++) {
+			for (var i = 0; i < mathScene.params[0]; i++) {
+					cDig = Math.floor(prob[row]/place);
+					mathScene.problems[mathScene.params[0]*row+i].updateDigit(
+					mathScene.buttons[cDig].fillOff,mathScene.buttons[cDig].digit);
+					mathScene.problems[mathScene.params[0]*row+i].position = [.13+.15*mathScene.problems[0].scale[0]*i,0.85-.1*row,0.003];
+					prob[row] = prob[row]%place;
+					place = place/10;
+				}
+			place = Math.pow(10,mathScene.params[0]-1);
 		}
-		place = Math.pow(10,numDigits-1);
+		var x = mathScene.problems[0].position[0];
+		mathScene.problems[mathScene.params[0]*2+1].position = [x-.15*mathScene.problems[0].scale[0],.75,0.003];
+		mathScene.problems[mathScene.params[0]*2+1].fillOff = [.75,.5-.25*type];
 	}
-	var x = problems[0].position[0];
-	problems[numDigits*2+1].position = [x-.15*problems[0].scale[0],.75,0.003];
-	problems[numDigits*2+1].fillOff = [.75,.5-.25*type];
-}
 
-var updateColor = function(clr,swtch) {
-	console.log("hello");
-	clr = clr.substr(1);
-    var num = parseInt(clr, 16),
-    R = (num >> 16)/255.0,
-    G = (num >> 8 & 0x00FF)/255.0,
-	B = (num & 0x0000FF)/255.0;
-	if (swtch == 0) {
-	backColor = [R,G,B];
-	} else if (swtch == 1) {
-		borderColor = [R,G,B];
-	} else {
-		textColor = [R,G,B];
-	}
-} 
+	var updateColor = function(clr,swtch) {
+		console.log("hello");
+		clr = clr.substr(1);
+	    var num = parseInt(clr, 16),
+		R = (num >> 16)/255.0;
+		if (R < .1)
+			R = .1;
+		G = (num >> 8 & 0x00FF)/255.0;
+		if (G < .1) 
+			G = .1;
+		B = (num & 0x0000FF)/255.0;
+		if (B < .1)
+			B = .1;
+		if (swtch == 0) {
+		backColor = [R,G,B];
+		} else if (swtch == 1) {
+			borderColor = [R,G,B];
+		} else {
+			textColor = [R,G,B];
+		}
+	} 
 
 var setupPS = function(parameters) {
 	"use strict";
 	var dom_el = document.querySelector('[ng-controller="mathCtrl"]');
 	var ng_el = angular.element(dom_el);
-	scope = ng_el.scope();
+	mathScene.scope = ng_el.scope();
 	console.log(parameters);
-	mathParams = parameters.split(",");
-	for (var i = 0; i < mathParams.length; i++) {
-		mathParams[i] = parseInt(mathParams[i]);
+	mathScene.params = parameters.split(",");
+	for (var i = 0; i < mathScene.params.length; i++) {
+		mathScene.params[i] = parseInt(mathScene.params[i]);
 	}
-	console.log(mathParams);
+	console.log(mathScene.params);
 	var highestVal;
 	var p = 0;
-	if (mathParams[1] == 2) {
-		highestVal = mathParams[2]*mathParams[5];
-	} else if (mathParams[1] == 0){
-		highestVal = mathParams[2]+mathParams[5];
+	if (mathScene.params[1] == 2) {
+		highestVal = mathScene.params[2]*mathScene.params[5];
+	} else if (mathScene.params[1] == 0){
+		highestVal = mathScene.params[2]+mathScene.params[5];
 	} else {
-		highestVal = mathParams[2];
+		highestVal = mathScene.params[2];
 	}
 	while (highestVal > 0) {
-		console.log(highestVal);
 		highestVal = Math.floor(highestVal/10);
 		p++;
 	}
-	numDigits = p;
-	if (numDigits >= 4) {
-		scaleDigits = numDigits;
+	mathScene.params[0] = p;
+	if (mathScene.params[0] >= 4) {
+		mathScene.params[8] = mathScene.params[0];
 	} else {
-		scaleDigits = 4;
+		mathScene.params[8] = 4;
 	}
 	grobjects = [];
-	dBoxes = [];
-	answers = [];
-	problems = [];
-	poles = [];
+	mathScene.buttons = [];
+	mathScene.problems = [];
+	mathScene.answers = [];
+	mathScene.abacus.poles = [];
 	grobjects = [];
-	var test = new TexturedPlane(0);
-	test.position[1] = 3;
-	test.scale = [1.0, 1.0];
-	grobjects.push(test);
 	var test2 = new TexturedPlane(1);
 	test2.position[1] = 3;
 	test2.scale = [1.0, 1.0];
 	grobjects.push(test2);
 	var i;
 	for (i = 0; i < 10; i++) {
-		dBoxes.push(new DigitBox(i,0));
+		mathScene.buttons.push(new DigitBox(i,0));
 	}
-	grobjects.push(dBoxes[0]);
-	selectBox = new DigitBox(0,1);
-	dBoxes.push(selectBox);
+	mathScene.buttons.push(new DigitBox(0,0));
+	mathScene.buttons.push(new DigitBox(1,0));
+	grobjects.push(mathScene.buttons[0]);
+	mathScene.selected = new DigitBox(0,1);
 
-	for (i = 0; i < numDigits; i++) {
-		answers.push(new DigitBox(0,2));
-		dBoxes.push(answers[i]);
+	for (i = 0; i < mathScene.params[0]; i++) {
+		mathScene.answers.push(new DigitBox(0,2));
 	}
-	answers.push(new DigitBox(0,3));
-	dBoxes.push(answers[numDigits]);
-	answers.push(new DigitBox(1,3));
-	dBoxes.push(answers[answers.length-1]);
-	for (i = 0; i <= numDigits*2+1; i++) {
-		problems.push(new DigitBox(0,4));
-		dBoxes.push(problems[i]);
+	for (i = 0; i <= mathScene.params[0]*2+1; i++) {
+		mathScene.problems.push(new DigitBox(0,4));
 	}
 	
 	//Poles
-	for (i = 0; i < numDigits; i++) {
-		poles.push(new DigitBox(0,5));
+	for (i = 0; i < mathScene.params[0]; i++) {
+		mathScene.abacus.poles.push(new DigitBox(0,5));
 	}
-	posBalls = [];
-	for (var i = 0; i < numDigits*10; i++) {
-		posBalls.push(0.0);
+	mathScene.abacus.ballPos = [];
+	for (var i = 0; i < mathScene.params[0]*10; i++) {
+		mathScene.abacus.ballPos.push(0.0);
 	}
-	createProblem(mathParams[1]);
+	createProblem();
 }
