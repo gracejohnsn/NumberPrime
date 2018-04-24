@@ -211,7 +211,13 @@ class Class {
 
         return Promise.all([getClass, dataPromise]).then(
             function (results) {
-                var classInstance = results[0];
+                var studentLst = results[0].studentList;
+                console.log(result[0]);
+                for(var stud in studentLst){
+                    Student.removeStudentFromClass(_app,stud,_classId);
+                }
+                
+
                 var classId = results[1]["classId"];
                 //if(!Object.keys(classInstance.studentList).includes(studentId)) {
                 //  throw "class does not exist";
