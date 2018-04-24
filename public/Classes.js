@@ -48,8 +48,7 @@ class User {
             retPromise = _app.database().ref().update(updates).then(
                 function () { // return if no problem adding student
                     return;
-                },
-                function () { // runs with error
+                }, function () { // runs with error
                     throw "unable to update user";
                 }
             );
@@ -145,9 +144,9 @@ class Student extends User {
                     //console.log("\n" + hash.toString().substr(0,HASH_CHARS_KEPT) + "\n");
                     var addPromise = _app.database().ref("studentHashes/" +
                         hash).set({
-                        studentId: _userId,
-                        timeStamp: _timeStamp.toUTCString()
-                    });
+                            studentId: _userId,
+                            timeStamp: _timeStamp.toUTCString()
+                        });
 
                     var getHashPromise = new Promise(function (resolve, reject) {
                         resolve(hash.toString().substr(0, HASH_CHARS_KEPT));
@@ -214,7 +213,13 @@ class Class {
 
         return Promise.all([getClass, dataPromise]).then(
             function (results) {
-                var classInstance = results[0];
+
+                var studentLst = results[0].studentList;
+                console.log(result[0]);
+                for(var stud in studentLst){
+                    Student.removeStudentFromClass(_app,stud,_classId);
+                }
+                
                 var classId = results[1]["classId"];
                 //if(!Object.keys(classInstance.studentList).includes(studentId)) {
                 //  throw "class does not exist";
@@ -249,8 +254,11 @@ class Class {
     static addStudentWithHash(_app, _hash, _classId) {
         var getHash = _app.database().ref("studentHashes/" + _hash).once('value');
         var getClass = Class.readClassData(_app, _classId);
+        /*var setStudent = _app.database().ref("users/" + hashObj.studentId + "/student/").set({
+            "classId" : _classId,
+        });*/
 
-        return Promise.all([getHash, getClass]).then(function (results) {
+        return Promise.all([getHash, getClass/*, setStudent*/]).then(function (results) {
             var hashObj = results[0].val();
             var classObj = results[1];
             var hashDate = new Date(hashObj.timeStamp);
@@ -259,7 +267,23 @@ class Class {
                 throw "hash has expired";
             } else {
                 return _app.database().ref("classes/" + classObj.classId +
-                    "/studentList/" + hashObj.studentId).set(hashObj.studentId);
+
+                    "/studentList/" + hashObj.studentId).set(hashObj.studentId).then(
+                        function (result) {
+                            var updates = {};
+                            updates['users/' + hashObj.studentId + '/student/classId'] = _classId;
+
+                            //return _app.database().ref().update(updates);
+
+                            var ret = _app.database().ref().update(updates).then(
+                                function () { // return if no problem adding student
+                                    return;
+                                }, function () { // runs with error
+                                    throw "unable to update classId";
+                                }
+                            );
+                        }
+                    );
             }
         });
     }
@@ -273,6 +297,7 @@ class Class {
                     "studentId": _studentId,
                     "classId": _classId
                 });
+
             }
         );
 
@@ -328,7 +353,7 @@ class Notification {
                 function (result) {
                     var notifPromises = [];
                     for (var k in result[0].studentList) {
-                        studList.push(JSON.stringify(result[0].studentList[k])); //JSON.parse(result.studentList[k]))
+                        studList.push(JSON.stringify(result[0].studentList[k]));//JSON.parse(result.studentList[k]))
                         //students added here
                         notifPromises.push(_app.database().ref("notifications").child(JSON.stringify(result[0].studentList[k]).split("\"")[1]).push({
                             "problemURL": _problemURL,
@@ -393,8 +418,8 @@ class Notification {
         var ret = _app.database().ref().update(updates).then(
             function () { // return if no problem adding student
                 return;
-            },
-            function () { // runs with error
+
+            }, function () { // runs with error
                 throw "unable to update completion time";
             }
         );
@@ -414,42 +439,61 @@ class Notification {
 
 }
 class ProblemInstance {
-    constructor(_pid, _studentId, _problemType, _correct, _timeStamp) {
+    constructor(_pid, _studentId, _problemType, _totalCorrect, _totalProblems, _timeStamp, _problemURL) {
         this.pid = _pid;
         this.studentId = _studentId;
         this.problemType = _problemType;
-        this.correct = _correct;
+        this.totalCorrect = _totalCorrect;
+        this.totalProblems = _totalProblems;
         this.timeStamp = _timeStamp;
+        this.problemURL = _problemURL;
     }
 
     // given a problemInstance id, will read the specified problem instance and studentId (probably won't be used much)
-    static readProblemInstance(_app, _studentId, _pid) {
-        return _app.database().ref("problemInstances").child(_studentId).child(_pid).once('value').then(
+
+    static readProblemInstance(_app, _studentId, _amountProbs) {
+        return _app.database().ref("problemInstances").child(_studentId).once('value').then(//.orderByChild("timeStamp").limitToLast(1).then(
             function (snapshot) {
+                //snapshot.orderBy('desc').limit(parseInt(_amountProbs));
                 if (snapshot.val()) {
                     var val = snapshot.val();
-                    switch (val.problemType) {
-                        case "MultiDigit":
-                            return new MultiDigitProblemInstance(_pid, val.studentId, val.problemType,
-                                val.correct, val.timeStamp, val.MultiDigit.num1,
-                                val.MultiDigit.num2, val.MultiDigit.operation);
-                            break;
-                        case "MathFact":
-                            return new MathFactProblemInstance(_pid, val.studentId, val.problemType,
-                                val.correct, val.timeStamp, val.MathFact.num1,
-                                val.MathFact.num2, val.MathFact.operation);
-                            break;
-                        case "Measurement":
-                            throw "not implemented";
-                            //return new MeasurementProblemInstance(); // TODO this needs to be updated to reflect
-                            // the various different types in the front-end document
-                            break;
-                        default:
-                            throw "unknown type";
-                            break;
+                    var problems = [];
+                    if (0>_amountProbs) {
+                        //snapshot.reverse;
+                        var revProb = [];
+
+                        snapshot.forEach(
+                            function (childSnapshot) {
+                                //TODO - Speed up, make it EXIT the for each loop when totalDone > amtProblems
+                                val = childSnapshot.val();
+                                var probIn = new ProblemInstance(childSnapshot.key, _studentId, val.problemType, val.totalCorrect, val.totalProblems, val.timeStamp, val.problemURL);
+                                revProb.push(probIn);
+                            }
+                        );
+                        while (revProb.length > 0) {
+                            problems.push(revProb.pop());
+                        }
+                    } else {
+                        var totalDone = 0;
+                        var revProb = [];
+
+                        snapshot.forEach(
+                            function (childSnapshot) {
+                                //TODO - Speed up, make it EXIT the for each loop when totalDone > amtProblems
+                                val = childSnapshot.val();
+                                var probIn = new ProblemInstance(childSnapshot.key, _studentId, val.problemType, val.totalCorrect, val.totalProblems, val.timeStamp, val.problemURL);
+                                revProb.push(probIn);
+                            }
+                        );
+                        while (totalDone < parseInt(_amountProbs) && revProb.length > 0) {
+                            problems.push(revProb.pop());
+                            totalDone += 1;
+                        }
                     }
+                    return problems;
+
                 } else {
-                    throw "problem instance not found";
+                    throw "No problem instances found";
                 }
             }
         );
@@ -457,74 +501,23 @@ class ProblemInstance {
 
     // creates a problem instance with the given attributes (typeSpecific is a javascript object with 
     // corresponding attributes, see the corresponding class for specifics)
-    static createProblemInstance(_app, _studentId, _problemType, _correct, _timeStamp, _typeSpecific) {
-        switch (_problemType) {
-            case "MathFact":
-                return _app.database().ref("problemInstances").child(_studentId).push({
-                    "problemType": _problemType,
-                    "correct": _correct,
-                    "timeStamp": _timeStamp,
-                    "MathFact": _typeSpecific
-                }).then(
-                    function (result) {
-                        return result.key;
-                    }
-                );
-                break;
-            case "MultiDigit":
-                return _app.database().ref("problemInstances").child(_studentId).push({
-                    "problemType": _problemType,
-                    "correct": _correct,
-                    "timeStamp": _timeStamp,
-                    "MultiDigit": _typeSpecific
-                }).then(
-                    function (result) {
-                        return result.key;
-                    }
-                );
-                break;
-            default:
-                throw "problem type unknown";
-                break;
-        }
-    }
-}
 
-class MultiDigitProblemInstance extends ProblemInstance {
-    constructor(_pid, _studentId, _problemType, _correct,
-        _timeStamp, _num1, _num2, _operation) {
-        super(_pid, _studentId, _problemType, _correct, _timeStamp);
-        this.num1 = _num1;
-        this.num2 = _num2;
-        this.operation = _operation;
-    }
-}
-
-class MathFactProblemInstance extends ProblemInstance {
-    constructor(_pid, _studentId, _problemType, _correct,
-        _timeStamp, _num1, _num2, _operation) {
-        super(_pid, _studentId, _problemType, _correct, _timeStamp);
-        this.num1 = _num1;
-        this.num2 = _num2;
-        this.operation = _operation;
-    }
-}
-
-class VolumeProblemInstance extends ProblemInstance {
-    constructor(_pid, _studentId, _problemType, _correct,
-        _timeStamp, _base, _width, _height) {
-        super(_pid, _studentId, _problemType, _correct, _timeStamp);
-        this.base = _base;
-        this.width = _width;
-        this.height = _height;
-    }
-}
-
-class ConversionProblemInstance extends ProblemInstance {
-    constructor(_pid, _studentId, _problemType, _correct,
-        _timeStamp, _dimension, _unit) {
-        super(_pid, _studentId, _problemType, _correct, _timeStamp);
-        this.dimension = _dimension;
-        this.unit = _unit;
+    static createProblemInstance(_app, _studentId, _problemType, _totalCorrect, _totalProblems, _timeStamp, _problemURL) {
+        return _app.database().ref("problemInstances").child(_studentId).push({
+            "problemType": _problemType,
+            "totalCorrect": _totalCorrect,
+            "totalProblems": _totalProblems,
+            "timeStamp": _timeStamp.toUTCString(),
+            "problemURL": _problemURL,
+            //"MultiDigit" : _typeSpecific
+        }).then(
+            function (result) {
+                return result.key;
+            }
+        );
+        //break;
+        //else
+        //  throw "problem type unknown";
+        //break;
     }
 }

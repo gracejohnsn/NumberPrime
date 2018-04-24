@@ -17,7 +17,39 @@ describe("Student-Class integration--", function() {
 			}).then(
 			function(result) {
 				expect(Object.keys(result.studentList)).toContain("afisk");
-				done();
+			}).then(
+			function(result){
+				Student.readUserData(mockApp, "afisk").then(
+					function(result){
+						expect(result.classId).toBe("1234");
+						expect(result.gradeLevel).toBe(4);
+						done();
+					}
+				)
+			});
+	});
+
+	it(`should add a student to a class and then remove that student
+		from said class before deleting the class`, 
+		function(done) {
+			Student.generateHash(mockApp, "afisk", new Date()).then(
+			function(result) {
+				return Class.addStudentWithHash(mockApp, result, "1234");
+			}).then(
+			function(result) {
+				return Class.readClassData(mockApp, "1234");
+			}).then(
+			function(result) {
+				expect(Object.keys(result.studentList)).toContain("afisk");
+			}).then(
+			function(result){
+				Student.readUserData(mockApp, "afisk").then(
+					function(result){
+						expect(result.classId).toBe("1234");
+						expect(result.gradeLevel).toBe(4);
+						done();
+					}
+				)
 			});
 	});
 

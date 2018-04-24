@@ -84,20 +84,18 @@ var testData = {
 
         }
     },
-    "problemInstances": {
-        "afisk": {
-            "5678": {
-                "problemType": "MathFact",
-                "correct": true,
-                "timeStamp": "Tue, 27 Mar 2018 15:16:00 GMT",
-                "MathFact": {
-                    "num1": 2,
-                    "num2": 3,
-                    "operation": "addition"
-                }
+
+    /*"problemInstances" : {
+        "mscott" : {
+            "5678" : {
+                "problemType" : "MathFact",
+                "totalCorrect" : 7,
+                "totalProblems" : 10,
+                "timeStamp" : "Tue, 27 Mar 2018 15:16:00 GMT",
+                "problemURL" : "5699",
             }
         }
-    }
+    }*/
 }
 
 //module.exports = testData;
