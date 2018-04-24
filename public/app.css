@@ -1,440 +1,199 @@
-
-
-
 /* app css stylesheet */
 
-
-
 .background1 {
-
-  position : 
-  fixed;
-  
-  height : 
-  100%;
-  
-  width : 100%;
-  
+  position: fixed;
+  height: 100%;
+  width: 100%;
   background-color: #64B5C8;
-  
   /*background: linear-gradient(to bottom,
   
   rgba(219, 127, 142,1.0),rgba(219,127,142,1.0) 20%,rgba(219,127,142,0.0)
   
   );*/
-  
-  }
-  
-  
-  
-  body {
+}
+
+body {
   font-family: 'Boogaloo';
-  background-color:#64B5C8;
+  background-color: #64B5C8;
   font-size: 1.5em;
-  
-  }
-  
-  
-  
-  .menu {
-  
-  list-style: 
-  none;
-  
-  border-bottom: 
-  0.1em solid 
-  black;
-  
-  margin-bottom: 
-  2em;
-  
-  padding: 
-  0 0 0.5em;
-  
-  }
-  
-  
-  
-  form {
-  
-  border: 3px
-  solid #f1f1f1;
-  
-  }
-  
-  
-  
-  input[type=text], input[type=password]
-   {
-  
-  padding: 
-  12px 20px;
-  
-  margin: 8px
-  0;
-  
-  display: 
-  inline-block;
-  
-  border: 1px
-  solid springgreen;
-  
-  box-sizing: 
-  border-box;
-  
-  }
-  
-  
-  
-  button {
-  
-  background-color: 
-  #4caf50;
-  
+}
+
+.menu {
+  list-style: none;
+  border-bottom: 0.1em solid black;
+  margin-bottom: 2em;
+  padding: 0 0 0.5em;
+}
+
+form {
+  border: 3px solid #f1f1f1;
+}
+
+input[type=text],
+input[type=password] {
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid springgreen;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #4caf50;
   color: white;
-  
-  padding: 
-  14px 20px;
-  
-  margin: 8px
-  0;
-  
+  padding: 14px 20px;
+  margin: 8px 0;
   border: none;
-  
   cursor: pointer;
-  
-  }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  .topBorder {
-  height : 20%;
-  
-  left : 10%;
-  
-  width : 90%;
+}
+
+.topBorder {
+  height: 20%;
+  left: 10%;
+  width: 90%;
   border-radius: 10px 10px 0px 0px;
-  
-  position: 
-  fixed;
-  
-  z-index: 
-  1;
-  
-  overflow-y: 
-  hidden;
-  
-  transition: 
-  0.5s;
-  
-  }
-  
-  
-  
-  .dashTable {
-  
-  position : 
-  absolute;
-  
-  text-align : 
-  center;
-  
-  left : 2.5%;
-  
-  top : 5%;
-  
-  height : 
-  90%;
-  
-  width : 60%;
-  
-  background-color : 
-  #C8F577;
-  
-  border-radius: 10px;
-  
-  overflow-x: 
-  hidden;
-  
-  }
-  .statsTable {
-    overflow-y: scroll;
-    overflow-x: hidden;
-  }
-  
-  
-  .dashTable p {
-  
-  margin : 
-  0px 0px 
-  0px 0px;
-  
-  top : 0px;
-  
-  height : 
-  15%;
-  
-  width : 100%;
-  
-  font-size : 
-  30px;
-  
-  }
-  
-  
-  
-  .dashTable table {
-  
-  table-layout:fixed;
-  
-  width : 100%;
-  
-  border : 
-  1px solid 
-  black;
-  
-  overflow-y: 
-  scroll;
-  
-  }
-  
-  
-  
-  .dashTable td th {
-  
-  width : 33%;
-  
-  border : 
-  1px solid 
-  black;
-  
-  }
-  
-  
-  
-  .dashTable table tr:nth-child(odd) {
-  
-  background: 
-  rgba(255.0,255.0,255.0,0.5);
-  
-  }
-  
-  
-  
-  .dashTable table tr:nth-child(even) {
-  
-  background: 
-  rgba(0.0,0.0,0.0,0.0);
-  
-  }
-  
-  
-  
-  .dashTable button {
-  
-  margin : 
-  0px 0px 
-  0px 0px;
-  
-  width : 33.3333%;
-  
-  float : left;
-  
-  background-color: 
-  #764DC5;
+  position: fixed;
+  z-index: 1;
+  overflow-y: hidden;
+  transition: 0.5s;
+}
 
-  color: black;
-  
-  border-width : 
-  2px 1px 
-  2px 1px;
-  
-  border-bottom-left-radius: 
-  10%;
-  
-  border-bottom-right-radius: 
-  10%;
-  
-  }
-  
-  .dashList {
-
-  border-radius: 10px 0px 0px 10px;
-  overflow-y : 
-  scroll;
-  
-  position : 
-  relative;
-  
-  text-align : 
-  center;
-  
-  left : 65%;
-  
-  top : 5%;
-  
-  height : 
-  90%;
-  
-  width : 35%;
-  
-  background-color : 
-  #ffffe6;
-  
-  }
-  
-  .dashList p:nth-child(odd){
+.dashTable {
+  position: absolute;
+  text-align: center;
+  left: 2.5%;
+  top: 5%;
+  height: 90%;
+  width: 60%;
   background-color: #C8F577;
+  border-radius: 10px;
+  overflow-x: hidden;
+}
 
-  margin : 
-  0px 0px 
-  0px 0px;
-  
-  top : 0px;
-  
-  height : 
-  15%;
-  
-  width : 100%;
-  
-  font-size : 
-  30px;
-  
-  }
-  
-  .dashList a:nth-child(odd) {
+.statsTable {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.dashTable p {
+  margin: 0px 0px 0px 0px;
+  top: 0px;
+  height: 15%;
+  width: 100%;
+  font-size: 30px;
+}
+
+.dashTable table {
+  table-layout: fixed;
+  width: 100%;
+  border: 1px solid black;
+  overflow-y: scroll;
+}
+
+.dashTable td th {
+  width: 33%;
+  border: 1px solid black;
+}
+
+.dashTable table tr:nth-child(odd) {
+  background: rgba(255.0, 255.0, 255.0, 0.5);
+}
+
+.dashTable table tr:nth-child(even) {
+  background: rgba(0.0, 0.0, 0.0, 0.0);
+}
+
+.dashTable button {
+  margin: 0px 0px 0px 0px;
+  width: 33.3333%;
+  float: left;
+  background-color: #764DC5;
+  color: black;
+  border-width: 2px 1px 2px 1px;
+  border-bottom-left-radius: 10%;
+  border-bottom-right-radius: 10%;
+}
+
+.dashList {
+  border-radius: 10px 0px 0px 10px;
+  overflow-y: scroll;
+  position: relative;
+  text-align: center;
+  left: 65%;
+  top: 5%;
+  height: 90%;
+  width: 35%;
+  background-color: #64B5C8;
+}
+
+.dashList p:nth-child(odd) {
+  background-color: #C8F577;
+  margin: 0px 0px 0px 0px;
+  top: 0px;
+  height: 15%;
+  width: 100%;
+  font-size: 30px;
+}
+
+.dashList a:nth-child(odd) {
   background-color: #C8F577;
   text-decoration: none;
-  width : 80%;
+  width: 80%;
   color: black;
-  width : 100%;
-  
-  height : 
-  20%;
-  
-  font-size : 
-  24px;
-  
-  line-height : 
-  80px;
-  
-  display : 
-  block;
-  
-  transition : 
-  0.5s;
-  
-  }
-
-  .dashList p:nth-child(even){
-    background-color: #C8F577;
-  
-    margin : 
-    0px 0px 
-    0px 0px;
-    
-    top : 0px;
-    
-    height : 
-    15%;
-    
-    width : 100%;
-    
-    font-size : 
-    30px;
-    
-    }
-    
-    .dashList a:nth-child(even) {
-    background-color: rgb(188, 241, 90);
-    text-decoration: none;
-    color: black;
-    width : 80%;
-    
-    width : 100%;
-    
-    height : 
-    20%;
-    
-    font-size : 
-    24px;
-    
-    line-height : 
-    80px;
-    
-    display : 
-    block;
-    
-    transition : 
-    0.5s;
-    
-    }
-  
-  .dashList a:hover {
-  
-  -moz-box-shadow: 
-  inset 0 
-  0 20px 
-  #84CD00;
-  
-  -webkit-box-shadow: 
-  inset 0 
-  0 20px 
-  #84CD00;
-  
-  box-shadow: 
-  inset 0 
-  0 20px 
-  #84CD00;
-  
-  transition : 
-  0.5s;
-  
-  }
-  
-  
-  
-  .topBorder p {
-  
-  position : 
-  relative;
-  
-  left : 5%;
-  
-  width : 95%;
-  
-  font-size : 
-  48px;
-  
-  line-height : 
-  48px;
-  
-  }
-  
-  
-  
-  .mascot {
-  background-color: #9170D1;
-
-  width: 10%;
-  
+  width: 100%;
   height: 20%;
-  
-  position: 
-  fixed;
-  
-  }
-  
-  .mascot img {
-  
-  border-radius : 
-  50%;
+  font-size: 24px;
+  line-height: 80px;
+  display: block;
+  transition: 0.5s;
+}
+
+.dashList p:nth-child(even) {
+  background-color: #C8F577;
+  margin: 0px 0px 0px 0px;
+  top: 0px;
+  height: 15%;
+  width: 100%;
+  font-size: 30px;
+}
+
+.dashList a:nth-child(even) {
+  background-color: rgb(188, 241, 90);
+  text-decoration: none;
+  color: black;
+  width: 80%;
+  width: 100%;
+  height: 20%;
+  font-size: 24px;
+  line-height: 80px;
+  display: block;
+  transition: 0.5s;
+}
+
+.dashList a:hover {
+  -moz-box-shadow: inset 0 0 20px #84CD00;
+  -webkit-box-shadow: inset 0 0 20px #84CD00;
+  box-shadow: inset 0 0 20px #84CD00;
+  transition: 0.5s;
+}
+
+.topBorder p {
+  position: relative;
+  left: 5%;
+  width: 95%;
+  font-size: 48px;
+  line-height: 48px;
+}
+
+.mascot {
+  background-color: #9170D1;
+  width: 10%;
+  height: 20%;
+  position: fixed;
+}
+
+.mascot img {
+  border-radius: 50%;
   width: 80%;
   height: 90%;
   margin-left: auto;
@@ -442,527 +201,257 @@
   margin-top: 5%;
   margin-bottom: auto;
   display: block;
-  
-  }
-  
-  .sidenav {
+}
+
+.sidenav {
   background-color: #9170D1;
-  align : center;
-  
+  align: center;
   height: 80%;
-  
   width: 10%;
-  
-  position: 
-  fixed;
-  
-  z-index: 
-  1;
-  
+  position: fixed;
+  z-index: 1;
   top: 20%;
-  
   /*overflow-x: 
   hidden;*/
-  
-  transition: 
-  0.5s;
-  
-  }
-  
-  .extendsidenav {
-    align : center;
-    
-    height: 80%;
-    
-    width: 10%;
-    
-    position: 
-    fixed;
-    
-    z-index: 
-    1;
-    
-    top: 20%;
-    
-    /*overflow-x: 
+  transition: 0.5s;
+}
+
+.extendsidenav {
+  align: center;
+  height: 80%;
+  width: 10%;
+  position: fixed;
+  z-index: 1;
+  top: 20%;
+  /*overflow-x: 
     hidden;*/
-    
-    transition: 
-    0.5s;
-    
-    }
-  
-    .extendsidenav a,.sidenav a {
-  
-  text-align: 
-  center;
-  
-  overflow : 
-  hidden;
-  
-  text-decoration: 
-  none;
-  
-  white-space: 
-  nowrap;
-  
-  width : 100%;
-  
-  height : 
-  21.85%;
-  
-  text-overflow: 
-  ellipsis;
-  
+  transition: 0.5s;
+}
+
+.extendsidenav a,
+.sidenav a {
+  text-align: center;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+  width: 100%;
+  height: 21.85%;
+  text-overflow: ellipsis;
   color: #FFFFFF;
-  
-  display: 
-  block;
-  
-  transition: 
-  0.5s;
-  
-  }
-  
-  
-  
-  .extendsidenav img, .sidenav img {
-  
-    margin-top : 
-  5%;
-  
-    height : 
-  60%;
-  
-    width : 
-  60%;
-  
-  }
-  
-  .extendsidenav p, .sidenav p {
-  
-    margin-top : 
-  2%;
-  
-    height : 
-  35%;
-  
-    width : 
-  100%;
-  
-  background: 
-  radial-gradient(closest-side, 
-  rgba(0, 
-  0, 0,0.0),
-  rgba(0,
-  0, 0,0.25));
-  
-  }
-  
-  .extendsidenav a:hover, .sidenav a:hover {
-  
+  display: block;
+  transition: 0.5s;
+}
+
+.extendsidenav img,
+.sidenav img {
+  margin-top: 5%;
+  height: 60%;
+  width: 60%;
+}
+
+.extendsidenav p,
+.sidenav p {
+  margin-top: 2%;
+  height: 35%;
+  width: 100%;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.25));
+}
+
+.extendsidenav a:hover,
+.sidenav a:hover {
   color: #000000;
-  
-  background-color : 
-  rgba(255,255,255,0.5);
-  
-  }
-  
-  
-  
-  .bg {
-  
-  height : 
-  70%;
-  
-  width : 90%;
-  
-  top : 20%;
-  
-  left : 10%;
-  
-  background-color : 
-  #0491B2;
-  
-  position : 
-  fixed;
-  
-  z-index : 
-  -1;
-  
-  transition : 
-  0.5s;
-  
-  }
-  
-  
-  
-  .bg2 {
-  
-  -moz-box-shadow: 
-  inset 0 
-  0 20px 
-  #000000;
-  
-  -webkit-box-shadow: 
-  inset 0 
-  0 20px 
-  #000000;
-  
-  box-shadow: 
-  inset 0 
-  0 20px 
-  #000000;
-  
-  height : 
-  100%;
-  
-  width : 100%;
-  
-  top : 0%;
-  
-  left : 0%;
-  
-  background-color : 
-  #d8dce7;
-  
-  position : 
-  fixed;
-  
-  z-index : 
-  -1;
-  
-  transition : 
-  0.5s;
-  
-  }
-  
-  .reveal-if-active {
-  
-  opacity: 
-  0;
-  
-  max-height: 
-  0;
-  
-  overflow: 
-  hidden;
-  
-  }
-  
-  
-  
-  input[type="radio"]:checked
-  ~ .reveal-if-active,
-  
-  input[type="checkbox"]:checked
-  ~ .reveal-if-active {
-  
-  opacity: 
-  1;
-  
-  max-height: 
-  100px; /* little bit of a magic number :( */
-  
-  overflow: 
-  visible;
-  
-  }
-  
-  
-  
-  /* Popup container */
-  
-  .popup {
-  
-  position: 
-  relative;
-  
-  display: 
-  inline-block;
-  
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.bg {
+  height: 70%;
+  width: 90%;
+  top: 20%;
+  left: 10%;
+  background-color: #0491B2;
+  position: fixed;
+  z-index: -1;
+  transition: 0.5s;
+}
+
+.bg2 {
+  -moz-box-shadow: inset 0 0 20px #000000;
+  -webkit-box-shadow: inset 0 0 20px #000000;
+  box-shadow: inset 0 0 20px #000000;
+  height: 100%;
+  width: 100%;
+  top: 0%;
+  left: 0%;
+  background-color: #d8dce7;
+  position: fixed;
+  z-index: -1;
+  transition: 0.5s;
+}
+
+.reveal-if-active {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+}
+
+input[type="radio"]:checked~.reveal-if-active,
+input[type="checkbox"]:checked~.reveal-if-active {
+  opacity: 1;
+  max-height: 100px;
+  /* little bit of a magic number :( */
+  overflow: visible;
+}
+
+/* Popup container */
+
+.popup {
+  position: relative;
+  display: inline-block;
   cursor: pointer;
-  
-  }
-  
-  
-  
-  /* The actual popup (appears on top) */
-  
-  .popup .popuptext {
-  
-  visibility: 
-  hidden;
-  
+}
+
+/* The actual popup (appears on top) */
+
+.popup .popuptext {
+  visibility: hidden;
   width: 160px;
-  
-  background-color: 
-  #555;
-  
+  background-color: #555;
   color: #fff;
-  
-  text-align: 
-  center;
-  
-  border-radius: 
-  6px;
-  
-  padding: 
-  8px 0;
-  
-  position: 
-  absolute;
-  
-  z-index: 
-  1;
-  
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
   bottom: 125%;
-  
   left: 50%;
-  
-  margin-left: 
-  -80px;
-  
-  }
-  
-  
-  
-  /* Popup arrow */
-  
-  .popup .popuptext::after {
-  
-  content: 
-  "";
-  
-  position: 
-  absolute;
-  
+  margin-left: -80px;
+}
+
+/* Popup arrow */
+
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
   top: 100%;
-  
   left: 50%;
-  
-  margin-left: 
-  -5px;
-  
-  border-width: 
-  5px;
-  
-  border-style: 
-  solid;
-  
-  border-color: 
-  #555 transparent 
-  transparent transparent;
-  
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s
+}
+
+/* Add animation (fade in the popup) */
+
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  
-  
-  
-  /* Toggle this class when clicking on the popup container (hide and show the popup) */
-  
-  .popup .show {
-  
-  visibility: 
-  visible;
-  
-  -webkit-animation: fadeIn 
-  1s;
-  
-  animation: fadeIn 
-  1s
-  
+  to {
+    opacity: 1;
   }
-  
-  
-  
-  /* Add animation (fade in the popup) */
-  
-  @-webkit-keyframes 
-  fadeIn {
-  
-  from {opacity: 
-  0;}
-  
-  to {opacity: 
-  1;}
-  
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  
-  
-  
-  @keyframes 
-  fadeIn {
-  
-  from {opacity: 
-  0;}
-  
-  to {opacity:1 ;}
-  
+  to {
+    opacity: 1;
   }
-  
-  
-  
-  /* The Modal (background) */
-  
-  .modal {
-  
-  display: 
-  none; /* Hidden by default */
-  
-  position: 
-  fixed; /* Stay in place */
-  
-  z-index: 
-  1; /* Sit on top */
-  
+}
+
+/* The Modal (background) */
+
+.modal {
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Sit on top */
   left: 0;
-  
   top: 0;
-  
   width: 100%;
   /* Full width */
-  
   height: 100%;
   /* Full height */
-  
-  overflow: 
-  auto; /* Enable scroll if needed */
-  
-  background-color: 
-  rgb(0,0,0);
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0);
   /* Fallback color */
-  
-  background-color: 
-  rgba(0,0,0,0.4);
+  background-color: rgba(0, 0, 0, 0.4);
   /* Black w/ opacity */
-  
-  }
-  
-  
-  
-  /* The Close Button */
-  
-  .close {
-  
+}
+
+/* The Close Button */
+
+.close {
   color: #aaa;
-  
   float: right;
-  
-  font-size: 
-  28px;
-  
-  font-weight: 
-  bold;
-  
-  }
-  
-  
-  
-  .close:hover,
-  
-  .close:focus {
-  
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
   color: black;
-  
-  text-decoration: 
-  none;
-  
+  text-decoration: none;
   cursor: pointer;
-  
-  }
-  
-  
-  
-  /* Modal Header */
-  
-  .modal-header {
-  
-  padding: 
-  2px 16px;
-  
-  background-color: 
-  #5cb85c;
-  
+}
+
+/* Modal Header */
+
+.modal-header {
+  padding: 2px 16px;
+  background-color: #5cb85c;
   color: white;
-  
-  }
-  
-  
-  
-  /* Modal Body */
-  
-  .modal-body {padding:
-  2px 16px;}
-  
-  
-  
-  /* Modal Footer */
-  
-  .modal-footer {
-  
-  padding: 
-  2px 16px;
-  
-  background-color: 
-  #5cb85c;
-  
+}
+
+/* Modal Body */
+
+.modal-body {
+  padding: 2px 16px;
+}
+
+/* Modal Footer */
+
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #5cb85c;
   color: white;
-  
-  }
-  
-  
-  
-  /* Modal Content */
-  
-  .modal-content {
-  
-  position: 
-  relative;
-  
-  background-color: 
-  #fefefe;
-  
+}
+
+/* Modal Content */
+
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
   margin: auto;
-  
-  padding: 
-  0;
-  
-  border: 1px
-  solid #888;
-  
+  padding: 0;
+  border: 1px solid #888;
   width: 80%;
-  
-  box-shadow: 
-  0 4px 8px
-  0 rgba(0,0,0,0.2),0
-  6px 20px
-  0 rgba(0,0,0,0.19);
-  
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   animation-name: animatetop;
-  
-  animation-duration: 
-  0.4s
-  
+  animation-duration: 0.4s
+}
+
+/* Add Animation */
+
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0
   }
-  
-  
-  
-  /* Add Animation */
-  
-  @keyframes 
-  animatetop {
-  
-  from {top: 
-  -300px; opacity: 
-  0}
-  
-  to {top: 
-  0; opacity: 
-  1}
-  
+  to {
+    top: 0;
+    opacity: 1
   }
-  
-  
-  
-  
-  
+}
