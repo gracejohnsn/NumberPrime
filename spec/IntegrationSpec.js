@@ -17,7 +17,15 @@ describe("Student-Class integration--", function() {
 			}).then(
 			function(result) {
 				expect(Object.keys(result.studentList)).toContain("afisk");
-				done();
+			}).then(
+			function(result){
+				Student.readUserData(mockApp, "afisk").then(
+					function(result){
+						expect(result.classId).toBe("1234");
+						expect(result.gradeLevel).toBe(4);
+						done();
+					}
+				)
 			});
 	});
 
