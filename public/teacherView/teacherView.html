@@ -1,167 +1,216 @@
-      <!--Sidebar content-->
+<!--Sidebar content-->
 <style>
-/* Modal Content */
+  /* Modal Content */
 
-.PSmodal {
- position : fixed;
- width : 50%;
- height : 50%;
- display : none;
- left : 25%;
- top : 10%;
- z-index : 99;
-}
-.PSmodal-content {
+  .PSmodal {
+    position: fixed;
+    width: 50%;
+    height: 50%;
+    display: none;
+    left: 25%;
+    top: 10%;
+    z-index: 99;
+  }
+
+  .PSmodal-content {
     background-color: #fefefe;
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
-}
+  }
 
-.PSmodal-content p {
-	text-align:center;
-    font-size:24px;
-}
+  .PSmodal-content p {
+    text-align: center;
+    font-size: 24px;
+  }
 
-.PSmodal-content button {
- margin-left:25%;
- width:50%;
- font-size:20px;
-}
-/* The Close Button */
-.close {
+  .PSmodal-content button {
+    margin-left: 25%;
+    width: 50%;
+    font-size: 20px;
+  }
+
+  /* The Close Button */
+
+  .close {
     color: #aaaaaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
-}
+  }
 
-.close:hover,
-.close:focus {
+  .close:hover,
+  .close:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
-}
+  }
 
-.PSmodal-content input {
-  width: 100%;
-  clear: both;
-}
+  .PSmodal-content input {
+    width: 100%;
+    clear: both;
+  }
 </style>
 
 
 <div ng-app="teacherdash" ng-controller="teacherCtrl">
-<p>{{uid}}</p>
-<div class = "mascot" style="display:block;">
-<img src="img/mascot.png" alt="mascot" width="100%" height="100%"/>
-</div>
-  <div id="topBorder" class="topBorder" style="display:block;"><p>Welcome, {{user.firstName}}!</span>!
-	</p></div>
+  <p>{{uid}}</p>
+  <div class="mascot" style="display:block;">
+    <img src="img/mascot.png" alt="mascot" width="100%" height="100%" />
+  </div>
+  <div id="topBorder" class="topBorder" style="display:block;">
+    <p>Welcome, {{user.firstName}}!</span>!
+    </p>
+  </div>
 
-<div id="mySidenav" class="sidenav" style="display:block;">
-  <a href="#!/DashboardTeach">
-<img src="img/profileIcon.png" alt="Dashboard Icon" />
-	<p>Dashboard</p>
-  </a>
-  <a id="PSbtn" onclick="createPS()">
-  <img src="img/plus.png" alt="Math Icon"/>
-    <p>Create Problems Set</p>
-  </a>
-  <a href="#!/Settings">
-<img src="img/settings.png" alt="Settings Icon"/>
-  <p>Settings</p></a>
-    <a id="addStudents" onclick="addStudents()">
-    <img src="img/plus.png" alt="Math Icon"/>
-    <p>Add Students</p>
-  </a>
+  <div id="mySidenav" class="sidenav" style="display:block;">
+    <a href="#!/DashboardTeach">
+      <img src="img/profileIcon.png" alt="Dashboard Icon" />
+      <p>Dashboard</p>
+    </a>
+    <a id="PSbtn" onclick="createPS()">
+      <img src="img/plus.png" alt="Math Icon" />
+      <p>Create Problems Set</p>
+    </a>
+    <a href="#!/Settings">
+      <img src="img/settings.png" alt="Settings Icon" />
+      <p>Settings</p>
+    </a>
+    <a id="addStudents">
+      <img src="img/plus.png" alt="Math Icon" />
+      <p>Add Students</p>
+    </a>
 
-<div id="addStudentsModal" class="modal">
-  <div class="modal-content">
-      <div class="modal-header">
+    <div id="addStudentsModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
           <span class="close">&times;</span>
-          <h2 style="text-align:center"><strong>Add Students</strong></h2>
+          <h2 style="text-align:center">
+            <strong>Add Students</strong>
+          </h2>
         </div>
         <div class="modal-body">
           <p style="text-align:center">To add a student, have student click 'Generate Code' from their dashboard, then enter the generated code below.</p>
           <form style="text-align:center">
-          <div class="form-group">
-            <label>Enter code:</label><p></p>
-          <input type="text"></input>
-          </div>
-          <div class="form-actions">
-            <button type="submit">Submit</button>
-          </div>
-        </form>
+            <div class="form-group">
+              <label>Enter code:</label>
+              <p></p>
+              <input id="code" type="text"></input>
+            </div>
+            <div class="form-actions">
+              <button onclick="addStudent()">Submit</button>
+            </div>
+          </form>
         </div>
         <div class="modal-footer">
           <h3></h3>
         </div>
-  </div>
-</div>
-  <!-- </div> -->
-  <a href="#!/Login">
-<img src="img/logout.png" alt="Logout Icon"/>
-<p>Logout</p>
-</a>
-</div>
-
-<div id="PSmodal" class="PSmodal">
-  <div class="PSmodal-content">
-    <span id="PSclose" class="close">&times;</span>
-    <p style="font-size:30px" style="text-align:center">Create Problem Set</p>
-    <form>
-    <label>Message</label><input type="text" value="ProblemSet" ng-model="params.msg"><br>
-    <label>Type Of Problem</label><br>
-    <select ng-model="params.type">
-        <option value="0">Addition</option>
-        <option value="1">Subtraction</option>
-        <option value="2">Muliplication</option>
-        <option value="3">Division</option>
-      </select>
-    <br>
-    <label>Max Number</label>
-      <br>
-      <input style="width:45%" type="number" value="9" ng-model="params.max">
-      <input style="width:45%" type="number" value="9" ng-model="params.max2"><br>
-    <label>Min Number</label>
-      <br>
-      <input style="width:45%"type="number" value="1" ng-model="params.min">
-      <input style="width:45%" type="number" value="9" ng-model="params.min2"><br>
-    <label>Multiples of</label>
-      <br>
-      <input style="width:45%" type="number" value="1" ng-model="params.mult">
-      <input style="width:45%" type="number" value="9" ng-model="params.mult2"><br>             
-    </form><br>
-    <button ng-click="update(params)">Submit Problem Set</button>
-    <pre>params = {{params}}</pre>
-  </div>
-</div>
-
-
-<div id="bg" class="bg" style="display:block;">
-      <div class = "dashTable" style="width:75%; display:block;" >
-        <p>Class Overview</p>
-        <button style="width:50%">Class List</button>
-        <button style="width:50%">Class Statistics</button>
-        <table style="width:100%">
-        <tr><th>Student Name</th><th>Email</th></tr>
-
-        <tr><td>StudentName</td><td>StudentEmail</td></tr>
-        <tr><td>StudentName</td><td>StudentEmail</td></tr>
-        <tr><td>StudentName</td><td>StudentEmail</td></tr>
-        <tr><td>StudentName</td><td>StudentEmail</td></tr>
-        <tr><td>StudentName</td><td>StudentEmail</td></tr>
-        <tr><td>StudentName</td><td>StudentEmail</td></tr>
-        <tr><td>StudentName</td><td>StudentEmail</td></tr>
-        <tr><td>StudentName</td><td>StudentEmail</td></tr>
-        <tr><td>StudentName</td><td>StudentEmail</td></tr>
-        <tr><td>StudentName</td><td>StudentEmail</td></tr>
-        </table>
-        </div>
+      </div>
     </div>
-      <!--Body content-->
-<!--
+    <!-- </div> -->
+    <a href="#!/Login">
+      <img src="img/logout.png" alt="Logout Icon" />
+      <p>Logout</p>
+    </a>
+  </div>
+
+  <div id="PSmodal" class="PSmodal">
+    <div class="PSmodal-content">
+      <span id="PSclose" class="close">&times;</span>
+      <p style="font-size:30px" style="text-align:center">Create Problem Set</p>
+      <form>
+        <label>Message</label>
+        <input type="text" value="ProblemSet" ng-model="params.msg">
+        <br>
+        <label>Type Of Problem</label>
+        <br>
+        <select ng-model="params.type">
+          <option value="0">Addition</option>
+          <option value="1">Subtraction</option>
+          <option value="2">Muliplication</option>
+          <option value="3">Division</option>
+        </select>
+        <br>
+        <label>Max Number</label>
+        <br>
+        <input style="width:45%" type="number" value="9" ng-model="params.max">
+        <input style="width:45%" type="number" value="9" ng-model="params.max2">
+        <br>
+        <label>Min Number</label>
+        <br>
+        <input style="width:45%" type="number" value="1" ng-model="params.min">
+        <input style="width:45%" type="number" value="9" ng-model="params.min2">
+        <br>
+        <label>Multiples of</label>
+        <br>
+        <input style="width:45%" type="number" value="1" ng-model="params.mult">
+        <input style="width:45%" type="number" value="9" ng-model="params.mult2">
+        <br>
+      </form>
+      <br>
+      <button ng-click="update(params)">Submit Problem Set</button>
+      <pre>params = {{params}}</pre>
+    </div>
+  </div>
+
+
+  <div id="bg" class="bg" style="display:block;">
+    <div class="dashTable" style="width:75%; display:block;">
+      <p>Class Overview</p>
+      <button style="width:50%">Class List</button>
+      <button style="width:50%">Class Statistics</button>
+      <table style="width:100%">
+        <tr>
+          <th>Student Name</th>
+          <th>Email</th>
+        </tr>
+
+        <tr>
+          <td>StudentName</td>
+          <td>StudentEmail</td>
+        </tr>
+        <tr>
+          <td>StudentName</td>
+          <td>StudentEmail</td>
+        </tr>
+        <tr>
+          <td>StudentName</td>
+          <td>StudentEmail</td>
+        </tr>
+        <tr>
+          <td>StudentName</td>
+          <td>StudentEmail</td>
+        </tr>
+        <tr>
+          <td>StudentName</td>
+          <td>StudentEmail</td>
+        </tr>
+        <tr>
+          <td>StudentName</td>
+          <td>StudentEmail</td>
+        </tr>
+        <tr>
+          <td>StudentName</td>
+          <td>StudentEmail</td>
+        </tr>
+        <tr>
+          <td>StudentName</td>
+          <td>StudentEmail</td>
+        </tr>
+        <tr>
+          <td>StudentName</td>
+          <td>StudentEmail</td>
+        </tr>
+        <tr>
+          <td>StudentName</td>
+          <td>StudentEmail</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <!--Body content-->
+  <!--
 	<div class="prgGrid"><p>Progress Report</p>
 	<button>Best Categories</button>
 	<button>Improvable Categories</button>
@@ -181,7 +230,7 @@
 	</table>
 	</div>
 -->
-<!--
+  <!--
       <div text-align = "center" class="stdList">
 	<p>Suggested Problem Sets</p>
 	<li><a>ProblemSet</a></li>
@@ -195,50 +244,45 @@
           </div>
 -->
 
-<script>
-  function app(user) {
-    // user.displayName
-    // user.email
-    // user.photoURL
-    // user.uid
-    document.getElementById("clientName").innerHTML = user.displayName;
+  <script>
+    function app(user) {
+      // user.displayName
+      // user.email
+      // user.photoURL
+      // user.uid
+      document.getElementById("clientName").innerHTML = user.displayName;
 
-  }
-</script>
-
-
-<script>
-// Get the modal
-var PSmodal = document.getElementById('PSmodal');
-
-// Get the button that opens the modal
-var PSbtn = document.getElementById("PSbtn");
-
-// Get the <span> element that closes the modal
-var PSclose = document.getElementById("PSclose");
-
-// When the user clicks the button, open the modal 
-var createPS = function() {
-    PSmodal.style.display = "block";
-}
-
-// When the user clicks on <span> (x), close the modal
-PSclose.onclick = function() {
-    PSmodal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == PSmodal) {
-        PSmodal.style.display = "none";
     }
-}
-</script>
-<script>
+  </script>
 
 
+  <script>
+    // Get the modal
+    var PSmodal = document.getElementById('PSmodal');
 
-  function addStudents() {
+    // Get the button that opens the modal
+    var PSbtn = document.getElementById("PSbtn");
+
+    // Get the <span> element that closes the modal
+    var PSclose = document.getElementById("PSclose");
+
+    // When the user clicks the button, open the modal 
+    var createPS = function () {
+      PSmodal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    PSclose.onclick = function () {
+      PSmodal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target == PSmodal) {
+        PSmodal.style.display = "none";
+      }
+    }
+
     // Get the modal
     var modal = document.getElementById('addStudentsModal');
 
@@ -249,21 +293,22 @@ window.onclick = function(event) {
     var span = document.getElementsByClassName("close")[0];
 
     // When the user clicks on the button, open the modal
-    btn.onclick = function() {
+    btn.onclick = function () {
       modal.style.display = "block";
     }
 
     // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
+    span.onclick = function () {
       modal.style.display = "none";
     }
 
     // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
+    window.onclick = function (event) {
       if (event.target == modal) {
         modal.style.display = "none";
       }
     }
-  }
-</script>
+  </script>
+  <script>
+  </script>
 </div>
