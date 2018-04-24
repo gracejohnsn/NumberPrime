@@ -5,18 +5,19 @@
 .PSmodal {
  position : fixed;
  width : 50%;
- height : 50%;
+ height : 100%;
  display : none;
  left : 25%;
  top : 0%;
  z-index : 99;
+ overflow-y:scroll;
 }
 .PSmodal-content {
     background-color: #fefefe;
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
+    width: 100%;
 }
 
 .PSmodal-content p {
@@ -109,9 +110,11 @@
 <div id="PSmodal" class="PSmodal">
   <div class="PSmodal-content">
     <span id="PSclose" class="close">&times;</span>
-    <p style="font-size:30px" style="text-align:center">Create Problem Set</p>
+    <p style="font-size:30px" style="text-align:center">Create Problem Set</p><br>
+    Creates a problem set based on below parameters, each column applies to the parameters
+    for the first number and second number respectively.<br>
     <form>
-    <label>Message</label><input type="text" value="ProblemSet" ng-model="params.msg"><br>
+    <label>Message</label><input style="width:90%" type="text" value="ProblemSet" ng-model="params.msg"><br>
     <label>Type Of Problem</label><br>
     <select ng-model="params.type">
         <option value="0">Addition</option>
@@ -137,7 +140,6 @@
       <br>             
     </form><br>
     <button ng-click="update(params)">Submit Problem Set</button>
-    <pre>params = {{params}}</pre>
   </div>
 </div>
 
