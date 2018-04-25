@@ -32,7 +32,7 @@ math.controller('mathCtrl',["$scope", "$routeParams",
 	sP = sP.concat($routeParams.min2+",");
 	sP = sP.concat($routeParams.mult2+",");
 	$scope.probURL = "#!/MathFacts/" + $routeParams.type + "/" +
-	$routeParams.max + "/" + $routeParams.min + "/" + $routeParams.mult + "/" +
+	$routeParams.max1 + "/" + $routeParams.min1 + "/" + $routeParams.mult1 + "/" +
 	$routeParams.max2 + "/" + $routeParams.min2 + "/" + $routeParams.mult2;
 	$scope.params = sP;
 	$scope.num1 = 0;
@@ -42,7 +42,25 @@ math.controller('mathCtrl',["$scope", "$routeParams",
 	$scope.probNum = 0;
 	$scope.writeProblem = function() {
 	var time = new Date();
-	ProblemInstance.createProblemInstance(firebase, uid, $routeParams.type, $scope.totalCorrect, 10,  time, $scope.probURL);
+	var probType;
+	switch ($routeParams.type) {
+		case "0" : 
+			probType = "Addition";
+			break;
+		case "1" :
+			probType = "Subtraction";
+			break;
+		case "2" : 
+			probType = "Multiplication";
+			break;
+		case "3" :
+			probType = "Division";
+			break;
+		default :
+			probType = "Math";
+			break;
+	}
+	ProblemInstance.createProblemInstance(firebase, uid, probType, $scope.totalCorrect, 10,  time, $scope.probURL);
 	}
 	$scope.problemSetDone = function() {
 	window.location.href = "#!/Dashboard";

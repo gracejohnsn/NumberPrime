@@ -68,19 +68,11 @@
 <button>Most Practiced</button>
 <table class="statsTable" style="width:100%">
 <tr><th>Date Completed</th><th>Problem Set</th><th>Score</th></tr>
-
-<tr><td>Date Completed</td><td>Problem Set</td><td>Score</td></tr>
-<tr><td>Date Completed</td><td>Problem Set</td><td>Score</td></tr>
-<tr><td>Date Completed</td><td>Problem Set</td><td>Score</td></tr>
-<tr><td>Date Completed</td><td>Problem Set</td><td>Score</td></tr>
-<tr><td>Date Completed</td><td>Problem Set</td><td>Score</td></tr>
-<tr><td>Date Completed</td><td>Problem Set</td><td>Score</td></tr>
-<tr><td>Date Completed</td><td>Problem Set</td><td>Score</td></tr>
-<tr><td>Date Completed</td><td>Problem Set</td><td>Score</td></tr>
-<tr><td>Date Completed</td><td>Problem Set</td><td>Score</td></tr>
-<tr><td>Date Completed</td><td>Problem Set</td><td>Score</td></tr>
-<tr><td>Date Completed</td><td>Problem Set</td><td>Score</td></tr>
-<tr><td>Date Completed</td><td>Problem Set</td><td>Score</td></tr>
+<tr ng-repeat = "x in completePS">
+  <td>{{x.timeStamp}}</td>
+  <td>{{x.problemType}}</td>
+  <td>{{x.totalCorrect}}0%</td>
+</tr>
 </table>
 </div>
 
