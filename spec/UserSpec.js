@@ -21,6 +21,22 @@ describe("User", function() {
 						}
 					)
 				}
+			).then(
+				function(result){
+					User.writeUserData(mockApp, "afisk", "taco", "bell", "tbell@GBell.com", "timehere", "student", "studInfo").then(
+						function(result){
+							User.readUserData(mockApp, "afisk").then(
+								function(result){
+									expect(result.firstName).toBe("taco");
+									expect(result.surName).toBe("bell");
+									expect(result.email).toBe("tbell@GBell.com");
+									expect(result.type).toBe("student");
+									done();
+								}
+							)
+						}
+					)
+				}
 			)
 		}
 	)
