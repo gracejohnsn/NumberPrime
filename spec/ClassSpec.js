@@ -21,6 +21,80 @@ describe("Class", function() {
 		}
     );
 
+    it("should throw and err when trying to remove a non-existant class",
+        function(done){
+            Class.removeClass(mockApp, "NOPE").then(
+                function(result){
+                    expect(true).toBe(false);
+                    done();
+                },
+                function(err){
+                    expect(err).toBe("no students/class found");
+                    done();
+                }
+
+            )
+        }
+    );
+
+	it("should be able to remove a class",
+		function(done) {
+            Class.readClassData(mockApp, "1234").then(
+                function(result) {
+                    expect(result.teacherId).toEqual("mscott2");
+                    expect(result.studentList).toEqual(
+                        {"E6NwApIZTdMx63GYxU3XTHI6OUU2": "E6NwApIZTdMx63GYxU3XTHI6OUU2",
+                        "mscott1": "mscott1"});
+                }
+            ).then(
+                function(result){
+                    Class.removeClass(mockApp, "1234").then(
+                        function(result){
+                            expect(true).toBe(true); 
+                        }
+                    ).then(
+                        function(result){
+                            Class.readClassData(mockApp, "1234").then(
+                                function(result){
+                                    expect(true).toBe(false);
+                                    done();
+                                },
+                                function(err){
+                                    expect(err).toBe("classId not found");
+                                }
+                            )
+                        }
+                    ).then(
+                        function(result){
+                            Student.readUserData(mockApp, "E6NwApIZTdMx63GYxU3XTHI6OUU2").then(
+                                function(result){
+                                    expect(result.classId).toBe('');
+                                    //done();
+                                }
+                            )
+                        }
+                    ).then(
+                        function(result){
+                            Notification.readNotifications(mockApp, "E6NwApIZTdMx63GYxU3XTHI6OUU2").then(
+                                function(result){
+                                    expect(true).toBe(false);
+                                    done();
+                                },
+                                function(err){
+                                    expect(err).toBe('notifications not found');
+                                    done();
+                                }
+                            )
+                        }
+                    )
+                }
+            );
+		}
+    );
+
+
+
+
     it("should not be able to get data from a bad classId",
         function(done) {
             Class.readClassData(mockApp, "asdfasdf").then(
@@ -91,26 +165,7 @@ describe("Class", function() {
                             expect(result.studentList).toEqual("");
                             expect(result.classDesc).toEqual("My class is pretty neat");
                             //expect(result.timeStamp).toEqual(dateT.toUTCString());
-                        }
-                    )
-                }
-            ).then(
-                function(result){
-                    Class.removeClass(mockApp, classId).then(
-                        function(result){
-                            expect(true).toBe(true); 
-                        }
-                    ).then(
-                        function(result){
-                            Class.readClassData(mockApp, classId).then(
-                                function(result){
-                                    expect(true).toBe(false);
-                                },
-                                function(err){
-                                    expect(err).toBe("classId not found");
-                                    done()
-                                }
-                            )
+                            done();
                         }
                     )
                 }

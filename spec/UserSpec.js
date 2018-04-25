@@ -7,6 +7,24 @@ var mock = new firebaseNightlight.Mock();
 var mockApp;
 
 describe("User", function() {
+
+	it("should update user",
+		function(done){
+			User.writeUserData(mockApp, "afisk", "taco", "bell", "tbell@GBell.com", "justUpdating", null, null).then(
+				function(result){
+					User.readUserData(mockApp, "afisk").then(
+						function(result){
+							expect(result.firstName).toBe("taco");
+							expect(result.surName).toBe("bell");
+							expect(result.email).toBe("tbell@GBell.com");
+							done();
+						}
+					)
+				}
+			)
+		}
+	)
+
 	it("should be able to create a new user, but not able to create another w/ same user id",
 		function(done) {
 			User.createUser(mockApp, "12345", "Michael", "Scarn", "blah@gmail.com", new Date(),

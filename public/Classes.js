@@ -202,33 +202,48 @@ class Class {
     }
 
     static removeClass(_app, _classId) {
-        var getClass = Class.readClassData(_app, _classId);
-        var dataPromise = new Promise(
-            function (resolve, reject) {
-                resolve({
-                    "classId": _classId
-                });
-            }
-        );
+        return _app.database().ref('classes').child(_classId).child('studentList').once('value').then(
+            function (snapshot) {
+                if (snapshot.val()) {
+                    var val = snapshot.val();
+                    var updates = {};
+                    var notifUpdates = {};
 
-        return Promise.all([getClass, dataPromise]).then(
-            function (results) {
+                    for (var stud in val) {
+                        updates['users/' + stud + '/student/classId'] = '';
+                        notifUpdates['notifications/' + stud] = '';
+                        //return _app.database().ref().update(updates);
+                    }
 
-                var studentLst = results[0].studentList;
-                console.log(result[0]);
-                for(var stud in studentLst){
-                    Student.removeStudentFromClass(_app,stud,_classId);
+                    var removeStudClassProm = _app.database().ref().update(updates).then(
+                        function () { // return if no problem adding student
+                            return;
+                        }, function () { // runs with error
+                            throw "unable to update Students";
+                        }
+                    );
+
+                    var removeStudNotifProm = _app.database().ref().update(notifUpdates).then(
+                        function () { // return if no problem adding student
+                            return;
+                        }, function () { // runs with error
+                            throw "unable to update Notifications";
+                        }
+                    );
+
+                    return Promise.all([removeStudClassProm, removeStudNotifProm]).then(
+                        function (results) {
+                            return _app.database().ref("classes").child(_classId).remove();
+                        },
+                        function (err) {
+                            throw "couldn't remove class: " + err;
+                        }
+                    );
+                    //return new Class(_classId, val.teacherId, val.studentList,
+                      //  val.classDesc);
+                } else {
+                    throw "no students/class found";
                 }
-                
-                var classId = results[1]["classId"];
-                //if(!Object.keys(classInstance.studentList).includes(studentId)) {
-                //  throw "class does not exist";
-                //}
-                //console.log("class ID: " + classId);
-                return _app.database().ref("classes").child(classId).remove();
-            },
-            function (err) {
-                throw "couldn't remove class: " + err;
             }
         );
     }
