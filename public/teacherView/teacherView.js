@@ -46,6 +46,7 @@ tDash.controller('teacherCtrl', ["$scope",
 								}
 							);
 							if (Object.keys(userData.classList).length > 0) {
+
 								$scope.$apply(
 									function () {
 										$scope.currClass = Object.keys(userData.classList)[0];

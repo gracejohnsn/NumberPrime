@@ -66,6 +66,22 @@ sDash.controller('studentCtrl', ["$scope",
 					}
 				);
 
+				//Populate with Finished Problem Sets
+				ProblemInstance.readProblemInstance(firebase,uid,10).then(
+					function(result) {
+						$scope.$apply(
+							function() {
+								$scope.completePS = result;
+							}
+						);
+					}
+				).catch(
+					function(err) {
+						console.log(err);
+					}
+				);
+				console.log($scope.completePS);
+
 			} else {
 				window.location = "/#!/Login";
 				// No user is signed in.

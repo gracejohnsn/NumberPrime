@@ -156,9 +156,9 @@ var bg = {
 					else { 
 						this.color = [0.2,0.5,0.2];
 					}
-					this.position = [0.4,.125+.275*this.digit,0.003];
-					this.scale[0] = 1.0;
-					this.scale[1] = 1.5;
+					this.position = [0.4,.215+.215*this.digit,0.003];
+					this.scale[0] = 0.75;
+					this.scale[1] = 1.0;
 				} else {
 					if (this.digit < 5) {
 						this.fillOff = [0.15*this.digit,0.0];
@@ -292,11 +292,12 @@ DigitBox.prototype.init = function (drawingState) {
 			}
 			if (mathScene.buttons[mathScene.buttons.length-1].checkHitbox() == 1) {
 				mathScene.scope.correct = evaluateProblem();
-				mathScene.scope.writeProblem();
+			//	mathScene.scope.writeProblem();
 				mathScene.scope.totalCorrect += mathScene.scope.correct;
 				mathScene.scope.probNum++;
 				mathScene.scope.$apply();
 				if (mathScene.scope.probNum == 10) {
+					mathScene.scope.writeProblem();
 					mathScene.scope.problemSetDone();
 				}
 				createProblem();
@@ -457,7 +458,7 @@ DigitBox.prototype.init = function (drawingState) {
 				}
 				twgl.drawBufferInfo(gl, gl.TRIANGLES, digitBuffer,6);
 				twgl.setUniforms(shaderProgram,{
-					color : borderColor, offset : cBox.bordOff,
+					color : [.5,.5,.5], offset : cBox.bordOff,
 				});
 				twgl.drawBufferInfo(gl, gl.TRIANGLES, digitBuffer,6,24);
 			} else {
@@ -586,7 +587,6 @@ DigitBox.prototype.init = function (drawingState) {
 	}
 
 	var updateColor = function(clr,swtch) {
-		console.log("hello");
 		clr = clr.substr(1);
 	    var num = parseInt(clr, 16),
 		R = (num >> 16)/255.0;
@@ -614,8 +614,14 @@ var setupPS = function(parameters) {
 	mathScene.scope = ng_el.scope();
 	console.log(parameters);
 	mathScene.params = parameters.split(",");
+
 	for (var i = 0; i < mathScene.params.length; i++) {
 		mathScene.params[i] = parseInt(mathScene.params[i]);
+		if (mathScene.params[i] == null || mathScene.params[i] == "") {
+			mathScene.params[i] = 0;
+		} else if (mathScene.params[i] < 0) {
+			mathScene.params[i] = mathScene.params[i]*-1;
+		}
 	}
 	console.log(mathScene.params);
 	var highestVal;
