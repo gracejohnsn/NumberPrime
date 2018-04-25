@@ -614,8 +614,14 @@ var setupPS = function(parameters) {
 	mathScene.scope = ng_el.scope();
 	console.log(parameters);
 	mathScene.params = parameters.split(",");
+
 	for (var i = 0; i < mathScene.params.length; i++) {
 		mathScene.params[i] = parseInt(mathScene.params[i]);
+		if (mathScene.params[i] == null || mathScene.params[i] == "") {
+			mathScene.params[i] = 0;
+		} else if (mathScene.params[i] < 0) {
+			mathScene.params[i] = mathScene.params[i]*-1;
+		}
 	}
 	console.log(mathScene.params);
 	var highestVal;

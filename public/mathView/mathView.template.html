@@ -35,6 +35,11 @@ function updateClr(event) {
 	}
 }
 
+window.onunload = function() {
+	grobjects = [];
+	mathCanvasDone = 1;
+	console.log("Done : " + mathCanvasDone);
+}
 bgColor.addEventListener("change", updateClr, false);
 brdColor.addEventListener("change", updateClr, false);
 texColor.addEventListener("change", updateClr, false);

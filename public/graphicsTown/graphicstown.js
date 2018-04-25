@@ -3,6 +3,7 @@
  */
 var arcball = undefined;
 var mathCanvas = undefined;
+var mathCanvasDone = 0;
 var lClick = 0;
 
 /*
@@ -41,14 +42,14 @@ var setupCanvas = function(num) {
 	console.log("value" + num);
 	console.log("setupCanvas");
     // set up the canvas and context
-
+    mathCanvasDone = 0;
     if (!mathCanvas) {
     mathCanvas = document.createElement("canvas");
     arcball = new ArcBall(mathCanvas);
     } else {
-        var bg = document.getElementById("bg");
-        bg.appendChild(mathCanvas);
-        return;
+       // var bg = document.getElementById("bg");
+       // bg.appendChild(mathCanvas);
+      //  return;
     }
     mathCanvas.onselectstart = function () { return false; }
     var h = window.screen.availHeight*.7;
@@ -148,6 +149,10 @@ var setupCanvas = function(num) {
     function draw() {
         // advance the clock appropriately (unless its stopped)
         var curTime = Date.now();
+        if (mathCanvasDone) {
+            console.log("CanvasDone");
+            return;
+        }
         if (1) {
             realtime += (curTime - lastTime);
         }
@@ -278,7 +283,10 @@ var setupCanvas = function(num) {
         while (cTime + 16 > nTime) {
             nTime = Date.now();
         }
+        if (!mathCanvasDone) {
+            console.log("Draw");
         window.requestAnimationFrame(draw);
+        }
     };
     draw();
 };
