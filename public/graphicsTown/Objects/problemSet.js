@@ -271,6 +271,21 @@ DigitBox.prototype.init = function (drawingState) {
 	var selected = 0;
 	var checkInput = function() {
 		var curBox;
+		if (selected == 0 && mathScene.selected.position != mathScene.buttons[mathScene.selected.digit].position) {
+			var cPos = mathScene.selected.position;
+			var nPos = mathScene.buttons[mathScene.selected.digit].position;
+			var dPos = [nPos[0]-cPos[0],nPos[1]-cPos[1],cPos[2]-nPos[2]];
+			var theta = Math.atan2(dPos[1], dPos[0]);
+			var dst = Math.sqrt(dPos[0]*dPos[0] + dPos[1]*dPos[1]);
+			mathScene.selected.position[0] += .01*(dPos[0]/dst);
+			mathScene.selected.position[1] += .01*(dPos[1]/dst);
+//			console.log(dPos);
+			if (dst < 0.01 && dst > -0.01) {
+				mathScene.selected.position = nPos;
+			}
+			//mathScene.selected.position[0] += theta*0.001;
+			//mathScene.selected.position[1] += theta*0.001;
+		}
 		if (mathScene.lastXY[3] == 1 && mathScene.lastXY[0] < 0.5 
 			&& mathScene.lastXY[1] > 0.5) {
 			for (var i = 0; i < 10; i++) {
@@ -322,7 +337,9 @@ DigitBox.prototype.init = function (drawingState) {
 			}
 			}
 		}
-
+		if (selected == 1 && mathScene.lastXY[2] == 0) {
+			selected = 0;
+		}
 	//Update Poles
 		if (mathScene.lastXY[3] == 1 && mathScene.lastXY[0] > 0.5) {
 			var cPole;
@@ -563,9 +580,10 @@ DigitBox.prototype.init = function (drawingState) {
 				break;
 			case 3 :
 				prob[1] = prob[1]%10;
-				var change = prob[0]%prob[1];
-				prob[0]-=change;  
-				answer = prob[0] / prob[1];
+				var r = prob[0]/prob[1];
+				r = Math.floor(r)+1;
+				prob[0] = r*prob[1];  
+				answer = r;
 				break;
 			}
 

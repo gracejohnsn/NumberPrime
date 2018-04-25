@@ -4,30 +4,30 @@
 
   .PSmodal {
     position: fixed;
+    background-color: #d7e466;
     width: 50%;
-    height: 50%;
+    height: 100%;
     display: none;
     left: 25%;
     top: 0%;
     z-index: 99;
   }
-
   .PSmodal-content {
-    background-color: #fefefe;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
+    position : relative;
+    width  : 100%;
+    text-align : center;
   }
-
   .PSmodal-content p {
     text-align: center;
-    font-size: 24px;
+    font-size: 20px;
   }
 
+  .PSmodal-content form {
+    background-color: #718518;
+  }
   .PSmodal-content button {
-    margin-left: 25%;
-    width: 50%;
+    margin-left: 2%;
+    width: 42.5%;
     font-size: 20px;
   }
 
@@ -47,6 +47,9 @@
     cursor: pointer;
   }
 
+  .PSmodal-content label {
+    text-align : center;
+  }
   .PSmodal-content input {
     width: 100%;
     clear: both;
@@ -115,16 +118,21 @@
   </div>
 
   <div id="PSmodal" class="PSmodal">
+    <span id="PSclose" class="close">&times;</span>
+    <table style="width:100%;height:90%">
+      <tr style="text-align:center">
+        <td>Create Problem Set</td>
+        <td>Example Problems</td>
+      </tr>
+    <td style="width:50%">
     <div class="PSmodal-content">
-      <span id="PSclose" class="close">&times;</span>
-      <p style="font-size:30px" style="text-align:center">Create Problem Set</p>
       <form>
         <label>Message</label>
-        <input type="text" value="ProblemSet" ng-model="params.msg">
+        <input type="text" value="ProblemSet" ng-model="params[7]">
         <br>
         <label>Type Of Problem</label>
         <br>
-        <select ng-model="params.type">
+        <select ng-model="params[0]" ng-change="createExamples(params)">
           <option value="0">Addition</option>
           <option value="1">Subtraction</option>
           <option value="2">Muliplication</option>
@@ -133,24 +141,33 @@
         <br>
         <label>Max Number</label>
         <br>
-        <input style="width:45%" type="number" value="9" ng-model="params.max">
-        <input style="width:45%" type="number" value="9" ng-model="params.max2">
+        <input style="width:45%" type="number" ng-model="params[1]" ng-change="createExamples(params)">
+        <input style="width:45%" type="number" ng-model="params[4]" ng-change="createExamples(params)">
         <br>
         <label>Min Number</label>
         <br>
-        <input style="width:45%" type="number" value="1" ng-model="params.min">
-        <input style="width:45%" type="number" value="9" ng-model="params.min2">
+        <input style="width:45%" type="number" ng-model="params[2]" ng-change="createExamples(params)">
+        <input style="width:45%" type="number" ng-model="params[5]" ng-change="createExamples(params)">
         <br>
         <label>Multiples of</label>
         <br>
-        <input style="width:45%" type="number" value="1" ng-model="params.mult">
-        <input style="width:45%" type="number" value="9" ng-model="params.mult2">
+        <input style="width:45%" type="number" ng-model="params[3]" ng-change="createExamples(params)">
+        <input style="width:45%" type="number" ng-model="params[6]" ng-change="createExamples(params)">
         <br>
-      </form>
       <br>
+      <button ng-click="createExamples(params)">Refresh Examples</button>
       <button ng-click="update(params)">Submit Problem Set</button>
-      <pre>params = {{params}}</pre>
+    </form>
     </div>
+    </td>
+    <td style="width:50%">
+        <div class="PSmodal-content">
+            <p style="font-size:20px"ng-repeat="x in examples track by $index">
+              {{x}}
+            </p>
+          </div>
+    </td>
+      </table>
   </div>
 
 

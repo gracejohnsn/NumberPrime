@@ -71,7 +71,7 @@
 <tr ng-repeat = "x in completePS">
   <td>{{x.timeStamp}}</td>
   <td>{{x.problemType}}</td>
-  <td>{{x.totalCorrect}}0%</td>
+  <td>{{x.totalCorrect*100/x.totalProblems}}%</td>
 </tr>
 </table>
 </div>
