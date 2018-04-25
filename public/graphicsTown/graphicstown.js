@@ -284,8 +284,7 @@ var setupCanvas = function(num) {
             nTime = Date.now();
         }
         if (!mathCanvasDone) {
-            console.log("Draw");
-        window.requestAnimationFrame(draw);
+            window.requestAnimationFrame(draw);
         }
     };
     draw();

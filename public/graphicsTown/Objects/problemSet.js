@@ -292,11 +292,12 @@ DigitBox.prototype.init = function (drawingState) {
 			}
 			if (mathScene.buttons[mathScene.buttons.length-1].checkHitbox() == 1) {
 				mathScene.scope.correct = evaluateProblem();
-				mathScene.scope.writeProblem();
+			//	mathScene.scope.writeProblem();
 				mathScene.scope.totalCorrect += mathScene.scope.correct;
 				mathScene.scope.probNum++;
 				mathScene.scope.$apply();
 				if (mathScene.scope.probNum == 10) {
+					mathScene.scope.writeProblem();
 					mathScene.scope.problemSetDone();
 				}
 				createProblem();
@@ -586,7 +587,6 @@ DigitBox.prototype.init = function (drawingState) {
 	}
 
 	var updateColor = function(clr,swtch) {
-		console.log("hello");
 		clr = clr.substr(1);
 	    var num = parseInt(clr, 16),
 		R = (num >> 16)/255.0;
