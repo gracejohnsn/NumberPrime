@@ -17,7 +17,7 @@ sDash.controller('studentCtrl', ["$scope",
 				var dataPromise = User.readUserData(firebase, uid).then(
 					function (result) {
 						if ('student' != result.type) {
-							alert("Not a student user!");
+							window.location = "/#!/DashboardTeach";
 						}
 						$scope.$apply(
 							function () {
