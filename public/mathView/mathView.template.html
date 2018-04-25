@@ -39,17 +39,17 @@ bgColor.addEventListener("change", updateClr, false);
 brdColor.addEventListener("change", updateClr, false);
 texColor.addEventListener("change", updateClr, false);
 
-
 var myVar = setInterval(function(){ 
 	if (nDig.value != val) {
-	clearInterval(myVar);
-	if (psSet.value == 0) {
-	setupPS(par.value);
-	setupCanvas(nDig.value);
-	psSet.value = 1;
-	}
+		clearInterval(myVar);
+		if (psSet.value == 0) {
+			setupPS(par.value);
+			setupCanvas(nDig.value);
+			psSet.value = 1;
+		}
 	} 
 }, 10);
+
 function app(user) {
 			// user.displayName
 			// user.email

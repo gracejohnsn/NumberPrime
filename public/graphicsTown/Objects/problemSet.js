@@ -156,9 +156,9 @@ var bg = {
 					else { 
 						this.color = [0.2,0.5,0.2];
 					}
-					this.position = [0.4,.125+.275*this.digit,0.003];
-					this.scale[0] = 1.0;
-					this.scale[1] = 1.5;
+					this.position = [0.4,.215+.215*this.digit,0.003];
+					this.scale[0] = 0.75;
+					this.scale[1] = 1.0;
 				} else {
 					if (this.digit < 5) {
 						this.fillOff = [0.15*this.digit,0.0];
@@ -457,7 +457,7 @@ DigitBox.prototype.init = function (drawingState) {
 				}
 				twgl.drawBufferInfo(gl, gl.TRIANGLES, digitBuffer,6);
 				twgl.setUniforms(shaderProgram,{
-					color : borderColor, offset : cBox.bordOff,
+					color : [.5,.5,.5], offset : cBox.bordOff,
 				});
 				twgl.drawBufferInfo(gl, gl.TRIANGLES, digitBuffer,6,24);
 			} else {

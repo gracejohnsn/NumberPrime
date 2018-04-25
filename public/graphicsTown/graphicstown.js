@@ -45,6 +45,10 @@ var setupCanvas = function(num) {
     if (!mathCanvas) {
     mathCanvas = document.createElement("canvas");
     arcball = new ArcBall(mathCanvas);
+    } else {
+        var bg = document.getElementById("bg");
+        bg.appendChild(mathCanvas);
+        return;
     }
     mathCanvas.onselectstart = function () { return false; }
     var h = window.screen.availHeight*.7;
@@ -268,6 +272,11 @@ var setupCanvas = function(num) {
             grobjects.forEach(function (obj) {
                 if(obj.drawAfter) obj.drawAfter();
             });
+        }
+        var cTime = Date.now();
+        var nTime = Date.now();
+        while (cTime + 16 > nTime) {
+            nTime = Date.now();
         }
         window.requestAnimationFrame(draw);
     };

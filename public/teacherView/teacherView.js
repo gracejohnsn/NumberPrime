@@ -85,6 +85,7 @@ tDash.controller('teacherCtrl', ["$scope",
 			var time = new Date();
 			//	var cID = $scope.user.classId;
 			//	console.log("ClassID=" + cID);
+			alert("Created Notification : " + $scope.probURL);
 			Notification.createNotification(firebase, uid, $scope.probURL, "student", time, time, $scope.param.msg);
 		};
 		$scope.clickClass = function (classId) {
