@@ -137,6 +137,10 @@
       var a = document.createElement('a');
       var linkText = document.createTextNode("Return to dashboard");
       a.appendChild(linkText);
+      a.onclick = function() {
+        para.parentNode.removeChild(para);
+        linkText.parentNode.removeChild(linkText);
+      }
       a.href = "#!/studentView";
       a.id= "return";
       document.body.appendChild(para);
@@ -267,5 +271,5 @@
     var b= x1+x2;
     return b/2;
     }
-
+    
 </script>
