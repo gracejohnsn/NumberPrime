@@ -147,7 +147,7 @@ describe("Class", function() {
             );
         });
     
-    it("should create a new class",
+    it("should create a new class and add it to the teacher's class list",
         function(done) {
             var classId = "";
             //var dateT = new Date();
@@ -164,13 +164,57 @@ describe("Class", function() {
                             expect(result.teacherId).toEqual("mscott2");
                             expect(result.studentList).toEqual("");
                             expect(result.classDesc).toEqual("My class is pretty neat");
+                            var classRes = result.classId;
                             //expect(result.timeStamp).toEqual(dateT.toUTCString());
-                            done();
+                            //done();
+                            Student.generateHash(mockApp, "afisk", new Date()).then(
+                                function(result) {
+                                    return Class.addStudentWithHash(mockApp, result, classRes);
+                                }).then(
+                                function(result) {
+                                    return Class.readClassData(mockApp, classRes);
+                                }).then(
+                                function(result) {
+                                    expect(Object.keys(result.studentList)).toContain("afisk");
+                                    done();
+                                })
                         }
                     )
                 }
             );
 		}
+    );
+
+    it("should create 2 classes for mscott2",
+        function(done) {
+            var classId = "";
+            var classId2 = "";
+            //var dateT = new Date();
+            Class.createClass(mockApp, "mscott2", "My class is pretty neat", new Date()).then(
+                function(result) {
+                    classId = result;
+                    expect(true).toBe(true);
+                }
+            ).then(
+                function(result){
+                    Class.createClass(mockApp, "mscott2", "My class is pretty neat", new Date()).then(
+                        function(result){
+                            classId2 = result;
+                        }
+                    ).then(
+                        function(result){
+                            User.readUserData(mockApp, "mscott2").then(
+                                function(result){
+                                    expect(JSON.stringify(result)).toContain(classId.toString());
+                                    expect(JSON.stringify(result)).toContain(classId2.toString());
+                                    done();
+                                }
+                            )
+                        }
+                    );
+                }
+            );
+        }
     );
 
 	beforeEach(function() {	

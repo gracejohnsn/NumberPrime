@@ -195,8 +195,19 @@ class Class {
             "classDesc": _classDesc,
         }).then(
             function (result) {
+                var rKey = result.key;
+                var updateProm = _app.database().ref("users/" + _teacherId +
+                    "/teacher/classList/" + rKey).set(rKey);
+                /*var updateProm = _app.database().ref("users").child(_teacherId).child('teacher').child('classList').push({
+                    rKey : rKey,
+                });
+                console.log(rKey);*/
+                return Promise.all([updateProm]).then(
+                    function(results){
+                        return rKey;
+                    }
+                );
                 //console.log("key: "+ result.key);
-                return result.key;
             }
         );
     }

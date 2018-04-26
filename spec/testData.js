@@ -52,7 +52,7 @@ var testData = {
             "type": "teacher",
             "teacher": {
                 "classList": {
-                    "1234": true
+                    "1234": "1234"
                 },
                 "teacherDesc": "I am."
             }
