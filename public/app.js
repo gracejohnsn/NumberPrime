@@ -39,7 +39,7 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
       template: '<volume></volume>'
     }).
 
-    when('/conversions', {
+    when('/conversions/:type/:max/:min', {
       template: '<conversions></conversions>'
     }).
 	   when('/Login', {
