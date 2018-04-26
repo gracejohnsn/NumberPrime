@@ -630,7 +630,6 @@ var setupPS = function(parameters) {
 	var dom_el = document.querySelector('[ng-controller="mathCtrl"]');
 	var ng_el = angular.element(dom_el);
 	mathScene.scope = ng_el.scope();
-	console.log(parameters);
 	mathScene.params = parameters.split(",");
 
 	for (var i = 0; i < mathScene.params.length; i++) {
@@ -641,7 +640,6 @@ var setupPS = function(parameters) {
 			mathScene.params[i] = mathScene.params[i]*-1;
 		}
 	}
-	console.log(mathScene.params);
 	var highestVal;
 	var p = 0;
 	if (mathScene.params[1] == 2) {

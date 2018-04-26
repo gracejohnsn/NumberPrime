@@ -21,7 +21,7 @@ math.controller('mathCtrl',["$scope", "$routeParams",
   		  }
   	);
 	console.log(userPromise);
-        $scope.first = $routeParams.nDigs;
+    $scope.first = $routeParams.nDigs;
 	var sP = "";
 	sP = sP.concat($routeParams.nDigs+",");
 	sP = sP.concat($routeParams.type+",");

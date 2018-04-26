@@ -56,9 +56,10 @@ div {
 </style>
 </head>
 
-  
+<div ng-app="conversions" ng-controller="conversionsController">
+<input id="cParams" type="hidden" value={{conversionParams}}>
+<input id="conversionsReady" type="hidden" value="0">
 <body>
-
   <div id="questionsDiv">
     <button onclick="start()" id="onStart" class="button1">Click here when you are ready to start!</button>
 
@@ -87,6 +88,20 @@ var mass_unit_us = ["ounces","pounds","ton",];
 var mass_unit_m = ["grams","kilograms"];
 var time_unit = ["seconds","minutes","hours"];
 var n = 0;
+var cParams = document.getElementById("cParams");
+var cParamsVal = cParams.value;
+var convReady = document.getElementById("conversionsReady");
+var cTimer = setInterval(function(){ 
+	if (cParams.value != cParamsVal) {
+        clearInterval(cTimer);
+        convReady.value = 1;
+        cParamsVal = cParams.value;
+        cParamsVal = cParamsVal.split(',');
+        for (var i = 0; i < cParamsVal.length; i++) {
+            cParamsVal[i] = parseInt(cParamsVal[i]);
+        }
+	}
+}, 10);
 
 function submit() 
 {
@@ -111,6 +126,8 @@ function submit()
 
 function start()
 {
+    if (!convReady.value) 
+        return;
     document.getElementById("onStart").style.display = "none";
     document.getElementById("main").style.display = "block";
     var myQuestion = new questions();
@@ -123,6 +140,12 @@ function nextQuestion()
 
     if(10 == (questionsList.length))
     {
+        var dom_el = document.querySelector('[ng-controller="conversionsController"]');
+	    var ng_el = angular.element(dom_el);
+        var conversionScope = ng_el.scope();
+        console.log(conversionScope);
+        console.log(correctCount + "-" + questionsList.length);
+        conversionScope.writeConversionSet(correctCount,questionsList.length);
         resultPage()
     }
     else
@@ -165,21 +188,26 @@ function questions () {
 };
 
 function getRandomNumbers(){
-      var number = Math.floor((Math.random() * 100) + 1);
+      var maxC = (cParamsVal[1]);
+      var minC = (cParamsVal[2]);
+      console.log(maxC + " " + minC + " " + cParamsVal);
+      var diffC = maxC-minC;
+      var number = Math.round(Math.random()*diffC)+minC;
+      console.log(number);
       return number;
 }
 
 function getFrom(){
     var categories = ["LengthUS", "LengthMetric", "MassUS", "MassMetric", "Time"];
-     randomCategory = categories[Math.floor(Math.random()*categories.length)];
-    
+//     randomCategory = categories[Math.floor(Math.random()*categories.length)];
+    randomCategory = categories[cParamsVal[0]];  
     if(randomCategory == "LengthUS"){
         var randomLengthUs = length_unit_us[Math.floor(Math.random()*length_unit_us.length)];
-        return randomLength
+        return randomLengthUs;
     }
     if(randomCategory == "MassUS"){
         var randomMassUS = mass_unit_us[Math.floor(Math.random()*mass_unit_us.length)];
-        return randomMass
+        return randomMassUS;
     }
     if(randomCategory == "Time"){
         var randomTime = time_unit[Math.floor(Math.random()*time_unit.length)];
@@ -325,6 +353,7 @@ function calculateAnswer(fromUnit,toUnit,randomNumber){
 
 </script>
 </body>
+</div>
 </html>
 
 
