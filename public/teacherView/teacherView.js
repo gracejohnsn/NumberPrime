@@ -2,10 +2,10 @@
 
 var tDash = angular.module('teacherdash', ['ngRoute']);
 tDash.
-component('teacherdash', {
-	templateUrl: 'teacherView/teacherView.html',
-	controller: 'teacherCtrl'
-});
+	component('teacherdash', {
+		templateUrl: 'teacherView/teacherView.html',
+		controller: 'teacherCtrl'
+	});
 
 tDash.controller('teacherCtrl', ["$scope",
 	function ($scope) {
@@ -21,52 +21,52 @@ tDash.controller('teacherCtrl', ["$scope",
 				surName: "lol"
 			}
 		};*/
-		$scope.param = [0,0,0,0,0,0,0,""];
+		$scope.param = [0, 0, 0, 0, 0, 0, 0, ""];
 		$scope.examples = [
 			"1+2=3", "2+5=7",
 		];
-		
-		
-		$scope.createExamples = function(params) {
+
+
+		$scope.createExamples = function (params) {
 			$scope.examples = [];
 			var paramFill = 1;
 			for (var i = 0; i < 7; i++) {
-			if (params[i] == null) {
-				paramFill = 0;
-				var missingType;
-				switch (i) {
-					case 0 : 
-						missingType = "Type of Problem";
-						break;
-					case 1 : 
-						missingType = "1st Value Max Value";
-						break;
-					case 2 : 
-						missingType = "1st Value Min Value";
-						break;
-					case 3 : 
-						missingType = "1st Value Multiples Of";
-						break;
-					case 4 : 
-						missingType = "2nd Value Max Value";
-						break;
-					case 5 : 
-						missingType = "2nd Value Min Value";
-						break;
-					case 6 : 
-						missingType = "2nd Value Multiples Of";
-						break;			
-					default : 
-						missingType = "Unknown";
-						break;			
-				}
- 				$scope.examples.push("Missing Parameter : " + missingType);
+				if (params[i] == null) {
+					paramFill = 0;
+					var missingType;
+					switch (i) {
+						case 0:
+							missingType = "Type of Problem";
+							break;
+						case 1:
+							missingType = "1st Value Max Value";
+							break;
+						case 2:
+							missingType = "1st Value Min Value";
+							break;
+						case 3:
+							missingType = "1st Value Multiples Of";
+							break;
+						case 4:
+							missingType = "2nd Value Max Value";
+							break;
+						case 5:
+							missingType = "2nd Value Min Value";
+							break;
+						case 6:
+							missingType = "2nd Value Multiples Of";
+							break;
+						default:
+							missingType = "Unknown";
+							break;
+					}
+					$scope.examples.push("Missing Parameter : " + missingType);
 				}
 			}
 			if (!paramFill)
 				return;
-			var type, max, min, mult,max2,min2,mult2,bot,top,diff,n1,n2,answer;
-			var problem = [0,0,0,0];
+			var type, max, min, mult, max2, min2, mult2, bot, top, diff, n1, n2, answer;
+			var problem = [0, 0, 0, 0];
 			for (var i = 0; i < 10; i++) {
 				var cProb = "";
 				type = parseInt(params[0]);
@@ -76,50 +76,50 @@ tDash.controller('teacherCtrl', ["$scope",
 				max2 = parseInt(params[4]);
 				min2 = parseInt(params[5]);
 				mult2 = parseInt(params[6]);
-				bot = min/mult;
-				top = Math.floor(max/mult);
+				bot = min / mult;
+				top = Math.floor(max / mult);
 				if (bot != Math.floor(bot)) {
-					bot = Math.floor(bot)+1;
+					bot = Math.floor(bot) + 1;
 				}
-				diff = top-bot+1;
-				n1 = Math.floor(Math.random()*diff)+bot;
-				bot = min2/mult2;
-				top = Math.floor(max2/mult2);
+				diff = top - bot + 1;
+				n1 = Math.floor(Math.random() * diff) + bot;
+				bot = min2 / mult2;
+				top = Math.floor(max2 / mult2);
 				if (bot != Math.floor(bot)) {
-					bot = Math.floor(bot)+1;
+					bot = Math.floor(bot) + 1;
 				}
-				diff = top-bot+1;
-				n2 = Math.floor(Math.random()*diff)+bot;
-				problem[0] = (n1)*mult;
-				problem[1] = (n2)*mult2;
-				cProb = cProb.concat(problem[0]+"");
+				diff = top - bot + 1;
+				n2 = Math.floor(Math.random() * diff) + bot;
+				problem[0] = (n1) * mult;
+				problem[1] = (n2) * mult2;
+				cProb = cProb.concat(problem[0] + "");
 				problem[2] = type;
 				switch (type) {
-					case 0 : problem[2] = problem[0] + problem[1];
-							cProb = cProb.concat("+");
+					case 0: problem[2] = problem[0] + problem[1];
+						cProb = cProb.concat("+");
 						break;
-					case 1 :
-					if (problem[0] < problem[1]) {
-						var temp = problem[0];
-						problem[0] = problem[1];
-						problem[1] = temp;
-					} 
+					case 1:
+						if (problem[0] < problem[1]) {
+							var temp = problem[0];
+							problem[0] = problem[1];
+							problem[1] = temp;
+						}
 						problem[2] = problem[0] - problem[1];
 						cProb = cProb.concat("-");
 						break;
-					case 2 : 
+					case 2:
 						problem[2] = problem[0] * problem[1];
 						cProb = cProb.concat("*");
 						break;
-					case 3 :
-						var r = problem[0]/problem[1];
-						r = Math.floor(r)+1;
-						problem[0] = r*problem[1]; 
-						cProb = problem[0]+"/";
+					case 3:
+						var r = problem[0] / problem[1];
+						r = Math.floor(r) + 1;
+						problem[0] = r * problem[1];
+						cProb = problem[0] + "/";
 						problem[2] = problem[0] / problem[1];
 						break;
 				}
-				cProb = cProb.concat(problem[1]+"="+problem[2]);
+				cProb = cProb.concat(problem[1] + "=" + problem[2]);
 				$scope.examples.push(cProb);
 				$scope.$apply;
 			}
@@ -137,7 +137,7 @@ tDash.controller('teacherCtrl', ["$scope",
 			Notification.createNotification(firebase, uid, $scope.probURL, "student", time, time, $scope.param[7]);
 		};
 		firebase.auth().onAuthStateChanged(
-			function(user) {
+			function (user) {
 				if (user) {
 					$scope.param = {};
 					var uid = firebase.auth().currentUser.uid;
@@ -229,21 +229,52 @@ tDash.controller('teacherCtrl', ["$scope",
 							}
 						);
 					}
+					$scope.addStudent = function () {
+						var code = document.getElementById('code').value;
+						if (code.length <= 0) {
+							alert("You must enter a code");
+							return;
+						}
+
+
+						var classId = $scope.currClass; // TODO multiple class functionality?
+
+						return Class.addStudentWithHash(firebase, code, classId).then(
+							function () {
+								alert("Student added successfully!");
+								clickClass($scope.currClass);
+								document.getElementById("addStudentsModal").style.display = "none";
+							},
+							function () {
+								alert("That code is not valid");
+								document.getElementById("addStudentsModal").style.display = "none";
+							}
+						);
+					}
+					$scope.createClass = function () {
+						var classDesc = document.getElementById('classDesc').value;
+						if (classDesc <= 0) {
+							alert("You must enter a description");
+							return;
+						}
+
+						return Class.createClass(firebase, firebase.auth().currentUser.uid, classDesc,
+							new Date()).then(
+								function() {
+									alert("Created class!");
+									$scope.classes = $scope.classes.concat(classDesc);
+									document.getElementById("ACmodal").style.display = "none";
+								}, function(err) {
+									alert(err);
+									document.getElementById("ACmodal").style.display = "none";
+								}
+							);
+					}
 				} else {
 					window.location = "/#!/Login";
 				}
 			}
 		);
-		
+
 	}
 ]);
-
-function addStudent() {
-	var code = document.getElementById('code').value;
-	return User.readUserData(firebase, firebase.auth().currentUser.uid).then(
-		function (result) {
-			var classId = result.classList[0]; // TODO multiple class functionality?
-			return Class.addStudentWithHash(firebase, code, classId);
-		}
-	);
-}

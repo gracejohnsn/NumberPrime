@@ -11,7 +11,9 @@
   
   );*/
 }
-
+html { 
+  overflow-y: scroll; 
+}
 body {
   font-family: 'Boogaloo';
   background-color: #64B5C8;
@@ -235,7 +237,7 @@ button {
   text-decoration: none;
   white-space: nowrap;
   width: 100%;
-  height: 21.85%;
+  height: 18%;
   text-overflow: ellipsis;
   color: #FFFFFF;
   display: block;
@@ -251,7 +253,7 @@ button {
 
 .extendsidenav p,
 .sidenav p {
-  margin-top: 2%;
+  margin: 1%;
   height: 35%;
   width: 100%;
   background: radial-gradient(closest-side, rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.25));

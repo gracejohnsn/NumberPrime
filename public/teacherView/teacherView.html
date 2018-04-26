@@ -67,13 +67,13 @@
   </div>
 
   <div id="mySidenav" class="sidenav" style="display:block;">
-    <a href="#!/DashboardTeach">
+    <!--<a href="#!/DashboardTeach">
       <img src="img/profileIcon.png" alt="Dashboard Icon" />
       <p>Dashboard</p>
-    </a>
+    </a>-->
     <a id="PSbtn" onclick="createPS()">
       <img src="img/plus.png" alt="Math Icon" />
-      <p>Create Problems Set</p>
+      <p>Create Set</p>
     </a>
     <a href="#!/Settings">
       <img src="img/settings.png" alt="Settings Icon" />
@@ -82,6 +82,10 @@
     <a id="addStudents" onclick="addStudents()">
       <img src="img/plus.png" alt="Math Icon" />
       <p>Add Students</p>
+    </a>
+    <a id="createClass">
+      <img src="img/plus.png" alt="Class Icon" />
+      <p>Create Class</p>
     </a>
 
     <div id="addStudentsModal" class="modal">
@@ -98,10 +102,10 @@
             <div class="form-group">
               <label>Enter code:</label>
               <p></p>
-              <input type="text"></input>
+              <input id="code" type="text"></input>
             </div>
             <div class="form-actions">
-              <button type="submit">Submit</button>
+              <button ng-click="addStudent()" type="submit">Submit</button>
             </div>
           </form>
         </div>
@@ -170,11 +174,38 @@
       </table>
   </div>
 
+  <div id="ACmodal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span id="ACclose" class="close">&times;</span>
+        <h2 style="text-align:center">
+          <strong>Create a class</strong>
+        </h2>
+      </div>
+      <div class="modal-body">
+        <p style="text-align:center">Please enter the following information:</p>
+        <form style="text-align:center">
+          <div class="form-group">
+            <label>Class Description</label>
+            <p></p>
+            <input id="classDesc" type="text"></input>
+          </div>
+          <div class="form-actions">
+            <button ng-click="createClass()" type="submit">Submit</button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <h3></h3>
+      </div>
+    </div>
+  </div>
+
 
   <div id="bg" class="bg" style="display:block;">
     <div class="dashTable">
       <p>Class Overview</p>
-      <button style="width:50%">Class List</button>
+      <button style="width:50%">Student List</button>
       <button style="width:50%">Class Statistics</button>
       <table style="width:100%">
         <tr>
@@ -243,6 +274,26 @@
 
   <script>
     // Get the modal
+    var ACmodal = document.getElementById('ACmodal');
+
+    // Get the button that opens the modal
+    var ACbtn = document.getElementById("createClass");
+
+    // Get the <span> element that closes the modal
+    var ACclose = document.getElementById("ACclose");
+
+    // When the user clicks the button, open the modal 
+    var createAC = function () {
+      ACmodal.style.display = "block";
+    }
+    ACbtn.onclick = createAC;
+
+    // When the user clicks on <span> (x), close the modal
+    ACclose.onclick = function () {
+      ACmodal.style.display = "none";
+    }
+
+    // Get the add class modal
     var PSmodal = document.getElementById('PSmodal');
 
     // Get the button that opens the modal
@@ -255,46 +306,45 @@
     var createPS = function () {
       PSmodal.style.display = "block";
     }
+    PSbtn.onclick = createPS;
 
     // When the user clicks on <span> (x), close the modal
     PSclose.onclick = function () {
       PSmodal.style.display = "none";
+      ACmodal.style.display = "none";
+      modal.style.display = "none";
+    }
+
+  </script>
+  <script>
+    //function addStudents() {
+    // Get the modal
+    var modal = document.getElementById('addStudentsModal');
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("addStudents");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on the button, open the modal
+    btn.onclick = function () {
+      modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+      modal.style.display = "none";
     }
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
-      if (event.target == PSmodal) {
-        PSmodal.style.display = "none";
-      }
-    }
-  </script>
-  <script>
-    function addStudents() {
-      // Get the modal
-      var modal = document.getElementById('addStudentsModal');
-
-      // Get the button that opens the modal
-      var btn = document.getElementById("addStudents");
-
-      // Get the <span> element that closes the modal
-      var span = document.getElementsByClassName("close")[0];
-
-      // When the user clicks on the button, open the modal
-      btn.onclick = function () {
-        modal.style.display = "block";
-      }
-
-      // When the user clicks on <span> (x), close the modal
-      span.onclick = function () {
+      if (event.target == modal) {
         modal.style.display = "none";
-      }
-
-      // When the user clicks anywhere outside of the modal, close it
-      window.onclick = function (event) {
-        if (event.target == modal) {
-          modal.style.display = "none";
-        }
+        PSmodal.style.display = "none";
+        ACmodal.style.display = "none";
       }
     }
+    //}
   </script>
 </div>
