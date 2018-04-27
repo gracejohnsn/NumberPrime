@@ -307,11 +307,18 @@ DigitBox.prototype.init = function (drawingState) {
 			}
 			if (mathScene.buttons[mathScene.buttons.length-1].checkHitbox() == 1) {
 				mathScene.scope.correct = evaluateProblem();
+				console.log(mathScene.scope.correct);
 			//	mathScene.scope.writeProblem();
 				mathScene.scope.totalCorrect += mathScene.scope.correct;
 				mathScene.scope.probNum++;
 				mathScene.scope.$apply();
+				var cProb = [mathScene.currProb[0],mathScene.currProb[1],mathScene.currProb[2],mathScene.currProb[3]];
+				mathScene.problemSet.push(cProb);
+				console.log(mathScene.problemSet);
 				if (mathScene.scope.probNum == 10) {
+					mathScene.scope.problemSet = mathScene.problemSet;
+					console.log(mathScene.scope.totalCorrect);
+					mathScene.scope.$apply();
 					mathScene.scope.writeProblem();
 					mathScene.scope.problemSetDone();
 				}
@@ -393,12 +400,12 @@ DigitBox.prototype.init = function (drawingState) {
 				blockClr[2] += blockClrs[(ind*3+2)%24]*.1;
 				cBall = mathScene.abacus.ballPos[9*ind+j];
 				if (j < cBox.digit) {
-				if (cBall >= 0.1+0.07*j) {
-					mathScene.abacus.ballPos[9*ind+j] -= .01;
+				if (cBall >= 0.15+0.075*j) {
+					mathScene.abacus.ballPos[9*ind+j] -= .015;
 					}
 				} else {
-					if (cBall < 0.3+0.07*j) {
-						mathScene.abacus.ballPos[9*ind+j] += .01;		
+					if (cBall < 0.3+0.075*j) {
+						mathScene.abacus.ballPos[9*ind+j] += .015;		
 					}
 				}
 				modelM = twgl.m4.scaling([1.0/mathScene.params[8],.6,1.0]);
@@ -527,7 +534,8 @@ DigitBox.prototype.init = function (drawingState) {
 			ansArray.push(mathScene.answers[i].digit);
 		}
 		var a = ansArray.join('');
-		if (a == answer)
+		mathScene.currProb[3] = parseInt(a);
+		if (a == mathScene.currProb[2])
 			 return 1;
 		else 
 			return 0;
@@ -555,46 +563,47 @@ DigitBox.prototype.init = function (drawingState) {
 		}
 		diff = top-bot+1;
 		n2 = Math.floor(Math.random()*diff)+bot;
-		prob[0] = (n1)*mult;
-		prob[1] = (n2)*mult2;
-		mathScene.scope.num1 = prob[0];
-		mathScene.scope.num2 = prob[1];
-		mathScene.scope.$apply();
+		mathScene.currProb[0] = n1*mult;
+		mathScene.currProb[1] = n2*mult2;
+	//	mathScene.scope.num1 = prob[0];
+	//	mathScene.scope.num2 = prob[1];
+	//	mathScene.scope.$apply();
 		var ans;
 		var curr;
 		probState = 1;
 		var place = Math.pow(10,mathScene.params[0]-1);
 		prob[2] = type;
 		switch (type) {
-			case 0 : answer = prob[0] + prob[1];
+			case 0 : mathScene.currProb[2] = mathScene.currProb[0] + mathScene.currProb[1];
 				break;
 			case 1 :
-			if (prob[0] < prob[1]) {
-				var temp = prob[0];
-				prob[0] = prob[1];
-				prob[1] = temp;
+			if (mathScene.currProb[0] < mathScene.currProb[1]) {
+				var temp = mathScene.currProb[0];
+				mathScene.currProb[0] = mathScene.currProb[1];
+				mathScene.currProb[1] = temp;
 			} 
-				answer = prob[0] - prob[1];
+			mathScene.currProb[2] = mathScene.currProb[0] - mathScene.currProb[1];
 				break;
-			case 2 : answer = prob[0] * prob[1];
+			case 2 : mathScene.currProb[2] = mathScene.currProb[0] * mathScene.currProb[1];
 				break;
 			case 3 :
-				prob[1] = prob[1]%10;
-				var r = prob[0]/prob[1];
+			mathScene.currProb[1] = mathScene.currProb[1]%10;
+				var r = mathScene.currProb[0]/mathScene.currProb[1];
 				r = Math.floor(r)+1;
-				prob[0] = r*prob[1];  
-				answer = r;
+				mathScene.currProb[0] = r*mathScene.currProb[1];  
+				mathScene.currProb[2] = r;
 				break;
 			}
-
 		var cDig;
+		var numHolder;
 		for (var row = 0; row < 2; row++) {
+			numHolder = mathScene.currProb[row];
 			for (var i = 0; i < mathScene.params[0]; i++) {
-					cDig = Math.floor(prob[row]/place);
+					cDig = Math.floor(numHolder/place);
 					mathScene.problems[mathScene.params[0]*row+i].updateDigit(
 					mathScene.buttons[cDig].fillOff,mathScene.buttons[cDig].digit);
 					mathScene.problems[mathScene.params[0]*row+i].position = [.13+.15*mathScene.problems[0].scale[0]*i,0.85-.1*row,0.003];
-					prob[row] = prob[row]%place;
+					numHolder = numHolder%place;
 					place = place/10;
 				}
 			place = Math.pow(10,mathScene.params[0]-1);
@@ -660,6 +669,8 @@ var setupPS = function(parameters) {
 		mathScene.params[8] = 4;
 	}
 	grobjects = [];
+	mathScene.currProb = [0,0,0,0];
+	mathScene.problemSet = [];
 	mathScene.buttons = [];
 	mathScene.problems = [];
 	mathScene.answers = [];

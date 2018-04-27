@@ -77,11 +77,29 @@
             <th>Problem Set</th>
             <th>Score</th>
           </tr>
-          <tr ng-repeat="x in completePS">
-            <td>{{x.timeStamp}}</td>
-            <td>{{x.problemType}}</td>
-            <td>{{x.totalCorrect*100/x.totalProblems}}%</td>
-          </tr>
+          <tbody ng-repeat="x in completePS" ng-init="toggle[$index] = false" ng-click="toggle[$index] =!toggle[$index]">
+            <tr>
+              <td>{{x.timeStamp}}</td>
+              <td>{{x.problemType}}</td>
+              <td>{{x.totalCorrect*100/x.totalProblems}}%</td>
+            </tr>
+            <tr ng-if="toggle[$index]">
+              <td>Problem</td>
+              <td>Your Answer</td>
+              <td>Correct Answer</td>
+            </tr>
+            <tr ng-if="toggle[$parent.$index]" ng-repeat="y in x.problemNums track by $index">
+              <td>
+                {{y}}
+              </td>
+              <td>
+                {{x.userAnswers[$index]}}
+              </td>
+              <td>
+                {{x.solutions[$index]}}
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
 

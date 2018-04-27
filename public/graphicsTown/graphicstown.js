@@ -46,10 +46,6 @@ var setupCanvas = function(num) {
     if (!mathCanvas) {
     mathCanvas = document.createElement("canvas");
     arcball = new ArcBall(mathCanvas);
-    } else {
-       // var bg = document.getElementById("bg");
-       // bg.appendChild(mathCanvas);
-      //  return;
     }
     mathCanvas.onselectstart = function () { return false; }
     var h = window.screen.availHeight*.7;
@@ -58,46 +54,9 @@ var setupCanvas = function(num) {
     mathCanvas.setAttribute("height",h);
     mathCanvas.setAttribute("z-index",99);
     var bg = document.getElementById("bg");
-   	console.log("Value" + num);
-	console.log("background");
-	console.log(bg);
 	if (bg) {
     bg.appendChild(mathCanvas);
-	console.log("append");
 	}
-    // make a place to put the drawing controls - a div
-    var controls = document.createElement("DIV");
-    controls.id = "controls";
-   // document.body.appendChild(controls);
-
-    // a switch between camera modes
-    var uiMode = document.createElement("select");
-    uiMode.innerHTML += "<option>ArcBall</option>";
-    uiMode.innerHTML += "<option>Drive</option>";
-    uiMode.innerHTML += "<option>Fly</option>";
-    uiMode.innerHTML += "</select>";
-  //  controls.appendChild(uiMode);
-
-    var resetButton = document.createElement("button");
-    resetButton.innerHTML = "Reset View";
-    resetButton.onclick = function() {
-        // note - this knows about arcball (defined later) since arcball is lifted
-        arcball.reset();
-        drivePos = [0,.2,5];
-        driveTheta = 0;
-        driveXTheta = 0;
-
-    }
-   // controls.appendChild(resetButton);
-
-    // make some checkboxes - using my cheesy panels code
-//    var checkboxes = makeCheckBoxes([ ["Run",1], ["Examine",0] ]); //
-
-    // a selector for which object should be examined
-    var toExamine = document.createElement("select");
-    grobjects.forEach(function(obj) {
-           toExamine.innerHTML +=  "<option>" + obj.name + "</option>";
-        });
  //   controls.appendChild(toExamine);
 
     // make some sliders - using my cheesy panels code
@@ -150,7 +109,6 @@ var setupCanvas = function(num) {
         // advance the clock appropriately (unless its stopped)
         var curTime = Date.now();
         if (mathCanvasDone) {
-            console.log("CanvasDone");
             return;
         }
         if (1) {
@@ -171,70 +129,15 @@ var setupCanvas = function(num) {
         var viewM = twgl.m4.inverse(cameraM);
 	   var lastXY = undefined;
         // implement the camera UI
-        if (uiMode.value == "ArcBall") {
-            viewM = arcball.getMatrix();
-		if (lClick == arcball.rC) {
-		arcball.rC = 0;
-		}
-		 lastXY = [arcball.lastX,arcball.lastY,arcball.mouseDown,arcball.rC];
-		lClick = arcball.rC;
-            twgl.m4.setTranslation(viewM, [0, 0, -10], viewM);
-        } else if (uiMode.value == "Drive") {
-            if (keysdown[65]) { driveTheta += .02; }
-            if (keysdown[68]) { driveTheta -= .02; }
-            if (keysdown[87]) {
-                var dz = Math.cos(driveTheta);
-                var dx = Math.sin(driveTheta);
-                drivePos[0] -= .05*dx;
-                drivePos[2] -= .05*dz;
-            }
-            if (keysdown[83]) {
-                var dz = Math.cos(driveTheta);
-                var dx = Math.sin(driveTheta);
-                drivePos[0] += .05*dx;
-                drivePos[2] += .05*dz;
-            }
-
-            cameraM = twgl.m4.rotationY(driveTheta);
-            twgl.m4.setTranslation(cameraM, drivePos, cameraM);
-            viewM = twgl.m4.inverse(cameraM);
-        }else if (uiMode.value == "Fly") {
-
-            if (keysdown[65] || keysdown[37]) { 
-                driveTheta += .02; 
-            }else if (keysdown[68] || keysdown[39]) { 
-                driveTheta -= .02; 
-            }
-
-            if (keysdown[38]) { driveXTheta += .02; }
-            if (keysdown[40]) { driveXTheta -= .02; }
-
-            var dz = Math.cos(driveTheta);
-            var dx = Math.sin(driveTheta);
-            var dy = Math.sin(driveXTheta);
-
-            if (keysdown[87]) {
-                drivePos[0] -= .25*dx;
-                drivePos[2] -= .25*dz;
-                drivePos[1] += .25 * dy;
-            }
-
-            if (keysdown[83]) {
-                drivePos[0] += .25*dx;
-                drivePos[2] += .25*dz;
-                drivePos[1] -= .25 * dy;
-            }
-
-            cameraM = twgl.m4.rotationX(driveXTheta);
-            twgl.m4.multiply(cameraM, twgl.m4.rotationY(driveTheta), cameraM);
-            twgl.m4.setTranslation(cameraM, drivePos, cameraM);
-            viewM = twgl.m4.inverse(cameraM);
+        if (lClick == arcball.rC) {
+            arcball.rC = 0;
         }
-
+        lastXY = [arcball.lastX,arcball.lastY,arcball.mouseDown,arcball.rC];
+        lClick = arcball.rC;
         // get lighting information
-        var tod = Number(0);
-        var sunAngle = Math.PI * (tod-6)/12;
-        var sunDirection = [Math.cos(sunAngle),Math.sin(sunAngle),0];
+ //       var tod = Number(0);
+ //       var sunAngle = Math.PI * (tod-6)/12;
+ //       var sunDirection = [Math.cos(sunAngle),Math.sin(sunAngle),0];
 
         // make a real drawing state for drawing
         var drawingState = {
@@ -242,8 +145,6 @@ var setupCanvas = function(num) {
             proj : projM,   // twgl.m4.identity(),
             view : viewM,   // twgl.m4.identity(),
             camera : cameraM,
-            timeOfDay : tod,
-            sunDirection : sunDirection,
             realtime : realtime,
 		 lastXY : lastXY,
         }
@@ -257,19 +158,7 @@ var setupCanvas = function(num) {
                 }
             }
         });
-
-        // now draw all of the objects - unless we're in examine mode
-        if (0) {
-            // get the examined object - too bad this is an array not an object
-            var examined = undefined;
-            grobjects.forEach(function(obj) { if (obj.name == toExamine.value) {examined=obj;}});
-            var ctr = examined.center(drawingState);
-            var shift = twgl.m4.translation([-ctr[0],-ctr[1],-ctr[2]]);
-            twgl.m4.multiply(shift,drawingState.view,drawingState.view);
-
-            if(examined.draw) examined.draw(drawingState);
-            if(examined.drawAfter) examined.drawAfter(drawingState);
-        } else {
+       
             grobjects.forEach(function (obj) {
                 if(obj.draw) obj.draw(drawingState);
             });
@@ -277,7 +166,6 @@ var setupCanvas = function(num) {
             grobjects.forEach(function (obj) {
                 if(obj.drawAfter) obj.drawAfter();
             });
-        }
         var cTime = Date.now();
         var nTime = Date.now();
         while (cTime + 16 > nTime) {

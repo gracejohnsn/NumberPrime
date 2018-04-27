@@ -10,6 +10,12 @@ component('studentdash', {
 sDash.controller('studentCtrl', ["$scope",
 	function ($scope) {
 		//alert("Hello");
+		$scope.openRow = function(num) {
+			alert(num);
+		var openedPS = document.getElementById("PSList-"+num);
+//		openPS.style.v
+		}
+
 		firebase.auth().onAuthStateChanged(function (user) {
 			if (user) {
 				var uid = user.uid;

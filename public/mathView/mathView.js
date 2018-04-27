@@ -12,15 +12,12 @@ math.controller('mathCtrl',["$scope", "$routeParams",
 	var uid = firebase.auth().currentUser.uid;
 	var classId = firebase.auth().currentUser;
 	console.log(classId);
-	$scope.test = ["one","two","three"];
-	$scope.test2 = ["1","2","3"];
  	var userPromise = User.readUserData(firebase, uid);
   	var scopePromise = new Promise(
     		function(resolve, reject) {
       		resolve($scope);
   		  }
   	);
-	console.log(userPromise);
     $scope.first = $routeParams.nDigs;
 	var sP = "";
 	sP = sP.concat($routeParams.nDigs+",");
@@ -40,27 +37,44 @@ math.controller('mathCtrl',["$scope", "$routeParams",
 	$scope.correct = 0;
 	$scope.totalCorrect = 0;
 	$scope.probNum = 0;
+	$scope.problemSet = [];
 	$scope.writeProblem = function() {
 	var time = new Date();
 	var probType;
+	var probSymbol;
 	switch ($routeParams.type) {
 		case "0" : 
 			probType = "Addition";
+			probSymbol = "+";
 			break;
 		case "1" :
 			probType = "Subtraction";
+			probSymbol = "-";
 			break;
 		case "2" : 
 			probType = "Multiplication";
+			probSymbol = "*";
 			break;
 		case "3" :
 			probType = "Division";
+			probSymbol = "/";
 			break;
 		default :
 			probType = "Math";
+			probSymbol = "?";
 			break;
 	}
-	ProblemInstance.createProblemInstance(firebase, uid, probType, $scope.totalCorrect, 10,  time, $scope.probURL);
+	var pNums = [];
+	var pAns = [];
+	var sAns = [];
+	console.log($scope.problemSet);
+	for (var i = 0; i < 10; i++) {
+		console.log($scope.problemSet[i]);
+		pNums.push($scope.problemSet[i][0]+probSymbol+$scope.problemSet[i][1]);
+		pAns.push($scope.problemSet[i][2]);
+		sAns.push($scope.problemSet[i][3]);
+	}
+	ProblemInstance.createProblemInstance(firebase, uid, probType, $scope.totalCorrect, 10, pNums, sAns, pAns,  time, $scope.probURL);
 	}
 	$scope.problemSetDone = function() {
 	window.location.href = "#!/Dashboard";
