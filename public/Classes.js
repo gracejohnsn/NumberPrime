@@ -465,12 +465,16 @@ class Notification {
 
 }
 class ProblemInstance {
-    constructor(_pid, _studentId, _problemType, _totalCorrect, _totalProblems, _timeStamp, _problemURL) {
+    constructor(_pid, _studentId, _problemType, _totalCorrect, _totalProblems, _problemNums,
+                    _userAnswers, _solutions, _timeStamp, _problemURL) {
         this.pid = _pid;
         this.studentId = _studentId;
         this.problemType = _problemType;
         this.totalCorrect = _totalCorrect;
         this.totalProblems = _totalProblems;
+        this.problemNums = _problemNums,
+        this.userAnswers = _userAnswers,
+        this.solutions = _solutions,
         this.timeStamp = _timeStamp;
         this.problemURL = _problemURL;
     }
@@ -492,7 +496,8 @@ class ProblemInstance {
                             function (childSnapshot) {
                                 //TODO - Speed up, make it EXIT the for each loop when totalDone > amtProblems
                                 val = childSnapshot.val();
-                                var probIn = new ProblemInstance(childSnapshot.key, _studentId, val.problemType, val.totalCorrect, val.totalProblems, val.timeStamp, val.problemURL);
+                                var probIn = new ProblemInstance(childSnapshot.key, _studentId, val.problemType, val.totalCorrect,
+                                         val.totalProblems, val.problemNums, val.userAnswers, val.solutions, val.timeStamp, val.problemURL);
                                 revProb.push(probIn);
                             }
                         );
@@ -507,7 +512,8 @@ class ProblemInstance {
                             function (childSnapshot) {
                                 //TODO - Speed up, make it EXIT the for each loop when totalDone > amtProblems
                                 val = childSnapshot.val();
-                                var probIn = new ProblemInstance(childSnapshot.key, _studentId, val.problemType, val.totalCorrect, val.totalProblems, val.timeStamp, val.problemURL);
+                                var probIn = new ProblemInstance(childSnapshot.key, _studentId, val.problemType, val.totalCorrect,
+                                    val.totalProblems, val.problemNums, val.userAnswers, val.solutions, val.timeStamp, val.problemURL);
                                 revProb.push(probIn);
                             }
                         );
@@ -525,14 +531,18 @@ class ProblemInstance {
         );
     }
 
-    // creates a problem instance with the given attributes (typeSpecific is a javascript object with 
+    // creates a problem instance with the given attributes (typeSpecific is a javascript object with
     // corresponding attributes, see the corresponding class for specifics)
 
-    static createProblemInstance(_app, _studentId, _problemType, _totalCorrect, _totalProblems, _timeStamp, _problemURL) {
+    static createProblemInstance(_app, _studentId, _problemType, _totalCorrect, _totalProblems, _problemNums,
+                                     _userAnswers, _solutions, _timeStamp, _problemURL) {
         return _app.database().ref("problemInstances").child(_studentId).push({
             "problemType": _problemType,
             "totalCorrect": _totalCorrect,
             "totalProblems": _totalProblems,
+            "problemNums": _problemNums,
+            "userAnswers": _userAnswers,
+            "solutions": _solutions,
             "timeStamp": _timeStamp.toUTCString(),
             "problemURL": _problemURL,
             //"MultiDigit" : _typeSpecific
