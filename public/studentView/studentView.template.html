@@ -88,7 +88,9 @@
               <td>Your Answer</td>
               <td>Correct Answer</td>
             </tr>
-            <tr ng-if="toggle[$parent.$index]" ng-repeat="y in x.problemNums track by $index">
+            <tr ng-if="toggle[$parent.$index]" ng-repeat="y in x.problemNums track by $index" 
+            ng-style="x.userAnswers[$index] == x.solutions[$index] && {'background-color':'#ccff99','border-bottom' : '2px solid green'} ||
+            {'background-color':'#ff8566', 'border-bottom' : '2px solid red'}">
               <td>
                 {{y}}
               </td>

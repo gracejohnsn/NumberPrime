@@ -35,7 +35,7 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
       template: '<measurement></measurement>'
     }).
 
-    when('/volume', {
+    when('/volume/:max/:min', {
       template: '<volume></volume>'
     }).
 
