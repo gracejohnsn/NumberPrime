@@ -16,7 +16,7 @@ conversions.
         parseInt($routeParams.type) + "," +
         parseInt($routeParams.max) + "," +
         parseInt($routeParams.min);
-        $scope.writeConversionSet = function(correct,questions,answers) {
+        $scope.writeConversionSet = function(correct,questions,sAnswers) {
           var time = new Date();
           var pQuestions = [];
           var pAnswers = [];
@@ -29,7 +29,7 @@ conversions.
             }
             pAnswers.push(q.answer);
           }
-          ProblemInstance.createProblemInstance(firebase, uid, "Conversion", correct, questions.length, pQuestions, answers, pAnswers,  time, $scope.probURL);
+          ProblemInstance.createProblemInstance(firebase, uid, "Conversion", correct, questions.length, pQuestions, sAnswers, pAnswers,  time, $scope.probURL);
         }
       $scope.$apply;
       }]);

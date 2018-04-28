@@ -77,7 +77,7 @@ div {
   </div>
  
 <script>
-var answerList = [];
+var studentAnswers = [];
 var questionsList = [];
 var answerList = [3600, 200, 300];
 var curQuestionId = -1;
@@ -108,7 +108,7 @@ function submit()
 {
     document.getElementById("output").style.display = "block";
     var x = document.getElementById("answer").value;  
-    answerList.push(x);
+    studentAnswers.push(x);
 
 
 
@@ -147,7 +147,7 @@ function nextQuestion()
         console.log(conversionScope);
         console.log(correctCount + "-" + questionsList.length);
         console.log(questionsList);
-        conversionScope.writeConversionSet(correctCount,questionsList,answerList);
+        conversionScope.writeConversionSet(correctCount,questionsList,studentAnswers);
         resultPage()
     }
     else
