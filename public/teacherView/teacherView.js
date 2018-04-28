@@ -21,15 +21,18 @@ tDash.controller('teacherCtrl', ["$scope",
 				surName: "lol"
 			}
 		};*/
-		$scope.param = [0, 0, 0, 0, 0, 0, 0, ""];
+		$scope.param = [0, 0, 0, 0, 0, 0, 0, "", 0];
 		$scope.examples = [
-			"1+2=3", "2+5=7",
 		];
 
 
 		$scope.createExamples = function (params) {
 			$scope.examples = [];
 			var paramFill = 1;
+			if (params[8] != 0) {
+				$scope.examples.push("Examples Unsupported For This");
+				paramFill = 0;
+			} else 
 			for (var i = 0; i < 7; i++) {
 				if (params[i] == null) {
 					paramFill = 0;
@@ -127,13 +130,19 @@ tDash.controller('teacherCtrl', ["$scope",
 
 		$scope.update = function (params) {
 			$scope.param = angular.copy(params);
+			console.log(params[8]);
+			console.log("UPDATe")
+			if ($scope.param[8] == "0") { 
 			$scope.probURL = "#!/MathFacts/" + $scope.param[0] + "/" +
 				$scope.param[1] + "/" + $scope.param[2] + "/" + $scope.param[3] + "/" +
 				$scope.param[4] + "/" + $scope.param[5] + "/" + $scope.param[6];
 			var time = new Date();
-			//	var cID = $scope.user.classId;
-			//	console.log("ClassID=" + cID);
 			alert("Created Notification : " + $scope.probURL);
+			} else if ($scope.param[8] == "1") {
+				$scope.probURL = "#!/conversions/"+$scope.param[0]+"/"+$scope.param[1]+"/"+$scope.param[2];
+			} else if ($scope.param[8] == "2") {
+				$scope.probURL = "#!/volume/"+$scope.param[0]+"/"+$scope.param[1];
+			}
 			Notification.createNotification(firebase, uid, $scope.probURL, "student", time, time, $scope.param[7]);
 		};
 		firebase.auth().onAuthStateChanged(
@@ -201,13 +210,19 @@ tDash.controller('teacherCtrl', ["$scope",
 						});
 					$scope.update = function (params) {
 						$scope.param = angular.copy(params);
-						$scope.probURL = "#!/MathFacts/" + $scope.param[0] + "/" +
-							$scope.param[1] + "/" + $scope.param[2] + "/" + $scope.param[3] + "/" +
-							$scope.param[4] + "/" + $scope.param[5] + "/" + $scope.param[6];
+						console.log(params[8]);
 						var time = new Date();
-						//	var cID = $scope.user.classId;
-						//	console.log("ClassID=" + cID);
-						Notification.createNotification(firebase, uid, $scope.probURL, "student", time, time, $scope.param[7]);
+						if ($scope.param[8] == "0") { 
+							$scope.probURL = "#!/MathFacts/" + $scope.param[0] + "/" +
+								$scope.param[1] + "/" + $scope.param[2] + "/" + $scope.param[3] + "/" +
+								$scope.param[4] + "/" + $scope.param[5] + "/" + $scope.param[6];
+							} else if ($scope.param[8] == "1") {
+								$scope.probURL = "#!/conversions/"+$scope.param[0]+"/"+$scope.param[1]+"/"+$scope.param[2];
+							} else if ($scope.param[8] == "2") {
+								$scope.probURL = "#!/volume/"+$scope.param[1]+"/"+$scope.param[2];
+							}
+							alert("Created Notification : " + $scope.probURL);
+							Notification.createNotification(firebase, uid, $scope.probURL, "student", time, time, $scope.param[7]);
 					};
 					$scope.clickClass = function (classId) {
 						$scope.currClass = classId;

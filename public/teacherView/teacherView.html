@@ -134,29 +134,42 @@
         <label>Message</label>
         <input type="text" value="ProblemSet" ng-model="params[7]">
         <br>
-        <label>Type Of Problem</label>
+        <label>Problem Set Type</label>
+        <select ng-model="params[8]" ng-change="createExamples(params)">
+          <option value="0">Operational Math</option>
+          <option value="1">Conversions</option>
+          <option value="2">Volume</option>
+        </select>
         <br>
-        <select ng-model="params[0]" ng-change="createExamples(params)">
+        <label ng-if="params[8]<2">Problem Type </label>
+        <select ng-if="params[8]==0"ng-model="params[0]" ng-change="createExamples(params)">
           <option value="0">Addition</option>
           <option value="1">Subtraction</option>
           <option value="2">Muliplication</option>
           <option value="3">Division</option>
         </select>
+        <select ng-if="params[8]==1"ng-model="params[0]" ng-change="createExamples(params)">
+            <option value="0">US Length</option>
+            <option value="1">Metric Length</option>
+            <option value="2">US Mass</option>
+            <option value="3">Metric Mass</option>
+            <option value="4">Time</option>
+          </select>
         <br>
         <label>Max Number</label>
         <br>
         <input style="width:45%" type="number" ng-model="params[1]" ng-change="createExamples(params)">
-        <input style="width:45%" type="number" ng-model="params[4]" ng-change="createExamples(params)">
+        <input ng-if="params[8]==0" style="width:45%" type="number" ng-model="params[4]" ng-change="createExamples(params)">
         <br>
         <label>Min Number</label>
         <br>
         <input style="width:45%" type="number" ng-model="params[2]" ng-change="createExamples(params)">
-        <input style="width:45%" type="number" ng-model="params[5]" ng-change="createExamples(params)">
+        <input ng-if="params[8]==0"style="width:45%" type="number" ng-model="params[5]" ng-change="createExamples(params)">
         <br>
-        <label>Multiples of</label>
+        <label ng-if="params[8]==0">Multiples of</label>
         <br>
-        <input style="width:45%" type="number" ng-model="params[3]" ng-change="createExamples(params)">
-        <input style="width:45%" type="number" ng-model="params[6]" ng-change="createExamples(params)">
+        <input ng-if="params[8]==0"style="width:45%" type="number" ng-model="params[3]" ng-change="createExamples(params)">
+        <input ng-if="params[8]==0"style="width:45%" type="number" ng-model="params[6]" ng-change="createExamples(params)">
         <br>
       <br>
       <button ng-click="createExamples(params)">Refresh Examples</button>

@@ -636,6 +636,7 @@ DigitBox.prototype.init = function (drawingState) {
 
 var setupPS = function(parameters) {
 	"use strict";
+	console.log(currPsId);
 	var dom_el = document.querySelector('[ng-controller="mathCtrl"]');
 	var ng_el = angular.element(dom_el);
 	mathScene.scope = ng_el.scope();

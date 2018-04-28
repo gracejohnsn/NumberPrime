@@ -1,5 +1,7 @@
 'use strict';
 
+
+var currPsId = undefined;
 var sDash = angular.module('studentdash', ['ngRoute']);
 sDash.
 component('studentdash', {
@@ -9,13 +11,21 @@ component('studentdash', {
 
 sDash.controller('studentCtrl', ["$scope",
 	function ($scope) {
-		//alert("Hello");
-		$scope.openRow = function(num) {
-			alert(num);
-		var openedPS = document.getElementById("PSList-"+num);
-//		openPS.style.v
+		$scope.orderSets = 'timeStamp';
+		$scope.reverse = 'false';
+		if (!$scope.curr) {
+			$scope.curr = 0;
 		}
+		$scope.sortBy = function(orderSets) {
+			$scope.reverse = ($scope.orderSets == orderSets) ? !$scope.reverse : false;
+			$scope.orderSets = orderSets;
+			$scope.$apply;
+		  };
 
+		currPsId = "TestID";
+		$scope.updatePsId = function(newId) {
+			currPsId = newId;
+		}
 		firebase.auth().onAuthStateChanged(function (user) {
 			if (user) {
 				var uid = user.uid;
@@ -63,6 +73,7 @@ sDash.controller('studentCtrl', ["$scope",
 									$scope.notes = [];
 								}
 								$scope.notes = $scope.notes.concat(result);
+								console.log($scope.notes);
 							}
 						);
 					}
@@ -78,6 +89,10 @@ sDash.controller('studentCtrl', ["$scope",
 						$scope.$apply(
 							function() {
 								$scope.completePS = result;
+								for (var i = 0; i < $scope.completePS.length; i++) {
+									var cPS = $scope.completePS[i];
+									cPS.score = (cPS.totalCorrect*100/cPS.totalProblems);
+								}
 							}
 						);
 					}

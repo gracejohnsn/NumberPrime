@@ -30,6 +30,7 @@ conversions.
             pAnswers.push(q.answer);
           }
           ProblemInstance.createProblemInstance(firebase, uid, "Conversion", correct, questions.length, pQuestions, sAnswers, pAnswers,  time, $scope.probURL);
+          Notification.setCompleteProblem(firebase,currPsId,uid,time);
         }
       $scope.$apply;
       }]);

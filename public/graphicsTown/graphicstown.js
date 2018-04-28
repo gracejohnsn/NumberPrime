@@ -57,13 +57,7 @@ var setupCanvas = function(num) {
 	if (bg) {
     bg.appendChild(mathCanvas);
 	}
- //   controls.appendChild(toExamine);
 
-    // make some sliders - using my cheesy panels code
-//    var sliders = makeSliders([["TimeOfDay",0,24,12]]);
-
-    // this could be gl = canvas.getContext("webgl");
-    // but twgl is more robust
     var gl = twgl.getWebGLContext(mathCanvas);
 
     // make a fake drawing state for the object initialization
@@ -166,11 +160,6 @@ var setupCanvas = function(num) {
             grobjects.forEach(function (obj) {
                 if(obj.drawAfter) obj.drawAfter();
             });
-        var cTime = Date.now();
-        var nTime = Date.now();
-        while (cTime + 16 > nTime) {
-            nTime = Date.now();
-        }
         if (!mathCanvasDone) {
             window.requestAnimationFrame(draw);
         }
