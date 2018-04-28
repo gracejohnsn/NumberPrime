@@ -16,10 +16,20 @@ conversions.
         parseInt($routeParams.type) + "," +
         parseInt($routeParams.max) + "," +
         parseInt($routeParams.min);
-        $scope.writeConversionSet = function(correct,length) {
+        $scope.writeConversionSet = function(correct,questions,answers) {
           var time = new Date();
-          console.log(correct + " " + length);
-          ProblemInstance.createProblemInstance(firebase, uid, "Conversion", correct, length,  time, $scope.probURL);
+          var pQuestions = [];
+          var pAnswers = [];
+          console.log(questions);
+          for (var i = 0; i < questions.length; i++) {
+            var q = questions[i];
+            pQuestions.push(q.randomNumber + q.fromUnit + "->" + q.toUnit);
+            if (q.answer == undefined) {
+              q.answer = 0;
+            }
+            pAnswers.push(q.answer);
+          }
+          ProblemInstance.createProblemInstance(firebase, uid, "Conversion", correct, questions.length, pQuestions, answers, pAnswers,  time, $scope.probURL);
         }
       $scope.$apply;
       }]);

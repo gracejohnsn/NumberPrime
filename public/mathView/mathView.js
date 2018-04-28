@@ -69,7 +69,6 @@ math.controller('mathCtrl',["$scope", "$routeParams",
 	var sAns = [];
 	console.log($scope.problemSet);
 	for (var i = 0; i < 10; i++) {
-		console.log($scope.problemSet[i]);
 		pNums.push($scope.problemSet[i][0]+probSymbol+$scope.problemSet[i][1]);
 		pAns.push($scope.problemSet[i][2]);
 		sAns.push($scope.problemSet[i][3]);
