@@ -75,6 +75,7 @@ math.controller('mathCtrl',["$scope", "$routeParams",
 	}
 	ProblemInstance.createProblemInstance(firebase, uid, probType, $scope.totalCorrect, 10, pNums, sAns, pAns,  time, $scope.probURL);
 	Notification.setCompleteProblem(firebase,currPsId,uid,time);
+	completedRecentPS = 1;
 	}
 	$scope.problemSetDone = function() {
 	window.location.href = "#!/Dashboard";

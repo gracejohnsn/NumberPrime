@@ -1,11 +1,10 @@
 /**
  * Created by gleicher on 10/9/2015.
- */
-var arcball = undefined;
+*/
 var mathCanvas = undefined;
 var mathCanvasDone = 0;
 var lClick = 0;
-
+var grobjects = [];
 /*
 this is the "main" file - it gets loaded last - after all the objects are loaded
 make sure that twgl is loaded first
@@ -13,39 +12,56 @@ make sure that twgl is loaded first
 it sets up the main function to be called on window.onload
 
  */
-
- var isValidGraphicsObject = function (object) {
-    if(object.name === undefined) {
-        console.log("warning: GraphicsObject missing name field");
-        return false;
-    }
-
-    if(typeof object.draw !== "function" && typeof object.drawAfter !== "function") {
-        console.log("warning: GraphicsObject of type " + object.name + " does not contain either a draw or drawAfter method");
-        return false;
-    }
-
-    if(typeof object.center !== "function") {
-        console.log("warning: GraphicsObject of type " + object.name + " does not contain a center method. ");
-        return false;
-    }
-
-    if(typeof object.init !== "function") {
-        console.log("warning: GraphicsObject of type " + object.name + " does not contain an init method. ");
-        return false;
-    }
-
-    return true;
- }
+ var myVar,myVar3;
+ var  mathScenelastXY = [0,0,0,0];
 var setupCanvas = function(num) {
     "use strict";
 	console.log("value" + num);
 	console.log("setupCanvas");
     // set up the canvas and context
+    
     mathCanvasDone = 0;
     if (!mathCanvas) {
     mathCanvas = document.createElement("canvas");
-    arcball = new ArcBall(mathCanvas);
+ //   arcball = new ArcBall(mathCanvas);
+
+    mathCanvas.addEventListener("mousedown",function(e) {
+    var rect = mathCanvas.getBoundingClientRect();
+	  if (mathScenelastXY[3] == 0) {
+        mathScenelastXY[3] = 1;
+	  }
+	  else {
+        mathScenelastXY[3] = 0;
+	  }
+      mathScenelastXY[2] = 1;
+        var sx = mathCanvas.width / 2;
+        var sy = mathCanvas.height / 2;
+        var nx = (e.pageX - sx) / sx;
+        var ny = -(e.pageY - sy) / sy; 
+	    mathScenelastXY[0] = (e.pageX-rect.left)/(mathCanvas.width*1.0);
+       mathScenelastXY[1] = (e.pageY-rect.top)/(mathCanvas.height*1.0);
+	   myVar = setTimeout(function() {}, 100);
+    });
+	var myVar2;
+    mathCanvas.addEventListener("mousemove",function(e) {
+    var rect = mathCanvas.getBoundingClientRect();
+    mathScenelastXY[3] = 0;
+        var sx = mathCanvas.width / 2;
+        var sy = mathCanvas.height / 2;
+        var nx = (e.pageX - sx) / sx;
+        var ny = -(e.pageY - sy) / sy;
+	    mathScenelastXY[0] = (e.pageX-rect.left)/(mathCanvas.width*1.0);
+	    mathScenelastXY[1] = (e.pageY-rect.top)/(mathCanvas.height*1.0);
+	  myVar2 = setTimeout(function() {}, 30);
+
+    });
+
+
+    mathCanvas.addEventListener("mouseup",function(e) {
+        mathScenelastXY[3] = 0;
+       mathScenelastXY[2] = 0;
+        if (that.callback) that.callback();
+    });
     }
     mathCanvas.onselectstart = function () { return false; }
     var h = window.screen.availHeight*.7;
@@ -79,24 +95,6 @@ var setupCanvas = function(num) {
     var realtime = 0
     var lastTime = Date.now();
 
-    // parameters for driving
-    var drivePos = [0,.2,5];
-    var driveTheta = 0;
-    var driveXTheta = 0;
-
-    // cheesy keyboard handling
-    var keysdown = {};
-
-    document.body.onkeydown = function(e) {
-        var event = window.event ? window.event : e;
-        keysdown[event.keyCode] = true;
-        e.stopPropagation();
-    };
-    document.body.onkeyup = function(e) {
-        var event = window.event ? window.event : e;
-        delete keysdown[event.keyCode];
-        e.stopPropagation();
-    };
 
     // the actual draw function - which is the main "loop"
     function draw() {
@@ -121,35 +119,25 @@ var setupCanvas = function(num) {
         var projM = twgl.m4.perspective(fov, 1, 0.1, 100);
         var cameraM = twgl.m4.lookAt(lookFrom,lookAt,[0,1,0]);
         var viewM = twgl.m4.inverse(cameraM);
-	   var lastXY = undefined;
-        // implement the camera UI
-        if (lClick == arcball.rC) {
-            arcball.rC = 0;
+        if (lClick == mathScenelastXY[3]) {
+            mathScenelastXY[3] = 0;
         }
-        lastXY = [arcball.lastX,arcball.lastY,arcball.mouseDown,arcball.rC];
-        lClick = arcball.rC;
-        // get lighting information
- //       var tod = Number(0);
- //       var sunAngle = Math.PI * (tod-6)/12;
- //       var sunDirection = [Math.cos(sunAngle),Math.sin(sunAngle),0];
+        lClick =  mathScenelastXY[3];;
 
-        // make a real drawing state for drawing
         var drawingState = {
             gl : gl,
             proj : projM,   // twgl.m4.identity(),
             view : viewM,   // twgl.m4.identity(),
             camera : cameraM,
             realtime : realtime,
-		 lastXY : lastXY,
+    		 lastXY : mathScenelastXY,
         }
 
         // initialize all of the objects that haven't yet been initialized (that way objects can be added at any point)
         grobjects.forEach(function(obj) { 
             if(!obj.__initialized) {
-                if(isValidGraphicsObject(obj)){
                     obj.init(drawingState);
                     obj.__initialized = true;
-                }
             }
         });
        
@@ -157,9 +145,6 @@ var setupCanvas = function(num) {
                 if(obj.draw) obj.draw(drawingState);
             });
 
-            grobjects.forEach(function (obj) {
-                if(obj.drawAfter) obj.drawAfter();
-            });
         if (!mathCanvasDone) {
             window.requestAnimationFrame(draw);
         }

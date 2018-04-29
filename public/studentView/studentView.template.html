@@ -51,7 +51,7 @@
       </a>
     </div>
 
-    <div id="mathSB" class="extendsidenav" style="left:10%;border-left:0px solid black;width:10%;opacity:0;">
+    <div id="mathSB" class="extendsidenav" style="left:10%;border-left:0px solid black;width:0%;opacity:0;">
       <a href="#!/MathFacts/0/9/1/1/9/1/1">
         <img src="img/plus.png" alt="Math Icon" />
         <p>Math Facts</p>
@@ -65,12 +65,52 @@
         <p>Measurement</p>
       </a>
     </div>
+    <div ng-if="completedRecentPS" style="z-index:10;position:fixed;left:0%;top:0%;height:100%;width:100%;background-color:#3f3c3c48">
+      <p ng-click="exitPSReview()" style="position:fixed;height:100%;width:100%;background-color:#3f3c3c9a">
+      </p>
+    </div>
+    <div ng-if="completedRecentPS" style="z-index:11;text-align:center;position:fixed;left:30%;top:20%;height:50%;width:50%;">
+      <table class="statsTable" style="background-color:#bccbff;height:100%;width:100%" colspan="3">
+          <caption style="background-color:#0fb800">
+              Most Recent Problem Set
+          </caption>
+          <tr>
+            <td>Type : {{recentPS.problemType}}</td>
+            <td></td>
+            <td>Score : {{recentPS.score}}%</td>
+          </tr>
+          <tbody>
+          <tr>
+              <td>Problem</td>
+              <td>Your Answer</td>
+              <td>Correct Answer</td>
+          </tr>
+        <tr ng-repeat="y in recentPS.problemNums track by $index" 
+            ng-style="recentPS.userAnswers[$index] == recentPS.solutions[$index] && 
+            {'background-color':'#ccff99','border-bottom' : '2px solid green'} ||
+            {'background-color':'#ff8566', 'border-bottom' : '2px solid red'}">
+              <td style="width:33%">
+                {{y}}
+              </td>
+              <td style="width:33">
+                {{recentPS.userAnswers[$index]}}
+              </td>
+              <td style="width:33%">
+                {{recentPS.solutions[$index]}}
+              </td>
+            </tr>
+            </tbody>
+      </table>
+    </div>
     <div id="bg" class="bg">
       <div class="dashTable">
         <p>Progress Report</p>
-        <button  ng-click="sortBy('timeStamp')">Date Completed</button>
-        <button  ng-click="sortBy('problemType')">Type</button>
-        <button  ng-click="sortBy('score')">Score</button>
+        <button ng-style="orderSets == 'timeStamp' && {'background-color':'#8028a3'} ||
+        {'background-color':'#c43ef9'}" ng-click="sortBy('timeStamp')">Date Completed</button>
+        <button  ng-style="orderSets == 'problemType' && {'background-color':'#8028a3'} ||
+        {'background-color':'#c43ef9'}" ng-click="sortBy('problemType')">Type</button>
+        <button ng-style="orderSets == 'score' && {'background-color':'#8028a3'} ||
+        {'background-color':'#c43ef9'}" ng-click="sortBy('score')">Score</button>
         <table class="statsTable" style="width:100%">
           <tr>
             <th>Date Completed</th>
@@ -182,6 +222,7 @@
           var cT;
           if (sN.style.opacity == "0") {
             sT = Date.now();
+            sN.style.width="10%"
             bG.style.left = "20%";
             bG.style.width = "80%";
             setTimeout(waitForTransition
@@ -190,6 +231,11 @@
             sN.style.opacity = "0";
             setTimeout(waitForTransition
               , 500, bG, 0);
+            setTimeout(function()  {
+              var sN = document.getElementById("mathSB");
+              sN.style.width = "0%";
+            },500);
+             
           }
         }
 

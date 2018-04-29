@@ -1,7 +1,8 @@
 'use strict';
 
-
 var currPsId = undefined;
+var completedRecentPS = 0;
+
 var sDash = angular.module('studentdash', ['ngRoute']);
 sDash.
 component('studentdash', {
@@ -21,10 +22,14 @@ sDash.controller('studentCtrl', ["$scope",
 			$scope.orderSets = orderSets;
 			$scope.$apply;
 		  };
-
-		currPsId = "TestID";
+		
 		$scope.updatePsId = function(newId) {
 			currPsId = newId;
+			alert(currPsId);
+		}
+
+		$scope.exitPSReview = function() {
+			$scope.completedRecentPS = 0;
 		}
 		firebase.auth().onAuthStateChanged(function (user) {
 			if (user) {
@@ -89,6 +94,9 @@ sDash.controller('studentCtrl', ["$scope",
 						$scope.$apply(
 							function() {
 								$scope.completePS = result;
+								$scope.recentPS = result[0];
+								console.log($scope.recentPS);
+								$scope.completedRecentPS = completedRecentPS;
 								for (var i = 0; i < $scope.completePS.length; i++) {
 									var cPS = $scope.completePS[i];
 									cPS.score = (cPS.totalCorrect*100/cPS.totalProblems);
