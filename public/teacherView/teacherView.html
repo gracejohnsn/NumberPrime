@@ -131,6 +131,12 @@
     <td style="width:50%">
     <div class="PSmodal-content">
       <form>
+          <label>Assigned To :</label>
+          <select ng-model="params[9]" ng-init={{currClass}} ng-change="createExamples(params)">
+            <option ng-click="setType(params,0)" value="{{currClass}}">Entire Class</option>
+            <option  ng-click="setType(params,1)" ng-repeat="x in students" value="{{x.userId}}">{{x.firstName}} {{x.surName}}</option>
+          </select>
+          <br>
         <label>Message</label>
         <input type="text" value="ProblemSet" ng-model="params[7]">
         <br>
@@ -171,7 +177,6 @@
         <input ng-if="params[8]==0"style="width:45%" type="number" ng-model="params[3]" ng-change="createExamples(params)">
         <input ng-if="params[8]==0"style="width:45%" type="number" ng-model="params[6]" ng-change="createExamples(params)">
         <br>
-      <br>
       <button ng-click="createExamples(params)">Refresh Examples</button>
       <button ng-click="update(params)">Submit Problem Set</button>
     </form>
