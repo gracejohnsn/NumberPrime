@@ -29,7 +29,7 @@ tDash.controller('teacherCtrl', ["$scope",
 		*	9 Stores the StudentId/ClassId of Recipient
 		*	10 Stores whether this is sent to a student or a class
 		*/
-		$scope.param = [0, 0, 0, 0, 0, 0, 0, "", 0,"",""];
+		$scope.param = [0, 0, 0, 0, 0, 0, 0, "", 0, "", ""];
 		$scope.examples = [
 		];
 
@@ -41,40 +41,40 @@ tDash.controller('teacherCtrl', ["$scope",
 			if (params[8] != 0) {
 				$scope.examples.push("Examples Unsupported For This");
 				paramFill = 0;
-			} else 
-			for (var i = 0; i < 7; i++) {
-				if (params[i] == null) {
-					paramFill = 0;
-					var missingType;
-					switch (i) {
-						case 0:
-							missingType = "Type of Problem";
-							break;
-						case 1:
-							missingType = "1st Value Max Value";
-							break;
-						case 2:
-							missingType = "1st Value Min Value";
-							break;
-						case 3:
-							missingType = "1st Value Multiples Of";
-							break;
-						case 4:
-							missingType = "2nd Value Max Value";
-							break;
-						case 5:
-							missingType = "2nd Value Min Value";
-							break;
-						case 6:
-							missingType = "2nd Value Multiples Of";
-							break;
-						default:
-							missingType = "Unknown";
-							break;
+			} else
+				for (var i = 0; i < 7; i++) {
+					if (params[i] == null) {
+						paramFill = 0;
+						var missingType;
+						switch (i) {
+							case 0:
+								missingType = "Type of Problem";
+								break;
+							case 1:
+								missingType = "1st Value Max Value";
+								break;
+							case 2:
+								missingType = "1st Value Min Value";
+								break;
+							case 3:
+								missingType = "1st Value Multiples Of";
+								break;
+							case 4:
+								missingType = "2nd Value Max Value";
+								break;
+							case 5:
+								missingType = "2nd Value Min Value";
+								break;
+							case 6:
+								missingType = "2nd Value Multiples Of";
+								break;
+							default:
+								missingType = "Unknown";
+								break;
+						}
+						$scope.examples.push("Missing Parameter : " + missingType);
 					}
-					$scope.examples.push("Missing Parameter : " + missingType);
 				}
-			}
 			if (!paramFill)
 				return;
 			var type, max, min, mult, max2, min2, mult2, bot, top, diff, n1, n2, answer;
@@ -140,19 +140,19 @@ tDash.controller('teacherCtrl', ["$scope",
 		$scope.update = function (params) {
 			$scope.param = angular.copy(params);
 			console.log(params[8]);
-			console.log("ID : "+params[9]);
-			console.log("TYPE : "+params[10]);
+			console.log("ID : " + params[9]);
+			console.log("TYPE : " + params[10]);
 			console.log("UPDATe")
-			if ($scope.param[8] == "0") { 
-			$scope.probURL = "#!/MathFacts/" + $scope.param[0] + "/" +
-				$scope.param[1] + "/" + $scope.param[2] + "/" + $scope.param[3] + "/" +
-				$scope.param[4] + "/" + $scope.param[5] + "/" + $scope.param[6];
-			var time = new Date();
-			alert("Created Notification : " + $scope.probURL);
+			if ($scope.param[8] == "0") {
+				$scope.probURL = "#!/MathFacts/" + $scope.param[0] + "/" +
+					$scope.param[1] + "/" + $scope.param[2] + "/" + $scope.param[3] + "/" +
+					$scope.param[4] + "/" + $scope.param[5] + "/" + $scope.param[6];
+				var time = new Date();
+				alert("Created Notification : " + $scope.probURL);
 			} else if ($scope.param[8] == "1") {
-				$scope.probURL = "#!/conversions/"+$scope.param[0]+"/"+$scope.param[1]+"/"+$scope.param[2];
+				$scope.probURL = "#!/conversions/" + $scope.param[0] + "/" + $scope.param[1] + "/" + $scope.param[2];
 			} else if ($scope.param[8] == "2") {
-				$scope.probURL = "#!/volume/"+$scope.param[0]+"/"+$scope.param[1];
+				$scope.probURL = "#!/volume/" + $scope.param[0] + "/" + $scope.param[1];
 			}
 			Notification.createNotification(firebase, $scope.param[9], $scope.probURL, $scope.param[10], time, time, $scope.param[7]);
 		};
@@ -170,7 +170,7 @@ tDash.controller('teacherCtrl', ["$scope",
 					User.readUserData(firebase, uid)
 						.then((userData) => {
 							if ('teacher' != userData.type) {
-								//window.location = "/#!/Dashboard";
+								window.location = "/#!/Dashboard";
 							}
 							$scope.$apply(
 								function () {
@@ -199,7 +199,7 @@ tDash.controller('teacherCtrl', ["$scope",
 												$scope.$apply(
 													function () {
 														$scope.students = $scope.students.concat(result);
-										//				console.log(result);
+														//				console.log(result);
 													}
 												);
 											}
@@ -221,7 +221,7 @@ tDash.controller('teacherCtrl', ["$scope",
 							}
 						});
 
-					$scope.setType = function(params, type) {
+					$scope.setType = function (params, type) {
 						console.log(type);
 						if (type) {
 							params[10] = "student";
@@ -233,17 +233,17 @@ tDash.controller('teacherCtrl', ["$scope",
 						$scope.param = angular.copy(params);
 						console.log(params[10]);
 						var time = new Date();
-						if ($scope.param[8] == "0") { 
+						if ($scope.param[8] == "0") {
 							$scope.probURL = "#!/MathFacts/" + $scope.param[0] + "/" +
 								$scope.param[1] + "/" + $scope.param[2] + "/" + $scope.param[3] + "/" +
 								$scope.param[4] + "/" + $scope.param[5] + "/" + $scope.param[6];
-							} else if ($scope.param[8] == "1") {
-								$scope.probURL = "#!/conversions/"+$scope.param[0]+"/"+$scope.param[1]+"/"+$scope.param[2];
-							} else if ($scope.param[8] == "2") {
-								$scope.probURL = "#!/volume/"+$scope.param[1]+"/"+$scope.param[2];
-							}
-							alert("Created Notification : " + $scope.probURL);
-							Notification.createNotification(firebase, $scope.params[9], $scope.probURL, $scope.params[10], time, time, $scope.param[7]);
+						} else if ($scope.param[8] == "1") {
+							$scope.probURL = "#!/conversions/" + $scope.param[0] + "/" + $scope.param[1] + "/" + $scope.param[2];
+						} else if ($scope.param[8] == "2") {
+							$scope.probURL = "#!/volume/" + $scope.param[1] + "/" + $scope.param[2];
+						}
+						alert("Created Notification : " + $scope.probURL);
+						Notification.createNotification(firebase, $scope.params[9], $scope.probURL, $scope.params[10], time, time, $scope.param[7]);
 					};
 					$scope.clickClass = function (classId) {
 						$scope.currClass = classId;
@@ -296,11 +296,11 @@ tDash.controller('teacherCtrl', ["$scope",
 
 						return Class.createClass(firebase, firebase.auth().currentUser.uid, classDesc,
 							new Date()).then(
-								function() {
+								function () {
 									alert("Created class!");
 									$scope.classes = $scope.classes.concat(classDesc);
 									document.getElementById("ACmodal").style.display = "none";
-								}, function(err) {
+								}, function (err) {
 									alert(err);
 									document.getElementById("ACmodal").style.display = "none";
 								}

@@ -2,15 +2,15 @@
 
 angular.module('login', ['ngRoute']);
 angular.
-module('login').
-component('login', {
-  templateUrl: 'login/login.html',
-  controller: ['LoginController',
-    function LoginController() {
+  module('login').
+  component('login', {
+    templateUrl: 'login/login.html',
+    controller: ['LoginController',
+      function LoginController() {
 
-    }
-  ]
-});
+      }
+    ]
+  });
 
 $(document).ready(
   function () {
@@ -45,5 +45,5 @@ function login() {
 
   firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(
     firebase.auth().signInWithRedirect(provider)).then(
-    firebase.auth().getRedirectResult());
+      firebase.auth().getRedirectResult());
 }

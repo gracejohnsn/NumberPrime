@@ -275,6 +275,60 @@ class Class {
             });
     }
 
+    static GetStatsForClass(_app, _classId) {
+        return Class.readClassData(_app, _classId).then(
+            function(result) {
+                //console.log(result);
+                if(result.studentList == undefined || result.studentList == null) {
+                    return null;
+                }
+                var numStudents = 0;
+                var retVal = {};
+                var promises = []
+                for(var s in (result.studentList)) {
+                    if (!result.studentList.hasOwnProperty(s)) continue;
+                    promises.push(ProblemInstance.readProblemInstance(_app, s, -1).then(
+                        function(results) {
+                            var numSets = {};
+                            results.forEach(function(p) {
+                                if(!Object.keys(numSets).includes(p.problemType)) {
+                                    numSets[p.problemType] = 0;
+                                }
+                                numSets[p.problemType] += 1;
+                            });
+
+                            if(Object.keys(numSets).length > 0) {
+                                numStudents += 1;
+                            }
+                            results.forEach(function(p) {
+                                if(!Object.keys(retVal).includes(p.problemType)) {
+                                    retVal[p.problemType] = 0;
+                                }
+                                console.log(p.totalCorrect / p.totalProblems / numSets[p.problemType]);
+                                retVal[p.problemType] += p.totalCorrect / p.totalProblems / numSets[p.problemType];
+                            });
+                        },
+                        function(err) {
+                            // don't worry if there weren't any found
+                        }
+                    ));
+                }
+                return Promise.all(promises).then(
+                    function(results) {
+                        console.log("results");
+                        console.log(retVal, numStudents);
+
+                        for(var k in retVal) {
+                            retVal[k] /= numStudents;
+                        }
+
+                        return retVal;
+                    }
+                );
+            }
+        );
+    }
+
     // given a hash and classId, add student given by hash to the class
     // if the hash is valid
     static addStudentWithHash(_app, _hash, _classId) {
