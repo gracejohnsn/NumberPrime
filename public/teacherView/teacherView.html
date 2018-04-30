@@ -132,7 +132,7 @@
     <div class="PSmodal-content">
       <form>
           <label>Assigned To :</label>
-          <select ng-model="params[9]" ng-init={{currClass}} ng-change="createExamples(params)">
+          <select ng-model="params[9]" ng-change="createExamples(params)">
             <option ng-click="setType(params,0)" value="{{currClass}}">Entire Class</option>
             <option  ng-click="setType(params,1)" ng-repeat="x in students" value="{{x.userId}}">{{x.firstName}} {{x.surName}}</option>
           </select>
@@ -270,8 +270,12 @@
     <div class="dashTable">
       
       <p>Class Overview</p>
-      <button ng-click="setList(0)" style="width:50%">Student List</button>
-      <button ng-click="setList(1)" style="width:50%">Class Statistics</button>
+      <button ng-click="setList(0)" style="width:50%" ng-style="showClassList == 0 && 
+      {'background-color':'#8028a3'} 
+      || {'background-color':'#c43ef9'}">Student List</button>
+      <button ng-click="setList(1)" style="width:50%" ng-style="showClassList == 1 && 
+      {'background-color':'#8028a3'} 
+      || {'background-color':'#c43ef9'}">Class Statistics</button>
       <table style="width:100%">
         <tbody ng-if="showClassList == 0">
             <tr>
@@ -284,8 +288,13 @@
               </tr>
         </tbody>
         <tbody ng-if="showClassList == 1">
-          <tr>
-            <td>Class Statistics</td>
+          <tr ng-repeat="(key,value) in classStats">
+            <td>
+              {{key}}
+            </td>
+            <td> 
+              {{(value*100)}}%
+            </td> 
           </tr>
         </tbody>
       </table>

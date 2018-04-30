@@ -242,8 +242,9 @@ tDash.controller('teacherCtrl', ["$scope",
 							}
 						});
 
+						
+
 					$scope.setType = function (params, type) {
-						console.log(type);
 						if (type) {
 							params[10] = "student";
 						} else {
@@ -285,7 +286,18 @@ tDash.controller('teacherCtrl', ["$scope",
 								}
 							}
 						);
+						Class.GetStatsForClass(firebase,$scope.currClass).then(
+							function (result) {
+										$scope.classStats = result;
+										$scope.classStats.Addition = Math.round($scope.classStats.Addition * 100) / 100;
+										$scope.classStats.Multiplication = Math.round($scope.classStats.Multiplication * 100) / 100
+										$scope.classStats.Subtraction = Math.round($scope.classStats.Subtraction * 100) / 100
+										$scope.classStats.Volume = Math.round($scope.classStats.Volume * 100) / 100
+										$scope.classStats.Conversion = Math.round($scope.classStats.Conversion * 100) / 100
+										$scope.classStats.Division = Math.round($scope.classStats.Division * 100) / 100
+								});
 					}
+
 					$scope.addStudent = function () {
 						var code = document.getElementById('code').value;
 						if (code.length <= 0) {
