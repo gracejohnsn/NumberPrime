@@ -17,11 +17,18 @@ var volume = angular.module('volume', ['ngRoute']);
 volume.
   component('volume', {
     templateUrl: 'volumeView/volume.html',
-    controller: 'volumeController'
   });
 
   volume.controller('volumeController',["$scope", "$routeParams",
       function($scope, $routeParams) {
+
+        $scope.correct = 0;
+        $scope.report = "false";
+        $scope.showReport = function(correct) {
+          $scope.correct = correct;
+          $scope.report = "true";
+        }
+
         var uid = firebase.auth().currentUser.uid;
         $scope.probURL = "#!/volume/";
         $scope.volumeParams =
