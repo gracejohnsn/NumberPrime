@@ -21,12 +21,21 @@ tDash.controller('teacherCtrl', ["$scope",
 				surName: "lol"
 			}
 		};*/
-		$scope.param = [0, 0, 0, 0, 0, 0, 0, "", 0];
+		/*
+		*	Parameters for Problem Generation
+		*	0-6 Store Parameters for Problem
+		*	7 Stores The Message/Name of Problem Set
+		*	8 Stores The Type of Problem (Operational,Conversion,Volume)
+		*	9 Stores the StudentId/ClassId of Recipient
+		*	10 Stores whether this is sent to a student or a class
+		*/
+		$scope.param = [0, 0, 0, 0, 0, 0, 0, "", 0,"",""];
 		$scope.examples = [
 		];
 
 
 		$scope.createExamples = function (params) {
+			console.log(params[9]);
 			$scope.examples = [];
 			var paramFill = 1;
 			if (params[8] != 0) {
@@ -131,6 +140,8 @@ tDash.controller('teacherCtrl', ["$scope",
 		$scope.update = function (params) {
 			$scope.param = angular.copy(params);
 			console.log(params[8]);
+			console.log("ID : "+params[9]);
+			console.log("TYPE : "+params[10]);
 			console.log("UPDATe")
 			if ($scope.param[8] == "0") { 
 			$scope.probURL = "#!/MathFacts/" + $scope.param[0] + "/" +
@@ -143,7 +154,7 @@ tDash.controller('teacherCtrl', ["$scope",
 			} else if ($scope.param[8] == "2") {
 				$scope.probURL = "#!/volume/"+$scope.param[0]+"/"+$scope.param[1];
 			}
-			Notification.createNotification(firebase, uid, $scope.probURL, "student", time, time, $scope.param[7]);
+			Notification.createNotification(firebase, $scope.param[9], $scope.probURL, $scope.param[10], time, time, $scope.param[7]);
 		};
 		firebase.auth().onAuthStateChanged(
 			function (user) {
@@ -174,7 +185,7 @@ tDash.controller('teacherCtrl', ["$scope",
 								$scope.$apply(
 									function () {
 										$scope.currClass = Object.keys(userData.classList)[0];
-										console.log($scope.currClass);
+										//console.log($scope.currClass);
 									}
 								);
 							}
@@ -188,6 +199,7 @@ tDash.controller('teacherCtrl', ["$scope",
 												$scope.$apply(
 													function () {
 														$scope.students = $scope.students.concat(result);
+										//				console.log(result);
 													}
 												);
 											}
@@ -208,9 +220,18 @@ tDash.controller('teacherCtrl', ["$scope",
 								);
 							}
 						});
+
+					$scope.setType = function(params, type) {
+						console.log(type);
+						if (type) {
+							params[10] = "student";
+						} else {
+							params[10] = "class";
+						}
+					}
 					$scope.update = function (params) {
 						$scope.param = angular.copy(params);
-						console.log(params[8]);
+						console.log(params[10]);
 						var time = new Date();
 						if ($scope.param[8] == "0") { 
 							$scope.probURL = "#!/MathFacts/" + $scope.param[0] + "/" +
@@ -222,7 +243,7 @@ tDash.controller('teacherCtrl', ["$scope",
 								$scope.probURL = "#!/volume/"+$scope.param[1]+"/"+$scope.param[2];
 							}
 							alert("Created Notification : " + $scope.probURL);
-							Notification.createNotification(firebase, uid, $scope.probURL, "student", time, time, $scope.param[7]);
+							Notification.createNotification(firebase, $scope.params[9], $scope.probURL, $scope.params[10], time, time, $scope.param[7]);
 					};
 					$scope.clickClass = function (classId) {
 						$scope.currClass = classId;

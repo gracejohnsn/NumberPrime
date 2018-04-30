@@ -28,13 +28,6 @@ var mathScene = {
 	colors : undefined,
 }
 
-var prob = [0.0,0.0,0.0];
-var probState = 0;
-var answer = 0;
-var lastX;
-var lastY;
-var click = 0;
-
 var backColor = [0.2,0.2,0.2];
 var borderColor = [1.0,0.0,0.0];
 var textColor = [0.0,1.0,1.0];
@@ -339,7 +332,6 @@ DigitBox.prototype.init = function (drawingState) {
 				mathScene.selected.position = [0.0,0.0,-0.03];
 				mathScene.answers[i].bgOff = [0.0,0.0];
 				mathScene.answers[i].bordOff = [0.0,0.0];
-				probState = 2;
 				selected = 0;
 			}
 			}
@@ -570,9 +562,8 @@ DigitBox.prototype.init = function (drawingState) {
 	//	mathScene.scope.$apply();
 		var ans;
 		var curr;
-		probState = 1;
+		
 		var place = Math.pow(10,mathScene.params[0]-1);
-		prob[2] = type;
 		switch (type) {
 			case 0 : mathScene.currProb[2] = mathScene.currProb[0] + mathScene.currProb[1];
 				break;
