@@ -72,6 +72,10 @@ button {
   overflow-x: hidden;
 }
 
+  tr:hover {
+  cursor:pointer;
+}
+
 .statsTable {
   overflow-y: scroll;
   overflow-x: hidden;
@@ -173,6 +177,7 @@ button {
 }
 
 .dashList a:hover {
+  cursor:pointer;
   -moz-box-shadow: inset 0 0 20px #84CD00;
   -webkit-box-shadow: inset 0 0 20px #84CD00;
   box-shadow: inset 0 0 20px #84CD00;

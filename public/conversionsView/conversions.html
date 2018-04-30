@@ -192,10 +192,8 @@ function questions () {
 function getRandomNumbers(){
       var maxC = (cParamsVal[1]);
       var minC = (cParamsVal[2]);
-      console.log(maxC + " " + minC + " " + cParamsVal);
       var diffC = maxC-minC;
       var number = Math.round(Math.random()*diffC)+minC;
-      console.log(number);
       return number;
 }
 

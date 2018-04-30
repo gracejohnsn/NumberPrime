@@ -38,6 +38,7 @@ volume.
           var time = new Date();
           ProblemInstance.createProblemInstance(firebase, uid, "Volume", nCorrect, pQuestions.length, pQuestions, sAnswers, pAnswers,  time, $scope.probURL);
           Notification.setCompleteProblem(firebase,currPsId,uid,time);
+          completedRecentPS = 1;
         }
       $scope.$apply;
       }]);

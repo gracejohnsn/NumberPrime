@@ -31,6 +31,7 @@ conversions.
           }
           ProblemInstance.createProblemInstance(firebase, uid, "Conversion", correct, questions.length, pQuestions, sAnswers, pAnswers,  time, $scope.probURL);
           Notification.setCompleteProblem(firebase,currPsId,uid,time);
+          completedRecentPS = 1;
         }
       $scope.$apply;
       }]);
