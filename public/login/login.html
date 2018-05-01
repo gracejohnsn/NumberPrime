@@ -1,26 +1,43 @@
-<body style="background:url(img/landingBackground.jpg)">
+<head>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+
+<style>
+  body {
+    background-color: #64B5C8;
+  }
+</style>
+</head>
+
+<body>
     <!--<img style="display: none;" src="https://mail.google.com/mail/u/0/?logout&hl=en" />-->
-    <h2 style="text-align:center">Welcome to NumberPrime!</h2>
-   
-    <img src="img/mascot.png" alt="mascot" width="15%" height="15%" style="display:block; margin-left:auto; margin-right:auto; "/>
-    <p></p>
-    <div style="background-color:#BCF429">
-    <form style="text-align:center">
-        <h3>To access NumberPrime, please sign in with an existing Google account.</h3>
-
-        <div class="form-group">
-        <button onclick="clicklogin()" id="sign-in-with-redirect" style="background-color:#764DC5">Sign In With Google</button>
-	    <p></p>
+    <!--<div class="jumbotron jumbotron-fluid" style="background-color: #BCF429; height: 5%;">-->
+    <div class="jumbotron" style="padding: 20px; background-color:#6130BF">
+      <h1 style="text-align:center">Welcome to NumberPrime!</h1>
+    </div>
+    <div class="container" >
+      <div class="card" style="background-color:#BCF429; width: 350px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin:auto">
+        <img class="card-img-top" src="img/mascot.png" alt="mascot" width="10%" height="10%" style="display:block; margin-left:auto; margin-right:auto; "/>
+        <div class="card-body" style="text-align:center">
+          <p class="card-text">NumberPrime is an elementary math practice application designed to act as a supplement to in-class mathematics curriculum for students and teachers of grades 1 through 5.</p>
+          <button onclick="clicklogin()" class="btn btn-primary" id="sign-in-with-redirect" style="background-color:#6130BF; color:white">Sign in with Google</button>
+          <!--<button onclick="login()" id="sign-in-with-redirect" style="background-color:#764DC5;">Sign In With Google</button>-->
         </div>
-
-        <h3>About:</h3>
-        <p>NumberPrime is an elementary math practice application designed to act as a supplement to in-class mathematics curriculum for students and teachers of grades 1 through 5.</p>
-        
-    </form>
+      </div>
     </div>
     <div id="greyout">
         <img align="middle" src="img/Preloader_3.gif"/>
     </div>
+
 </body>
 
 <script src="../app.css"></script>
