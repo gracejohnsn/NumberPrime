@@ -33,7 +33,7 @@ tDash.controller('teacherCtrl', ["$scope",
 							for (var i = 0; i < $scope.completePS.length; i++) {
 								var cPS = $scope.completePS[i];
 								cPS.score = (cPS.totalCorrect * 100 / cPS.totalProblems);
-								cPS.timeStamp = new Date(cPS.timeStamp).toLocaleString();
+								cPS.timeStamp = new Date(cPS.timeStamp);
 							}
 							$scope.currName = name;
 							$scope.showPS = 1;

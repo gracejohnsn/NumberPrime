@@ -35,8 +35,8 @@
           <legend>Your Profile</legend>
           <div ng-switch="var">
             <div ng-switch-when="true">
-              <p>Enter new name: <input ng-model="name" placeholder="name" type="text"/></p>
-              <p>Enter new email: <input ng-model="email" placeholder="email" type="text"/></p>
+              <p>Enter new name: <input maxlength="30" ng-model="name" placeholder="name" type="text"/></p>
+              <p>Enter new email: <input maxlength="30" ng-model="email" placeholder="email" type="text"/></p>
               <p style='display: inline'>Role: <p style='display: inline' ng-bind="role"></p></p>
               <button ng-click="cancel()">Cancel</button>
               <button ng-click="saveChanges(name, email)">Save Changes</button>

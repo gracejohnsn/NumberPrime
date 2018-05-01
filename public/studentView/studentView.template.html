@@ -106,7 +106,7 @@
       <div class="dashTable">
         <p>Progress Report</p>
         <button ng-style="orderSets == 'timeStamp' && {'background-color':'#8028a3'} ||
-        {'background-color':'#c43ef9'}" ng-click="sortBy('timeStamp')">Date Completed</button>
+        {'background-color':'#c43ef9'}" ng-click="sortBy('timeStamp.toTime()')">Date Completed</button>
         <button  ng-style="orderSets == 'problemType' && {'background-color':'#8028a3'} ||
         {'background-color':'#c43ef9'}" ng-click="sortBy('problemType')">Type</button>
         <button ng-style="orderSets == 'score' && {'background-color':'#8028a3'} ||
@@ -121,7 +121,7 @@
           ng-style="$index%2 == 0 && {'background-color' : '#91ef26','border-bottom':' 2px solid black'} || 
           {'background-color': '#1add5b','border-bottom':' 2px solid black'}">
             <tr>
-              <td>{{x.timeStamp}}</td>
+              <td>{{x.timeStamp.toLocaleString()}}</td>
               <td>{{x.problemType}}</td>
               <td>{{x.score}}%</td>
             </tr>
@@ -247,9 +247,9 @@
           var span = document.getElementsByClassName("close")[0];
 
           // When the user clicks on the button, open the modal
-          btn.onclick = function () {
-            modal.style.display = "block";
-          }
+          //btn.onclick = function () {
+          modal.style.display = "block";
+          //}
 
           // When the user clicks on <span> (x), close the modal
           span.onclick = function () {

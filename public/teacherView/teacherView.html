@@ -102,7 +102,7 @@
             <div class="form-group">
               <label>Enter code:</label>
               <p></p>
-              <input id="code" type="text"></input>
+              <input maxlength="30" id="code" type="text"></input>
             </div>
             <div class="form-actions">
               <button ng-click="addStudent()" type="submit">Submit</button>
@@ -206,7 +206,7 @@
           <div class="form-group">
             <label>Class Description</label>
             <p></p>
-            <input id="classDesc" type="text"></input>
+            <input maxlength="30" id="classDesc" type="text"></input>
           </div>
           <div class="form-actions">
             <button ng-click="createClass()" type="submit">Submit</button>
@@ -224,7 +224,7 @@
       <span ng-click="hidePS();" class="close">&times;</span>  
       <p>{{currName}}'s Progress Report</p>
       <button ng-style="orderSets == 'timeStamp' && {'background-color':'#8028a3'} ||
-      {'background-color':'#c43ef9'}" ng-click="sortBy('timeStamp')">Date Completed</button>
+      {'background-color':'#c43ef9'}" ng-click="sortBy('timeStamp.toTime()')">Date Completed</button>
       <button  ng-style="orderSets == 'problemType' && {'background-color':'#8028a3'} ||
       {'background-color':'#c43ef9'}" ng-click="sortBy('problemType')">Type</button>
       <button ng-style="orderSets == 'score' && {'background-color':'#8028a3'} ||
@@ -239,7 +239,7 @@
         ng-style="$index%2 == 0 && {'background-color' : '#91ef26','border-bottom':' 2px solid black'} || 
         {'background-color': '#1add5b','border-bottom':' 2px solid black'}">
           <tr>
-            <td>{{x.timeStamp}}</td>
+            <td>{{x.timeStamp.toLocaleString()}}</td>
             <td>{{x.problemType}}</td>
             <td>{{x.score}}%</td>
           </tr>
