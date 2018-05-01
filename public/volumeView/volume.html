@@ -90,7 +90,7 @@
           <div id="answer">
             <input id="ans" type="text" name="Your Answer"
               style="background-color:white">
-            <button id="submission" onclick="checkAnswer()" ng-click="next()">Submit</button>
+            <button id="submission" onclick="checkAnswer()">Submit</button>
           </div>
           <form>
             <input id="color" type="color" value="#84CD00">
@@ -101,202 +101,58 @@
       <a href="#!/studentView">Return to Dashboard</a>
     </div>
   </div>
-
-
-
-<script>
-
-var vParams = document.getElementById("vParams");
-var vParamsVal = vParams.value;
-var volumeReady = document.getElementById("volumeReady");
-var vTimer = setInterval(function(){
-	if (vParams.value != vParamsVal) {
-        clearInterval(vTimer);
-        volumeReady.value = 1;
-        vParamsVal = vParams.value;
-        vParamsVal = vParamsVal.split(',');
-        for (var i = 0; i < vParamsVal.length; i++) {
+  <script>
+    var vParams = document.getElementById("vParams");
+      var vParamsVal = vParams.value;
+      var volumeReady = document.getElementById("volumeReady");
+      var vTimer = setInterval(function () {
+        if (vParams.value != vParamsVal) {
+          clearInterval(vTimer);
+          volumeReady.value = 1;
+          vParamsVal = vParams.value;
+          vParamsVal = vParamsVal.split(',');
+          for (var i = 0; i < vParamsVal.length; i++) {
             vParamsVal[i] = parseInt(vParamsVal[i]);
+          }
         }
-	}
-}, 1);
+      }, 1);
 
-  var volumeQuestions = [];
-  var volumeAnswers = [];
-  var volumeStudentAnswers = [];
-  var correct = 0;
-  var incorrect = 0;
-  var problemNumber = 1;
-  var canvas = document.getElementById("myCanvas");
-  canvas.width = 1500;
-  canvas.height = 450;
-  var ctx = canvas.getContext('2d');
-  var x1 = generateRandomNumber()*10;;
-  var x2 = generateRandomNumber()*10;;
-  var y = generateRandomNumber()*10;;
-  var color = document.querySelector('#color');
-  document.getElementById("num").innerHTML = problemNumber;
+      var volumeQuestions = [];
+      var volumeAnswers = [];
+      var volumeStudentAnswers = [];
+      var correct = 0;
+      var incorrect = 0;
+      var problemNumber = 1;
+      function checkAnswer() {
+        var dom_el = document.querySelector('[ng-controller="volumeController"]');
+          var ng_el = angular.element(dom_el);
+          var volumeScope = ng_el.scope();
+        if (document.getElementById('ans').value == volumeScope.x1 * volumeScope.x2 * volumeScope.y / 1000) {
+          correct++;
+        }
+        else {
+          incorrect++;
+        }
+        volumeStudentAnswers.push(document.getElementById('ans').value + "cm^3");
+        volumeQuestions.push(volumeScope.x1 / 10 + "cm *" + volumeScope.x2 / 10 + "cm *" + volumeScope.y / 10 + "cm");
+        volumeAnswers.push((volumeScope.x1 * volumeScope.x2 * volumeScope.y / 1000) + "cm^3");
+        console.log(volumeStudentAnswers);
+        console.log(volumeQuestions);
+        console.log(volumeAnswers);
+        problemNumber++;
+        if (problemNumber >= 6) {
 
-  function checkAnswer() {
-    if(document.getElementById('ans').value == x1*x2*y/1000) {
-      correct++;
-    }
-    else {
-      incorrect++;
-    }
-    volumeStudentAnswers.push(document.getElementById('ans').value+"cm^3");
-    volumeQuestions.push(x1/10+"cm *"+x2/10+"cm *"+y/10+"cm");
-    volumeAnswers.push((x1*x2*y/1000)+"cm^3");
-    console.log(volumeStudentAnswers);
-    console.log(volumeQuestions);
-    console.log(volumeAnswers);
-    problemNumber++;
-    if(problemNumber == 6)
-    {
-
-      //Write Problem to Backend
-      var dom_el = document.querySelector('[ng-controller="volumeController"]');
-	    var ng_el = angular.element(dom_el);
-      var volumeScope = ng_el.scope();
-      volumeScope.writeVolumeSet(correct,volumeStudentAnswers,volumeQuestions,volumeAnswers);
-      problemNumber = 0;
-      volumeScope.showReport(correct);
-    }
-    else {
-      document.getElementById("num").innerHTML = problemNumber;
-      refresh();
-    }
-  }
-
-  function refresh() {
-    ctx = canvas.getContext('2d');
-    x1 = generateRandomNumber()*10;
-    x2 = generateRandomNumber()*10;
-    y = generateRandomNumber()*10;
-    color = document.querySelector('#color');
-    draw();
-  }
-
-  //generates random number from 1 to 10
-  function generateRandomNumber() {
-      var maxV = (vParamsVal[0]);
-      var minV = (vParamsVal[1]);
-      if (maxV > 15) maxV = 15;
-      if (minV < 1) minV = 1;
-      if (volumeReady.value == 0) {
-        maxV = 15;
-        minV = 5;
+          //Write Problem to Backend
+          
+          volumeScope.writeVolumeSet(correct, volumeStudentAnswers, volumeQuestions, volumeAnswers);
+          
+          volumeScope.showReport(correct);
+          //$scope.report = "true";
+        }
+        else {
+          document.getElementById("num").innerHTML = problemNumber;
+          volumeScope.refresh();
+        }
       }
-      var diffV = maxV-minV;
-      var vNum = Math.round(Math.random()*diffV)+minV;
-      return vNum;
- //   return Math.floor(Math.random() * 10) + 5;
-  }
-
-  // Animation function
-  function draw(){
-  // clear the canvas
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // Wobble the cube using a sine wave
-  var wobble = (Math.sin(Date.now()/250)*window.innerHeight/50)/5;
-
-  // draw the cube
-  drawCube(
-    window.innerWidth/2,
-    window.innerHeight/2 + wobble + y/2 -50,
-    x1,
-    x2,
-    y,
-    color.value
-  );
-
-  requestAnimationFrame(draw);
-  }
-  draw();
-
-  // Colour adjustment function
-  // Nicked from http://stackoverflow.com/questions/5560248
-  function shadeColor(color, percent) {
-  color = color.substr(1);
-  var num = parseInt(color, 16),
-    amt = Math.round(2.55 * percent),
-    R = (num >> 16) + amt,
-    G = (num >> 8 & 0x00FF) + amt,
-    B = (num & 0x0000FF) + amt;
-  return '#' + (0x1000000 + (R
-  <255 ? R <1 ? 0 : R : 255) * 0x10000 + (G <255 ? G <1 ? 0 : G : 255) * 0x100 +
-    (B <255 ? B <1 ? 0 : B : 255)).toString(16).slice(1);
-    }
-
-    // Draw a cube to the specified specs
-    function drawCube(x, y, wx, wy, h, color) {
-    ctx.fillStyle="#F8F8F8" ;
-
-
-    //shadeColor(color, 10)
-    //right side of cube h x wy
-    ctx.beginPath();
-    ctx.moveTo(x, y); //a
-    ctx.lineTo(x + wy, y - wy * 0.5); //f
-    ctx.lineTo(x + wy, y - h - wy * 0.5); //e
-    ctx.lineTo(x, y - h * 1); //d
-    ctx.closePath();
-    ctx.fillStyle= shadeColor(color, 10);
-    ctx.strokeStyle= shadeColor(color, 50);
-    ctx.stroke();
-    ctx.fill();
-
-    //shadeColor(color, -10)
-    //left side of cube h x wx
-    ctx.beginPath();
-    ctx.moveTo(x, y); //a
-    ctx.lineTo(x - wx, y - wx * 0.5); //b
-    ctx.lineTo(x - wx, y - h - wx * 0.5); //c
-    ctx.lineTo(x, y - h * 1); //d
-    ctx.closePath();
-    ctx.fillStyle= shadeColor(color, -10);
-    ctx.strokeStyle= color;
-    ctx.stroke();
-    ctx.fill();
-
-    //shadeColor(color, 20)
-    //top side of cube wx x wy
-    ctx.beginPath();
-    ctx.moveTo(x, y - h); //d
-    ctx.lineTo(x - wx, y - h - wx * 0.5); //c
-    ctx.lineTo(x - wx + wy, y - h - (wx * 0.5 + wy * 0.5)); //g
-    ctx.lineTo(x + wy, y - h - wy * 0.5); //e
-    ctx.closePath();
-    ctx.fillStyle= shadeColor(color, 20);
-    ctx.strokeStyle= shadeColor(color, 60);
-    ctx.stroke();
-    ctx.fill();
-
-    ctx.font="0.7em Arial" ;
-    ctx.fillStyle="#000" ;
-    ctx.fillText( wy/10 +"cm" ,((x+x+wy)*0.5),15+(y+y-wy*0.5)*0.5); //(a+f)/2
-    ctx.font="0.7em Arial" ;
-    ctx.fillStyle="#000" ;
-    ctx.fillText(wx/10 +"cm" ,((x+x-wx)*0.5)-20,19+((y+y-wx*0.5)*0.5));
-    //(a+b)/2
-
-    ctx.font="0.7em Arial" ;
-    ctx.fillStyle="#000" ;
-    ctx.fillText(h/10 +"cm" , ((x-wx+x-wx)*0.5) -50, midpoint(y - wx * 0.5, y -
-    h - wx * 0.5));//(c+b)/2
-
-    ctx.font="200% Boogaloo" ;
-    ctx.fillStyle="#3B0B97" ;
-    ctx.fillText(" What is the volume of this object?" , (canvas.width/4) + 100
-    , 100);
-
-    }
-
-    function midpoint(x1, x2) {
-    var b= x1+x2;
-    return b/2;
-    }
-
-</script>
+  </script>
 </div>
