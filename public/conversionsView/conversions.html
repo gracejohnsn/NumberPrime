@@ -74,6 +74,7 @@ div {
 
   <div id="resultsDiv" style="display: none;">
     <p id="resultContent"></p>
+    <a id="dashLink" style="display: none;" href="/#!/studentView">Back to dashboard</a>
   </div>
  
 <script>
@@ -149,6 +150,7 @@ function nextQuestion()
         console.log(questionsList);
         conversionScope.writeConversionSet(correctCount,questionsList,studentAnswers);
         resultPage()
+
     }
     else
     {
@@ -178,7 +180,7 @@ function resultPage()
     document.getElementById("questionsDiv").style.display = "none";
     document.getElementById("resultsDiv").style.display = "block";
     document.getElementById("resultContent").innerHTML = "You have got " + correctCount + " out of " + questionsList.length + "."
-
+    document.getElementById("dashLink").style.display = "block";
 }
 
 function questions () {
