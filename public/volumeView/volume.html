@@ -17,9 +17,20 @@
   2. graphic??
   -->
   <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+
     <style>
-    *{margin:0;padding:0;background:#64B5C8;}
-    body{overflow:hidden;}
+    *{margin:0;padding:0;}
+    body{overflow:hidden;background:#64B5C8;}
     form {
     position:absolute;
     bottom:0;
@@ -59,7 +70,7 @@
       display: block;
       padding: 0;
       vertical-align: middle;
-      border: 1px solid black;
+      border: 1px solid #BCF429;
     }
 
     #answer {
@@ -96,10 +107,16 @@
             <input id="color" type="color" value="#84CD00">
           </form>
     </div>
-    <div ng-switch-when="true">
-      <h2>You got {{correct}} out of 5!</h2>
-      <a href="#!/studentView">Return to Dashboard</a>
-    </div>
+    <div ng-switch-when="true" style="text-align:center;">
+      <div class="container">
+        <div class="card" style="background-color:#BCF429; width: 350px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin:auto;">
+          <img class="card-img-top" src="img/mascot.png" alt="mascot" width="10%" height="10%" style="display:block; margin-left:auto; margin-right:auto; "/>
+          <div class="card-body" style="text-align:center; background-color: #BCF429">
+            <p class="card-text">You got {{correct}} out of 5!</p>
+            <a class="btn btn-primary" style="background-color:#6130BF;" href="#!/studentView">Return to Dashboard</a>
+            <!--<button onclick="login()" id="sign-in-with-redirect" style="background-color:#764DC5;">Sign In With Google</button>-->
+        </div>
+      </div>
   </div>
   <script>
     var vParams = document.getElementById("vParams");
@@ -143,9 +160,9 @@
         if (problemNumber >= 6) {
 
           //Write Problem to Backend
-          
+
           volumeScope.writeVolumeSet(correct, volumeStudentAnswers, volumeQuestions, volumeAnswers);
-          
+
           volumeScope.showReport(correct);
           //$scope.report = "true";
         }
