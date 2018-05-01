@@ -188,6 +188,23 @@ tDash.controller('teacherCtrl', ["$scope",
 							resolve($scope);
 						}
 					);
+
+					$scope.populateClassStats = function() {
+						Class.GetStatsForClass(firebase, $scope.currClass).then(
+							function (result) {
+								$scope.classStats = result;
+								for(var k in result) {
+									$scope.classStats[k] = Math.round($scope.classStats[k] * 100);
+								}
+								/*$scope.classStats.Addition = Math.round($scope.classStats.Addition * 100);
+								$scope.classStats.Multiplication = Math.round($scope.classStats.Multiplication * 100);
+								$scope.classStats.Subtraction = Math.round($scope.classStats.Subtraction * 100);
+								$scope.classStats.Volume = Math.round($scope.classStats.Volume * 100);
+								$scope.classStats.Conversion = Math.round($scope.classStats.Conversion * 100);
+								$scope.classStats.Division = Math.round($scope.classStats.Division * 100);*/
+							});
+					}
+
 					User.readUserData(firebase, uid)
 						.then((userData) => {
 							if ('teacher' != userData.type) {
@@ -227,6 +244,8 @@ tDash.controller('teacherCtrl', ["$scope",
 										);
 									}
 								}
+							).then(
+								$scope.populateClassStats()
 							);
 
 							for (var c in userData.classList) {
@@ -267,6 +286,9 @@ tDash.controller('teacherCtrl', ["$scope",
 						alert("Created Notification : " + $scope.probURL);
 						Notification.createNotification(firebase, $scope.params[9], $scope.probURL, $scope.params[10], time, time, $scope.param[7]);
 					};
+
+					
+
 					$scope.clickClass = function (classId) {
 						$scope.currClass = classId;
 						$scope.students = [];
@@ -286,16 +308,7 @@ tDash.controller('teacherCtrl', ["$scope",
 								}
 							}
 						);
-						Class.GetStatsForClass(firebase, $scope.currClass).then(
-							function (result) {
-								$scope.classStats = result;
-								$scope.classStats.Addition = Math.round($scope.classStats.Addition * 100) / 100;
-								$scope.classStats.Multiplication = Math.round($scope.classStats.Multiplication * 100) / 100
-								$scope.classStats.Subtraction = Math.round($scope.classStats.Subtraction * 100) / 100
-								$scope.classStats.Volume = Math.round($scope.classStats.Volume * 100) / 100
-								$scope.classStats.Conversion = Math.round($scope.classStats.Conversion * 100) / 100
-								$scope.classStats.Division = Math.round($scope.classStats.Division * 100) / 100
-							});
+						$scope.populateClassStats();
 					}
 
 					$scope.addStudent = function () {

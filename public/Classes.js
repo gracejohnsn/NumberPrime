@@ -287,7 +287,7 @@ class Class {
                 var promises = []
                 for(var s in (result.studentList)) {
                     if (!result.studentList.hasOwnProperty(s)) continue;
-                    promises.push(ProblemInstance.readProblemInstance(_app, s, -1).then(
+                    promises.push(ProblemInstance.readProblemInstance(_app, s, 10).then(
                         function(results) {
                             var numSets = {};
                             results.forEach(function(p) {
