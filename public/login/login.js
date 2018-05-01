@@ -1,43 +1,49 @@
 'use strict';
 
-angular.module('login', ['ngRoute']);
-angular.
-  module('login').
+var loggingIn = false;
+
+var loginDash = angular.module('login', ['ngRoute']);
+loginDash.
   component('login', {
     templateUrl: 'login/login.html',
-    controller: ['LoginController',
-      function LoginController() {
-
-      }
-    ]
+    controller: 'LoginController'
   });
 
-$(document).ready(
-  function () {
-    firebase.auth().onAuthStateChanged(
-      function (user) {
-        if (user) {
-          var uid = user.uid;
-          User.readUserData(firebase, uid).then(
-            function (result) {
-              if ('student' == result.type) {
-                window.location = "/#!/Dashboard";
-              } else {
-                window.location = "/#!/DashboardTeach";
-              }
+loginDash.controller('LoginController', ["$scope", function ($scope) {
+  var display = sessionStorage['load'] || 'none';
+  $("#greyout").css('display', display);
+  firebase.auth().onAuthStateChanged(
+    function (user) {
+      if (user) {
+        var uid = user.uid;
+        User.readUserData(firebase, uid).then(
+          function (result) {
+            if ('student' == result.type) {
+              //document.getElementById("greyout").style.display = "none";
+              sessionStorage['load'] = 'none';
+              window.location = "/#!/Dashboard";
+            } else {
+              //document.getElementById("greyout").style.display = "none";
+              sessionStorage['load'] = 'none';
+              window.location = "/#!/DashboardTeach";
             }
-          ).catch(
-            function (err) {
-              window.location = "/#!/view2";
-            }
-          );
-        }
+          }
+        ).catch(
+          function (err) {
+            alert(err);
+            window.location = "/#!/view2";
+          }
+        );
       }
-    );
-  }
-);
+    }
+  );
+}])
 
-function login() {
+/*$(document).ready(
+  
+);*/
+
+function clicklogin() {
   var provider = new firebase.auth.GoogleAuthProvider();
   provider.setCustomParameters({
     prompt: 'select_account'
@@ -45,5 +51,9 @@ function login() {
 
   firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(
     firebase.auth().signInWithRedirect(provider)).then(
-      firebase.auth().getRedirectResult());
+      firebase.auth().getRedirectResult()).then(
+        function () {
+          sessionStorage['load'] = 'block';
+        }
+      );
 }
