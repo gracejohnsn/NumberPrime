@@ -13,26 +13,26 @@ tDash.controller('teacherCtrl', ["$scope",
 		$scope.orderSets = 'timeStamp';
 		$scope.reverse = 'false';
 		$scope.showClassList = 0;
-		$scope.setList = function(type) {
+		$scope.setList = function (type) {
 			$scope.showClassList = type;
 		}
-		$scope.sortBy = function(orderSets) {
+		$scope.sortBy = function (orderSets) {
 			$scope.reverse = ($scope.orderSets == orderSets) ? !$scope.reverse : false;
 			$scope.orderSets = orderSets;
 			$scope.$apply;
-		  };
-		$scope.hidePS = function() {
+		};
+		$scope.hidePS = function () {
 			$scope.showPS = 0;
 		}
-		$scope.showStudentStats = function(idNum,name) {
-			ProblemInstance.readProblemInstance(firebase,idNum,10).then(
-				function(result) {
+		$scope.showStudentStats = function (idNum, name) {
+			ProblemInstance.readProblemInstance(firebase, idNum, 10).then(
+				function (result) {
 					$scope.$apply(
-						function() {
+						function () {
 							$scope.completePS = result;
 							for (var i = 0; i < $scope.completePS.length; i++) {
 								var cPS = $scope.completePS[i];
-								cPS.score = (cPS.totalCorrect*100/cPS.totalProblems);
+								cPS.score = (cPS.totalCorrect * 100 / cPS.totalProblems);
 								cPS.timeStamp = new Date(cPS.timeStamp).toLocaleString();
 							}
 							$scope.currName = name;
@@ -41,7 +41,7 @@ tDash.controller('teacherCtrl', ["$scope",
 					);
 				}
 			).catch(
-				function(err) {
+				function (err) {
 					console.log(err);
 				}
 			);
@@ -164,12 +164,12 @@ tDash.controller('teacherCtrl', ["$scope",
 
 		$scope.update = function (params) {
 			$scope.param = angular.copy(params);
-			if ($scope.param[8] == "0") { 
-			$scope.probURL = "#!/MathFacts/" + $scope.param[0] + "/" +
-				$scope.param[1] + "/" + $scope.param[2] + "/" + $scope.param[3] + "/" +
-				$scope.param[4] + "/" + $scope.param[5] + "/" + $scope.param[6];
-			var time = new Date();
-			alert("Created Notification : " + $scope.probURL);
+			if ($scope.param[8] == "0") {
+				$scope.probURL = "#!/MathFacts/" + $scope.param[0] + "/" +
+					$scope.param[1] + "/" + $scope.param[2] + "/" + $scope.param[3] + "/" +
+					$scope.param[4] + "/" + $scope.param[5] + "/" + $scope.param[6];
+				var time = new Date();
+				alert("Created Notification : " + $scope.probURL);
 			} else if ($scope.param[8] == "1") {
 				$scope.probURL = "#!/conversions/" + $scope.param[0] + "/" + $scope.param[1] + "/" + $scope.param[2];
 			} else if ($scope.param[8] == "2") {
@@ -242,7 +242,7 @@ tDash.controller('teacherCtrl', ["$scope",
 							}
 						});
 
-						
+
 
 					$scope.setType = function (params, type) {
 						if (type) {
@@ -286,16 +286,16 @@ tDash.controller('teacherCtrl', ["$scope",
 								}
 							}
 						);
-						Class.GetStatsForClass(firebase,$scope.currClass).then(
+						Class.GetStatsForClass(firebase, $scope.currClass).then(
 							function (result) {
-										$scope.classStats = result;
-										$scope.classStats.Addition = Math.round($scope.classStats.Addition * 100) / 100;
-										$scope.classStats.Multiplication = Math.round($scope.classStats.Multiplication * 100) / 100
-										$scope.classStats.Subtraction = Math.round($scope.classStats.Subtraction * 100) / 100
-										$scope.classStats.Volume = Math.round($scope.classStats.Volume * 100) / 100
-										$scope.classStats.Conversion = Math.round($scope.classStats.Conversion * 100) / 100
-										$scope.classStats.Division = Math.round($scope.classStats.Division * 100) / 100
-								});
+								$scope.classStats = result;
+								$scope.classStats.Addition = Math.round($scope.classStats.Addition * 100) / 100;
+								$scope.classStats.Multiplication = Math.round($scope.classStats.Multiplication * 100) / 100
+								$scope.classStats.Subtraction = Math.round($scope.classStats.Subtraction * 100) / 100
+								$scope.classStats.Volume = Math.round($scope.classStats.Volume * 100) / 100
+								$scope.classStats.Conversion = Math.round($scope.classStats.Conversion * 100) / 100
+								$scope.classStats.Division = Math.round($scope.classStats.Division * 100) / 100
+							});
 					}
 
 					$scope.addStudent = function () {
@@ -340,6 +340,7 @@ tDash.controller('teacherCtrl', ["$scope",
 							);
 					}
 				} else {
+					firebase.auth().signOut();
 					window.location = "/#!/Login";
 				}
 			}
@@ -347,3 +348,8 @@ tDash.controller('teacherCtrl', ["$scope",
 
 	}
 ]);
+
+function logout() {
+	firebase.auth().signOut();
+	window.location = "/#!/Login";
+}
