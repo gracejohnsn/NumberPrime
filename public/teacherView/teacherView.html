@@ -132,7 +132,7 @@
     <div class="PSmodal-content">
       <form>
           <label>Assigned To :</label>
-          <select ng-model="params[9]" ng-init={{currClass}} ng-change="createExamples(params)">
+          <select ng-model="params[9]" ng-change="createExamples(params)">
             <option ng-click="setType(params,0)" value="{{currClass}}">Entire Class</option>
             <option  ng-click="setType(params,1)" ng-repeat="x in students" value="{{x.userId}}">{{x.firstName}} {{x.surName}}</option>
           </select>
@@ -220,20 +220,83 @@
   </div>
 
 
+  <div ng-if="showPS == 1" style="z-index:11;border:2px solid black; position:fixed;width:50%;height:75%;left:25%;top:12.5%;background-color:#cdcdcd" class="dashTable">
+      <span ng-click="hidePS();" class="close">&times;</span>  
+      <p>{{currName}}'s Progress Report</p>
+      <button ng-style="orderSets == 'timeStamp' && {'background-color':'#8028a3'} ||
+      {'background-color':'#c43ef9'}" ng-click="sortBy('timeStamp')">Date Completed</button>
+      <button  ng-style="orderSets == 'problemType' && {'background-color':'#8028a3'} ||
+      {'background-color':'#c43ef9'}" ng-click="sortBy('problemType')">Type</button>
+      <button ng-style="orderSets == 'score' && {'background-color':'#8028a3'} ||
+      {'background-color':'#c43ef9'}" ng-click="sortBy('score')">Score</button>
+      <table class="statsTable" style="width:100%">
+        <tr>
+          <th>Date Completed</th>
+          <th>Problem Set</th>
+          <th>Score</th>
+        </tr>
+        <tbody ng-repeat="x in completePS | orderBy:orderSets:reverse" ng-init="toggle[$index] = false" ng-click="toggle[$index] =!toggle[$index]"
+        ng-style="$index%2 == 0 && {'background-color' : '#91ef26','border-bottom':' 2px solid black'} || 
+        {'background-color': '#1add5b','border-bottom':' 2px solid black'}">
+          <tr>
+            <td>{{x.timeStamp}}</td>
+            <td>{{x.problemType}}</td>
+            <td>{{x.score}}%</td>
+          </tr>
+          <tr ng-if="toggle[$index]">
+            <td>Problem</td>
+            <td>Your Answer</td>
+            <td>Correct Answer</td>
+          </tr>
+          <tr ng-if="toggle[$parent.$index]" ng-repeat="y in x.problemNums track by $index" 
+          ng-style="x.userAnswers[$index] == x.solutions[$index] && 
+          {'background-color':'#ccff99','border-bottom' : '2px solid green'} ||
+          {'background-color':'#ff8566', 'border-bottom' : '2px solid red'}">
+            <td>
+              {{y}}
+            </td>
+            <td>
+              {{x.userAnswers[$index]}}
+            </td>
+            <td>
+              {{x.solutions[$index]}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
   <div id="bg" class="bg" style="display:block;">
     <div class="dashTable">
+      
       <p>Class Overview</p>
-      <button style="width:50%">Student List</button>
-      <button style="width:50%">Class Statistics</button>
+      <button ng-click="setList(0)" style="width:50%" ng-style="showClassList == 0 && 
+      {'background-color':'#8028a3'} 
+      || {'background-color':'#c43ef9'}">Student List</button>
+      <button ng-click="setList(1)" style="width:50%" ng-style="showClassList == 1 && 
+      {'background-color':'#8028a3'} 
+      || {'background-color':'#c43ef9'}">Class Statistics</button>
       <table style="width:100%">
-        <tr>
-          <th>Student Name</th>
-          <th>Email</th>
-        </tr>
-        <tr ng-repeat="x in students">
-          <td>{{x.firstName + " " + x.surName}}</td>
-          <td>{{x.email}}</td>
-        </tr>
+        <tbody ng-if="showClassList == 0">
+            <tr>
+                <th>Student Name</th>
+                <th>Email</th>
+              </tr>
+              <tr ng-click="showStudentStats(x.userId,x.firstName)" ng-repeat="x in students">
+                <td>{{x.firstName + " " + x.surName}}</td>
+                <td>{{x.email}}</td>
+              </tr>
+        </tbody>
+        <tbody ng-if="showClassList == 1">
+          <tr ng-repeat="(key,value) in classStats">
+            <td>
+              {{key}}
+            </td>
+            <td> 
+              {{(value*100)}}%
+            </td> 
+          </tr>
+        </tbody>
       </table>
     </div>
     <div class="dashList">

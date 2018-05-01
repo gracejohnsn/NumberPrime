@@ -147,17 +147,8 @@
           </tbody>
         </table>
       </div>
-
       <div class="dashList">
         <p>Problem Sets</p>
-        <!--
-        <a href="#!/volume/15/5">Volume</a>
-        <a href="#!/conversions/1/100/1">Conversion</a>
-        <a href="#!/MathFacts/0/999/100/1/999/100/1">Addition</a>
-        <a href="#!/MathFacts/1/999/100/1/999/100/1">Subtraction</a>
-        <a href="#!/MathFacts/2/100/1/1/5/5/1">Multiplication By 5s</a>
-        <a href="#!/MathFacts/3/500/20/1/20/2/1">Division</a>
-        -->
         <a ng-if="x.completedDate == null"ng-click="updatePsId(x.notificationId)" href="{{x.problemURL}}" ng-repeat="x in notes">
           {{x.message}}
         </a>

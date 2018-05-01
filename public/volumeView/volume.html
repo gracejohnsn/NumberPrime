@@ -181,6 +181,8 @@ var vTimer = setInterval(function(){
   function generateRandomNumber() {
       var maxV = (vParamsVal[0]);
       var minV = (vParamsVal[1]);
+      if (maxV > 15) maxV = 15;
+      if (minV < 1) minV = 1;
       if (volumeReady.value == 0) {
         maxV = 15;
         minV = 5;

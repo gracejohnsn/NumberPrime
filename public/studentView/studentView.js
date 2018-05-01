@@ -78,7 +78,6 @@ sDash.controller('studentCtrl', ["$scope",
 									$scope.notes = [];
 								}
 								$scope.notes = $scope.notes.concat(result);
-								console.log($scope.notes);
 							}
 						);
 					}
@@ -95,11 +94,11 @@ sDash.controller('studentCtrl', ["$scope",
 							function() {
 								$scope.completePS = result;
 								$scope.recentPS = result[0];
-								console.log($scope.recentPS);
 								$scope.completedRecentPS = completedRecentPS;
 								for (var i = 0; i < $scope.completePS.length; i++) {
 									var cPS = $scope.completePS[i];
 									cPS.score = (cPS.totalCorrect*100/cPS.totalProblems);
+									cPS.timeStamp = new Date(cPS.timeStamp).toLocaleString();
 								}
 							}
 						);
@@ -109,7 +108,6 @@ sDash.controller('studentCtrl', ["$scope",
 						console.log(err);
 					}
 				);
-				console.log($scope.completePS);
 
 			} else {
 				window.location = "/#!/Login";
