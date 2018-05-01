@@ -29,7 +29,8 @@ sDash.controller('studentCtrl', ["$scope",
 		}
 
 		$scope.exitPSReview = function() {
-			$scope.completedRecentPS = 0;
+				$scope.completedRecentPS = 0;
+				completedRecentPS = 0;
 		}
 		firebase.auth().onAuthStateChanged(function (user) {
 			if (user) {
