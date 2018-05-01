@@ -289,7 +289,7 @@ button {
   width: 100%;
   top: 0%;
   left: 0%;
-  background-color: #d8dce7;
+  background-color: #3FA2B9;
   position: fixed;
   z-index: -1;
   transition: 0.5s;
@@ -322,7 +322,7 @@ input[type="checkbox"]:checked~.reveal-if-active {
 .popup .popuptext {
   visibility: hidden;
   width: 160px;
-  background-color: #555;
+  background-color: #3FA2B9;
   color: #fff;
   text-align: center;
   border-radius: 6px;
