@@ -298,11 +298,20 @@ function calculateAnswer(fromUnit,toUnit,randomNumber){
         else if(fromUnit == "Inches" && toUnit == "Feet"){
             return (randomNumber/12);
         }
+        else if(fromUnit == "Inches" && toUnit == "yards"){
+            return (randomNumber*0.027778);
+        }
+        else if(fromUnit == "Inches" && toUnit == "miles"){
+            return (randomNumber*1.5783E-5);
+        }
         else if(fromUnit == "Feet" && toUnit == "Inches"){
             return (randomNumber*12);
         }
         else if(fromUnit == "Feet" && toUnit == "yards"){
             return (randomNumber/3);
+        }
+        else if(fromUnit == "Feet" && toUnit == "miles"){
+            return (randomNumber*0.000189393939);
         }
         else if(fromUnit == "yards" && toUnit == "Feet"){
             return (randomNumber*3);
@@ -310,11 +319,26 @@ function calculateAnswer(fromUnit,toUnit,randomNumber){
         else if(fromUnit == "yards" && toUnit == "miles"){
             return (randomNumber*0.000568);
         }
+        else if(fromUnit == "yards" && toUnit == "inches"){
+            return (randomNumber*36);
+        }
         else if(fromUnit == "miles" && toUnit == "yards"){
             return (randomNumber/0.000568);
         }
+        else if(fromUnit == "miles" && toUnit == "feet"){
+            return (randomNumber*5280);
+        }
+        else if(fromUnit == "miles" && toUnit == "inches"){
+            return (randomNumber*63360);
+        }
         else if(fromUnit == "millimeter" && toUnit == "centimeter"){
             return (randomNumber/10);
+        }
+        else if(fromUnit == "millimeter" && toUnit == "meter"){
+            return (randomNumber/1000);
+        }
+        else if(fromUnit == "millimeter" && toUnit == "kilometer"){
+            return (randomNumber/1000000);
         }
         else if(fromUnit == "centimeter" && toUnit == "millimeter"){
             return (randomNumber*10);
@@ -322,8 +346,14 @@ function calculateAnswer(fromUnit,toUnit,randomNumber){
         else if(fromUnit == "centimeter" && toUnit == "meter"){
             return (randomNumber/100);
         }
+        else if(fromUnit == "centimeter" && toUnit == "kilometer"){
+            return (randomNumber*0.000010);
+        }
         else if(fromUnit == "meter" && toUnit == "centimeter"){
             return (randomNumber*100);
+        }
+        else if(fromUnit == "meter" && toUnit == "millimeter"){
+            return (randomNumber*1000);
         }
         else if(fromUnit == "meter" && toUnit == "kilometer"){
             return (randomNumber/1000);
@@ -331,8 +361,17 @@ function calculateAnswer(fromUnit,toUnit,randomNumber){
         else if(fromUnit == "kilometer" && toUnit == "meter"){
             return (randomNumber*1000);
         }
+        else if(fromUnit == "kilometer" && toUnit == "centimeter"){
+            return (randomNumber*100000);
+        }
+        else if(fromUnit == "kilometer" && toUnit == "millimeter"){
+            return (randomNumber*1000000);
+        }
         else if(fromUnit == "ounces" && toUnit == "pounds"){
             return (randomNumber/16);
+        }
+        else if(fromUnit == "ounces" && toUnit == "ton"){
+            return (randomNumber*3.125E-5);
         }
         else if(fromUnit == "pounds" && toUnit == "ounces"){
             return (randomNumber*16);
@@ -342,6 +381,9 @@ function calculateAnswer(fromUnit,toUnit,randomNumber){
         }
         else if(fromUnit == "ton" && toUnit == "pounds"){
             return (randomNumber/0.0005);
+        }
+        else if(fromUnit == "ton" && toUnit == "ounces"){
+            return (randomNumber*32000);
         }
         else if(fromUnit == "grams" && toUnit == "kilograms"){
             return (randomNumber/1000);
