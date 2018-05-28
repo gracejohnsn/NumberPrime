@@ -1,12 +1,12 @@
-<div ng-app="math" ng-controller="mathCtrl"  data-ng-init="getValues()">
-  <input id="nDigs" type="hidden" value={{first}}>
-  <input id="params" type="hidden" value={{params}}>
-  <input id="psSet" value = 0 type="hidden">
-  <div class ="background1">
-    <div id="bg">
-    </div>
-  </div>
-<script>
+<div ng-app="math" ng-controller="mathCtrl" data-ng-init="getValues()">
+	<input id="nDigs" type="hidden" value={{first}}>
+	<input id="params" type="hidden" value={{params}}>
+	<input id="psSet" value= 0 type="hidden">
+	<div class="background1">
+		<div id="bg">
+		</div>
+	</div>
+	<script>
 var nDig = document.getElementById("nDigs");
 var val = nDig.value;
 var par = document.getElementById("params");
@@ -30,9 +30,8 @@ function app(user) {
 			document.getElementById("clientName").innerHTML = user.displayName;
 
 		}
-
-</script>
-<script id="tex-vs" type="notjs">
+	</script>
+	<script id="tex-vs" type="notjs">
 	precision highp float;
 	attribute vec3 aPosition;
 	attribute vec2 shapeTex;
@@ -59,8 +58,8 @@ function app(user) {
 	vFill 	= fillTex + offset.xy;
 	gl_Position = proj * view * model * vec4(aPosition, 1.0);
 	}
-</script>
-<script id="tex-fs" type="notjs">
+	</script>
+	<script id="tex-fs" type="notjs">
 	precision highp float;
 	varying vec2 vShape;
 	varying vec2 vBG;
@@ -74,16 +73,17 @@ function app(user) {
 	uniform vec3 color;
 	void main(void) {
 	vec4 shape 	= texture2D(uTexture,vShape);
-	if (shape.x < 0.2 && shape.y < 0.2 && shape.z < 0.2) {
-		discard;
-	}
-	vec4 bg 		= vec4(bgClr,1.0)*texture2D(uTexture,vBG);
-	vec4 border = vec4(brdClr,1.0)*texture2D(uTexture,vBorder);
-	vec4 fill 	= vec4(color,1.0)*texture2D(uTexture,vFill);
-//	if (bg.xyz == vec3(0.0,0.0,0.0) && fill.xyz == vec3(0.0,0.0,0.0)) {
-//		discard;
-//	}
-	gl_FragColor = (bg+border+2.0*fill);
-	}
-</script>
-</div>
+	if (shape.x
+		<0.2 && shape.y <0.2 && shape.z <0.2) {
+			discard;
+			}
+			vec4 bg= vec4(bgClr,1.0)*texture2D(uTexture,vBG);
+			vec4 border= vec4(brdClr,1.0)*texture2D(uTexture,vBorder);
+			vec4 fill= vec4(color,1.0)*texture2D(uTexture,vFill);
+			// if (bg.xyz== vec3(0.0,0.0,0.0) && fill.xyz== vec3(0.0,0.0,0.0)) {
+			// discard;
+			// }
+			gl_FragColor= (bg+border+2.0*fill);
+			}
+	</script>
+</div>>
